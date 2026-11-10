@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from mockups/index.html symbols (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M15.0,36.0h10.0a5.0,5.0 0 0,1 5.0,5.0v14.0a5.0,5.0 0 0,1 -5.0,5.0h-10.0a5.0,5.0 0 0,1 -5.0,-5.0v-14.0a5.0,5.0 0 0,1 5.0,-5.0z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M43.0,36.0h10.0a5.0,5.0 0 0,1 5.0,5.0v14.0a5.0,5.0 0 0,1 -5.0,5.0h-10.0a5.0,5.0 0 0,1 -5.0,-5.0v-14.0a5.0,5.0 0 0,1 5.0,-5.0z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M71.0,36.0h10.0a5.0,5.0 0 0,1 5.0,5.0v14.0a5.0,5.0 0 0,1 -5.0,5.0h-10.0a5.0,5.0 0 0,1 -5.0,-5.0v-14.0a5.0,5.0 0 0,1 5.0,-5.0z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M30 48h8M58 48h8"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

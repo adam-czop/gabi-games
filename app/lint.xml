@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- Tablet kiosk app for a small child: landscape is a product requirement (docs/03). -->
+    <issue id="LockedOrientationActivity" severity="ignore" />
+    <issue id="DiscouragedApi" severity="ignore">
+        <ignore regexp="screenOrientation" />
+    </issue>
+    <!-- targetSdk stays 36 per docs (CLAUDE.md); compileSdk 37 only for AndroidX (ADR-013). -->
+    <issue id="OldTargetApi" severity="informational" />
+    <!-- Route enums are kept by the @Serializable rule in proguard-rules.pro; domain stays free of androidx (CLAUDE.md). -->
+    <issue id="MissingKeepAnnotation">
+        <ignore path="src/main/java/com/familygames/domain/model" />
+    </issue>
+    <!-- The full line-icon set from mockups/index.html is imported once; later milestones use the rest. -->
+    <issue id="UnusedResources">
+        <ignore regexp="R\.drawable\.ic_" />
+    </issue>
+    <!-- Library versions are reviewed per milestone (docs/09); new releases are not build errors. -->
+    <issue id="GradleDependency" severity="informational" />
+    <issue id="NewerVersionAvailable" severity="informational" />
+    <issue id="AndroidGradlePluginVersion" severity="informational" />
+</lint>

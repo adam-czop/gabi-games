@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="pl">
+    <!-- docs/12 · new games: names (S01/S16) and one-line descriptions (S17) -->
+    <string name="game_where_is">Gdzie jest?</string>
+    <string name="game_peekaboo">A kuku</string>
+    <string name="game_scratch">Zdrapka</string>
+    <string name="game_sorting">Koszyczki</string>
+    <string name="game_odd_one_out">Co nie pasuje?</string>
+    <string name="game_sound_memo">Memo dźwiękowe</string>
+    <string name="game_bubbles">Bańki</string>
+    <string name="game_xylophone">Cymbałki</string>
+    <string name="game_sequence">Po kolei</string>
+    <string name="game_counting">Ile jest?</string>
+    <string name="game_coloring">Kolorowanki</string>
+
+    <string name="game_desc_memory">Odkrywanie par zdjęć</string>
+    <string name="game_desc_puzzle">Układanie zdjęcia z części</string>
+    <string name="game_desc_where_is">Wskaż osobę lub rzecz z pytania</string>
+    <string name="game_desc_peekaboo">Otwieranie drzwiczek ze zdjęciem</string>
+    <string name="game_desc_scratch">Ścieranie mgiełki palcem</string>
+    <string name="game_desc_sorting">Sortowanie zdjęć do kategorii</string>
+    <string name="game_desc_odd_one_out">Znajdź zdjęcie z innej grupy</string>
+    <string name="game_desc_sound_memo">Pary dźwięk – zdjęcie</string>
+    <string name="game_desc_bubbles">Przebijanie baniek ze zdjęciami</string>
+    <string name="game_desc_xylophone">Granie na zdjęciach rodziny</string>
+    <string name="game_desc_sequence">Układanie sekwencji dnia</string>
+    <string name="game_desc_counting">Liczenie do 3 / do 5</string>
+    <string name="game_desc_coloring">Kolorowanie obrazków</string>
+
+    <!-- S16 -->
+    <string name="cd_menu_page">Strona %1$d z %2$d</string>
+
+    <!-- S17 · parent "Gry" -->
+    <string name="nav_games">Gry</string>
+    <string name="nav_sequences">Sekwencje</string>
+    <string name="games_title">Gry</string>
+    <string name="games_subtitle">Wybierz, w co dziecko może grać</string>
+    <string name="games_age_title">Wiek dziecka</string>
+    <string name="games_age_text">Ukrywa gry za trudne lub za łatwe. Każdą grę możesz też włączyć ręcznie.</string>
+    <string name="games_age_toddler">1–2,5 roku</string>
+    <string name="games_age_preschool">2,5–5 lat</string>
+    <string name="games_age_badge">%1$s–%2$s l.</string>
+    <string name="games_needs_sequence">Pojawi się w menu po dodaniu sekwencji.</string>
+    <string name="games_voice_title">Głos w grach</string>
+    <string name="games_voice_text">Gry pytają głosem („Gdzie jest babcia?”). Najlepiej brzmi Twój głos: nagraj początki pytań, a etykiety zdjęć nagrasz przy zdjęciach.</string>
+    <string name="games_voice_tts_on">Syntezator mowy po polsku jest dostępny – zastąpi brakujące nagrania.</string>
+    <string name="games_voice_tts_off">Brak polskiego syntezatora mowy. Nagraj pytania głosowe, aby gry mówiły.</string>
+    <string name="games_voice_record">Nagraj</string>
+    <string name="games_voice_stop">Zakończ</string>
+    <string name="games_voice_play">Odsłuchaj</string>
+    <string name="games_voice_delete">Usuń</string>
+
+    <!-- Spoken prefixes (docs/12 M10.3): text for the synthesizer and the label in S17 -->
+    <string name="prefix_where_is">Gdzie jest</string>
+    <string name="prefix_how_many">Ile jest</string>
+    <string name="prefix_odd_one">Co tu nie pasuje?</string>
+    <string name="prefix_peekaboo">A kuku!</string>
+    <string name="prefix_where_is_label">„Gdzie jest…”</string>
+    <string name="prefix_how_many_label">„Ile jest…”</string>
+    <string name="prefix_odd_one_label">„Co tu nie pasuje?”</string>
+    <string name="prefix_peekaboo_label">„A kuku!”</string>
+    <string name="tts_numbers">jeden,dwa,trzy,cztery,pięć</string>
+
+    <!-- Level pickers -->
+    <string name="levels_where_title">Gdzie jest…?</string>
+    <string name="levels_sorting_title">Do koszyczków</string>
+    <string name="levels_odd_title">Co nie pasuje?</string>
+    <string name="levels_counting_title">Ile jest?</string>
+    <string name="levels_sound_memo_title">Memo dźwiękowe</string>
+    <plurals name="levels_photos">
+        <item quantity="one">%d zdjęcie</item>
+        <item quantity="few">%d zdjęcia</item>
+        <item quantity="many">%d zdjęć</item>
+        <item quantity="other">%d zdjęcia</item>
+    </plurals>
+    <plurals name="levels_baskets">
+        <item quantity="one">%d koszyk</item>
+        <item quantity="few">%d koszyki</item>
+        <item quantity="many">%d koszyków</item>
+        <item quantity="other">%d koszyka</item>
+    </plurals>
+    <string name="levels_count_to">do %d</string>
+    <string name="levels_no_content">Za mało zdjęć do tej gry – dodaj je w panelu rodzica.</string>
+    <string name="cd_level_simple">Poziom %1$d: %2$s</string>
+
+    <!-- In-game -->
+    <string name="cd_replay_question">Powtórz pytanie</string>
+    <string name="where_question">„Gdzie jest %s?”</string>
+    <string name="counting_question">„Ile jest: %s?”</string>
+    <string name="cd_progress">Runda %1$d z %2$d</string>
+    <string name="cd_option">Zdjęcie %d</string>
+    <string name="cd_model_photo">Znajdź takie samo zdjęcie</string>
+    <string name="cd_peek_window">Okienko</string>
+    <string name="cd_next_picture">Następny obrazek</string>
+    <string name="cd_basket">Koszyk: %s</string>
+    <string name="cd_sound_card">Karta z dźwiękiem</string>
+    <string name="cd_bar">Sztabka %d</string>
+    <string name="cd_play_melody">Zagraj melodię</string>
+    <string name="cd_number">%d</string>
+    <string name="cd_undo">Cofnij</string>
+    <string name="cd_clear_drawing">Przytrzymaj, aby wyczyścić</string>
+    <string name="cd_paint">Kolor %d</string>
+    <string name="cd_brush_mode">Malowanie palcem</string>
+    <string name="cd_fill_mode">Wypełnianie dotykiem</string>
+    <string name="cd_slot">Miejsce %d</string>
+    <string name="game_no_photos">Za mało zdjęć do tej gry.</string>
+    <string name="sequence_pick_title">Po kolei</string>
+    <string name="family_category_name">Rodzina</string>
+
+    <!-- Built-in sounds for Memo dźwiękowe (spoken by the synthesizer) -->
+    <string name="sound_cat">miau miau</string>
+    <string name="sound_dog">hau hau</string>
+    <string name="sound_cow">muuu</string>
+    <string name="sound_duck">kwa kwa</string>
+    <string name="sound_horse">iii-haa</string>
+    <string name="sound_pig">chrum chrum</string>
+    <string name="sound_hen">ko ko ko</string>
+    <string name="sound_sheep">beee</string>
+    <string name="sound_car">brum brum</string>
+    <string name="sound_drum">bum bum bum</string>
+    <string name="sound_train">tuu tuu</string>
+    <string name="sound_fire_truck">ijo ijo</string>
+    <string name="sound_bus">brum brum, piii</string>
+    <string name="sound_tractor">tur tur tur</string>
+    <string name="sound_rubber_duck">kwa kwa</string>
+    <string name="sound_rocket">trzy, dwa, jeden, start!</string>
+
+    <!-- S10 additions -->
+    <string name="photo_prompt_title">Pytanie głosowe (opcjonalne)</string>
+    <string name="photo_prompt_hint">np. „Gdzie jest babcia?”</string>
+    <string name="photo_countable">Nadaje się do liczenia</string>
+    <string name="photo_countable_hint">Przedmioty, nie osoby – do gry „Ile jest?”.</string>
+
+    <!-- S15 · sequences -->
+    <string name="sequences_title">Sekwencje</string>
+    <string name="sequences_subtitle">Kroki dnia do gry „Po kolei”</string>
+    <string name="sequences_empty">Nie ma jeszcze sekwencji. Utwórz pierwszą, np. „Poranek”: pobudka, mycie zębów, śniadanie.</string>
+    <string name="sequences_new">Nowa sekwencja</string>
+    <string name="sequences_name">Nazwa</string>
+    <string name="sequences_name_hint">np. Poranek</string>
+    <string name="sequences_pick">Wybierz 3–5 zdjęć w kolejności kroków</string>
+    <string name="sequences_save">Zapisz sekwencję</string>
+    <string name="sequences_cancel">Anuluj</string>
+    <string name="sequences_delete">Usuń</string>
+    <string name="sequences_edit">Edytuj</string>
+    <string name="cd_move_earlier">Wcześniej</string>
+    <string name="cd_move_later">Później</string>
+    <plurals name="sequences_steps">
+        <item quantity="one">%d krok</item>
+        <item quantity="few">%d kroki</item>
+        <item quantity="many">%d kroków</item>
+        <item quantity="other">%d kroku</item>
+    </plurals>
+
+    <!-- S14 · drawings and free play -->
+    <string name="progress_drawings">Rysunki</string>
+    <string name="progress_drawings_empty">Gotowe kolorowanki pojawią się tutaj.</string>
+    <string name="progress_free_play">swobodna zabawa</string>
+    <string name="cd_delete_drawing">Usuń rysunek</string>
+</resources>

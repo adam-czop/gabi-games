@@ -1,0 +1,54 @@
+// Fragment app/build.gradle.kts — wersjonowanie, BuildConfig i podpis (docs/01 §7, docs/07)
+import java.util.Properties
+
+val versionNameProp = (project.findProperty("versionName") as String?) ?: "0.0.1"
+val (vMajor, vMinor, vPatch) = versionNameProp.split(".").map { it.toInt() }
+val versionCodeComputed = vMajor * 10000 + vMinor * 100 + vPatch
+
+val keystoreProps = Properties().apply {
+    val f = rootProject.file("keystore.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun signingValue(key: String, env: String): String? = keystoreProps.getProperty(key) ?: System.getenv(env)
+
+android {
+    namespace = "com.familygames"
+    compileSdk = 36
+    defaultConfig {
+        applicationId = "com.familygames"          // Q1 w docs/11 — ustalić przed 1. wydaniem
+        minSdk = 28
+        targetSdk = 36
+        versionCode = versionCodeComputed
+        versionName = versionNameProp
+        buildConfigField("String", "UPDATE_REPO_OWNER", "\"CHANGE_ME\"")
+        buildConfigField("String", "UPDATE_REPO_NAME", "\"familygames-releases\"")
+    }
+    signingConfigs {
+        create("release") {
+            val path = signingValue("storeFile", "KEYSTORE_PATH")
+            if (path != null) {
+                storeFile = file(path)
+                storePassword = signingValue("storePassword", "KEYSTORE_PASSWORD")
+                keyAlias = signingValue("keyAlias", "KEY_ALIAS")
+                keyPassword = signingValue("keyPassword", "KEY_PASSWORD")
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField("boolean", "KIOSK_ENABLED", "false")
+            applicationIdSuffix = ".debug"               // debug i release mogą współistnieć
+        }
+        release {
+            buildConfigField("boolean", "KIOSK_ENABLED", "true")
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+    buildFeatures { compose = true; buildConfig = true }
+    compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
+}
+kotlin { jvmToolchain(17) }
+room { schemaDirectory("$projectDir/schemas") }

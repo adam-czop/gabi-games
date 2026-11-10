@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from mockups/index.html symbols (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:pathData="M15.0,21.0h18.0a4.0,4.0 0 0,1 4.0,4.0v11.0a4.0,4.0 0 0,1 -4.0,4.0h-18.0a4.0,4.0 0 0,1 -4.0,-4.0v-11.0a4.0,4.0 0 0,1 4.0,-4.0z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="2.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M16 21v-5a8 8 0 0 1 16 0v5"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="2.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

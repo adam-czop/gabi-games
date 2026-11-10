@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- XML-side copies of Palette (presentation/theme/Color.kt) for the window and the launcher icon. -->
+    <color name="palette_bg">#FFF6F4F0</color>
+    <color name="palette_accent_soft">#FFE5ECE7</color>
+    <color name="palette_accent_ink">#FF4E6A5C</color>
+</resources>

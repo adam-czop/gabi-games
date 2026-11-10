@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from mockups/index.html symbols (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M20.0,42.0a22.0,22.0 0 1,0 44.0,0a22.0,22.0 0 1,0 -44.0,0"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M58 58l18 18"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M34 40a8 8 0 0 1 8-8"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

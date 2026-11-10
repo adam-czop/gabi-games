@@ -1,0 +1,81 @@
+# Skopiuj do .github/workflows/release.yml
+# Wyzwalacz: push tagu vMAJOR.MINOR.PATCH  (np. git tag v1.3.0 && git push origin v1.3.0)
+#
+# Wymagane sekrety repozytorium:
+#   KEYSTORE_BASE64     - keystore release zakodowany: base64 -w0 release.jks
+#   KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD
+# Opcjonalnie (gdy Releases mają trafić do osobnego, publicznego repo):
+#   RELEASES_REPO       - np. "owner/familygames-releases"   (zmienna repo: Settings → Variables)
+#   GH_RELEASES_TOKEN   - fine-grained PAT z uprawnieniem Contents: write tylko do RELEASES_REPO
+#   (repo na Releases musi mieć min. 1 commit, np. README — gh utworzy tag na jego gałęzi domyślnej)
+#
+# build.gradle.kts musi czytać: -PversionName, oraz podpis z env KEYSTORE_PATH/KEYSTORE_PASSWORD/KEY_ALIAS/KEY_PASSWORD
+name: Release
+on:
+  push:
+    tags: ['v*.*.*']
+permissions:
+  contents: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Version from tag
+        id: ver
+        run: |
+          TAG="${GITHUB_REF_NAME}"                 # v1.3.0
+          VN="${TAG#v}"
+          IFS='.' read -r MA MI PA <<< "$VN"
+          if [ "$MI" -gt 99 ] || [ "$PA" -gt 99 ]; then echo "minor/patch must be <= 99"; exit 1; fi
+          VC=$(( MA*10000 + MI*100 + PA ))
+          echo "name=$VN" >> "$GITHUB_OUTPUT"
+          echo "code=$VC" >> "$GITHUB_OUTPUT"
+
+      - name: Decode keystore
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/release.jks"
+
+      - name: Test & build release
+        env:
+          KEYSTORE_PATH: ${{ runner.temp }}/release.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew testDebugUnitTest assembleRelease -PversionName=${{ steps.ver.outputs.name }} --stacktrace
+
+      - name: Verify signature & prepare assets
+        id: assets
+        run: |
+          APK_SRC=app/build/outputs/apk/release/app-release.apk
+          APK="familygames-${{ steps.ver.outputs.name }}-${{ steps.ver.outputs.code }}.apk"
+          cp "$APK_SRC" "$APK"
+          APKSIGNER=$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)apksigner
+          "$APKSIGNER" verify --print-certs "$APK"
+          SHA=$(sha256sum "$APK" | cut -d' ' -f1)
+          SIZE=$(stat -c%s "$APK")
+          # changelog: sekcja "## [x.y.z]" z CHANGELOG.md (linie zaczynające się od "- ")
+          CHANGES=$(awk -v v="## [${{ steps.ver.outputs.name }}]" 'index($0,v)==1{f=1;next} /^## \[/{f=0} f && /^- /{sub(/^- /,""); print}' CHANGELOG.md | jq -R . | jq -s .)
+          [ -z "$CHANGES" ] && CHANGES='[]'
+          jq -n --argjson vc ${{ steps.ver.outputs.code }} --arg vn "${{ steps.ver.outputs.name }}" \
+                --arg apk "$APK" --argjson size "$SIZE" --arg sha "$SHA" --argjson changes "$CHANGES" \
+                --arg date "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{schema:1, versionCode:$vc, versionName:$vn, apkAsset:$apk, apkSize:$size, sha256:$sha, minSdk:28, mandatory:false, changelog:$changes, publishedAt:$date}' > update.json
+          cat update.json
+          echo "apk=$APK" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$CHANGES" | jq -r '.[] | "- " + .' > notes.md
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_RELEASES_TOKEN || secrets.GITHUB_TOKEN }}
+          TARGET_REPO: ${{ vars.RELEASES_REPO || github.repository }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" "${{ steps.assets.outputs.apk }}" update.json \
+            --repo "$TARGET_REPO" --title "FamilyGames ${{ steps.ver.outputs.name }}" --notes-file notes.md --latest
+
+      - name: Cleanup
+        if: always()
+        run: rm -f "$RUNNER_TEMP/release.jks"

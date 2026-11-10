@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FamilyGames — makiety ekranów v2 (stonowane)</title>
+<style>
+/* ---------- Fonty (lokalne, offline) ---------- */
+@font-face{font-family:"Fredoka";font-weight:600;src:url(assets/fonts/fredoka-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:"Fredoka";font-weight:600;src:url(assets/fonts/fredoka-latin-ext-600-normal.woff2) format("woff2");unicode-range:U+0100-024F,U+1E00-1EFF,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Fredoka";font-weight:700;src:url(assets/fonts/fredoka-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:"Fredoka";font-weight:700;src:url(assets/fonts/fredoka-latin-ext-700-normal.woff2) format("woff2");unicode-range:U+0100-024F,U+1E00-1EFF,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Nunito";font-weight:400;src:url(assets/fonts/nunito-latin-400-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Nunito";font-weight:400;src:url(assets/fonts/nunito-latin-ext-400-normal.woff2) format("woff2");unicode-range:U+0100-024F}
+@font-face{font-family:"Nunito";font-weight:600;src:url(assets/fonts/nunito-latin-600-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Nunito";font-weight:600;src:url(assets/fonts/nunito-latin-ext-600-normal.woff2) format("woff2");unicode-range:U+0100-024F}
+@font-face{font-family:"Nunito";font-weight:700;src:url(assets/fonts/nunito-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Nunito";font-weight:700;src:url(assets/fonts/nunito-latin-ext-700-normal.woff2) format("woff2");unicode-range:U+0100-024F}
+@font-face{font-family:"Nunito";font-weight:800;src:url(assets/fonts/nunito-latin-800-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:"Nunito";font-weight:800;src:url(assets/fonts/nunito-latin-ext-800-normal.woff2) format("woff2");unicode-range:U+0100-024F}
+
+@font-face{font-family:"Fredoka";font-weight:500;src:url(assets/fonts/fredoka-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215}
+@font-face{font-family:"Fredoka";font-weight:500;src:url(assets/fonts/fredoka-latin-ext-500-normal.woff2) format("woff2");unicode-range:U+0100-024F,U+1E00-1EFF,U+2C60-2C7F,U+A720-A7FF}
+
+/* ---------- Design tokens — wersja stonowana v2 (patrz docs/08_DESIGN_SYSTEM.md) ----------
+   Zasada: interfejs neutralny i cichy, kolor wnoszą zdjęcia. Jeden przygaszony akcent (szałwia),
+   jeden pomocniczy (mglisty błękit) do rozróżnienia gier, miodowy tylko dla gwiazdek / łagodnej pomyłki. */
+:root{
+  --bg:#F6F4F0; --bg-2:#EDE9E3; --surface:#FFFFFF; --line:#E3DED6; --line-2:#D6D0C6;
+  --ink:#3B3936; --ink-2:#8B867F; --ink-3:#B4AEA5;
+  --accent:#7E9C8C; --accent-d:#4E6A5C; --accent-soft:#E5ECE7;
+  --mist:#7F95A6; --mist-soft:#E6ECF0;
+  --honey:#D6B47A; --honey-soft:#F4EBDA;
+  --p-bg:#F6F4F0; --p-card:#FFFFFF; --p-line:#E6E1DA; --p-ink:#2F2D2A; --p-ink-2:#6F6A63; --p-accent:#4E6A5C; --p-accent-soft:#E5ECE7; --p-danger:#A9573F; --p-ok:#4E6A5C;
+  --r-xl:32px; --r-l:24px; --r-m:18px; --r-s:12px;
+  --sh-1:0 1px 2px rgba(59,57,54,.05), 0 6px 18px rgba(59,57,54,.05);
+  --sh-2:0 2px 4px rgba(59,57,54,.05), 0 16px 36px rgba(59,57,54,.08);
+  --font-kid:"Fredoka","Nunito",system-ui,sans-serif; --font-ui:"Nunito",system-ui,sans-serif;
+  --emoji:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#E7E3DD;font-family:var(--font-ui);color:var(--ink);padding:40px 16px 80px}
+.doc-head{max-width:1280px;margin:0 auto 40px}
+.doc-head h1{font-family:var(--font-kid);font-size:40px;font-weight:600}
+.doc-head p{color:var(--ink-2);margin-top:8px;max-width:820px;line-height:1.5}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.toc a{background:#fff;border-radius:99px;padding:6px 14px;text-decoration:none;color:var(--ink);font-weight:700;font-size:14px}
+.spec{max-width:1280px;margin:0 auto 64px}
+.spec h2{font-family:var(--font-kid);font-size:26px;font-weight:600;margin-bottom:12px}
+.spec h2 small{font-family:var(--font-ui);font-size:15px;color:var(--ink-2);font-weight:600;margin-left:10px}
+.notes{margin-top:16px;background:#fff;border-radius:16px;padding:18px 24px;font-size:15px;line-height:1.6}
+.notes li{margin-left:18px}
+.scaler{width:100%;overflow:hidden}
+/* ---------- Ekran tabletu ---------- */
+.screen{width:1280px;height:800px;position:relative;overflow:hidden;background:var(--bg);border-radius:24px;box-shadow:0 30px 60px rgba(40,30,20,.12);font-family:var(--font-kid);color:var(--ink)}
+.screen.kidbg{background:var(--bg)}
+.emoji{font-family:var(--emoji);line-height:1}
+svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.btn-round{position:absolute;width:96px;height:96px;border-radius:50%;background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);display:grid;place-items:center;color:var(--ink-2)}
+.btn-round.small{width:64px;height:64px;box-shadow:none}
+.btn-round.small svg.i{width:28px;height:28px}
+.tl{top:28px;left:32px}.tr{top:28px;right:32px}
+.title{position:absolute;top:50px;left:0;right:0;text-align:center;font-size:36px;font-weight:600;color:var(--ink)}
+
+/* Menu */
+.logo{position:absolute;top:128px;left:0;right:0;text-align:center;font-size:60px;font-weight:600;color:var(--ink);letter-spacing:.5px}
+.logo em{font-style:normal;color:var(--accent-d)}
+.game-tiles{position:absolute;top:270px;left:0;right:0;display:flex;justify-content:center;gap:40px}
+.tile{width:330px;height:380px;border-radius:var(--r-xl);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;position:relative;color:var(--ink)}
+.tile .ico{width:176px;height:176px;border-radius:50%;display:grid;place-items:center}
+.tile .ico svg{width:104px;height:104px;fill:none;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.tile .name{font-size:36px;font-weight:600}
+.tile.mem .ico{background:var(--accent-soft);color:var(--accent-d)}.tile.mem .ico svg{stroke:var(--accent-d)}
+.tile.puz .ico{background:var(--mist-soft)}.tile.puz .ico svg{stroke:var(--mist)}
+.tile.soon{background:transparent;border:2px dashed var(--line-2);box-shadow:none;color:var(--ink-3)}
+.tile.soon .ico{background:var(--bg-2)}.tile.soon .ico svg{stroke:var(--ink-3)}
+
+/* Level select */
+.levels{position:absolute;top:170px;left:64px;right:64px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.lvl{height:380px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;position:relative}
+.lvl .num{position:absolute;top:18px;left:20px;width:46px;height:46px;border-radius:50%;background:var(--bg-2);display:grid;place-items:center;font-size:24px;font-weight:600;color:var(--ink-2)}
+.mini{display:grid;gap:8px}
+.mini i{display:block;width:32px;height:32px;border-radius:8px;background:var(--line)}
+.lvl .cnt{font-size:22px;color:var(--ink-2);font-weight:500}
+.stars{display:flex;gap:6px}
+.stars svg{width:36px;height:36px;fill:var(--honey);stroke:none}
+.stars svg.off{fill:var(--line)}
+.lvl.sel{box-shadow:0 0 0 3px var(--accent),var(--sh-1);border-color:transparent}
+.lvl.sel .mini i{background:var(--accent)}
+.lvl.locked{background:transparent;border:2px dashed var(--line-2);box-shadow:none}
+.lvl.locked .mini i{background:var(--bg-2)}
+.lvl .lock{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink-3)}
+.lvl .lock svg{width:64px;height:64px;background:var(--bg);border-radius:50%;padding:10px;box-sizing:content-box}
+.cats{position:absolute;bottom:56px;left:64px;right:64px;display:flex;gap:20px;justify-content:center}
+.cat{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:10px 28px 10px 10px;font-size:26px;font-weight:500;color:var(--ink)}
+.cat .th{width:76px;height:76px;border-radius:50%;display:grid;place-items:center;font-size:42px}
+.cat.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-d)}
+
+/* Memory */
+.pairs{position:absolute;top:66px;left:0;right:0;display:flex;justify-content:center;gap:14px}
+.pairs i{width:20px;height:20px;border-radius:50%;background:var(--line);font-style:normal}
+.pairs i.on{background:var(--accent)}
+.grid-mem{position:absolute;top:160px;left:0;right:0;display:grid;grid-template-columns:repeat(4,232px);gap:28px;justify-content:center}
+.card{height:270px;border-radius:var(--r-l);position:relative;transform-style:preserve-3d}
+.card .back{position:absolute;inset:0;border-radius:var(--r-l);border:1px solid var(--line);box-shadow:var(--sh-1);
+  background:radial-gradient(circle, #E2DDD5 1.6px, transparent 2px) 0 0/22px 22px, var(--bg-2);display:grid;place-items:center}
+.card .back svg.cb{width:64px;height:64px;fill:none;stroke:var(--ink-3);stroke-width:2.2;stroke-linejoin:round;background:var(--bg);border-radius:50%;padding:22px;box-sizing:content-box}
+.card .front{position:absolute;inset:0;border-radius:var(--r-l);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);padding:12px;display:flex;flex-direction:column;gap:10px}
+.photo{flex:1;border-radius:16px;display:grid;place-items:center;font-size:110px;position:relative;overflow:hidden}
+.card .cap{text-align:center;font-size:22px;font-weight:500;color:var(--ink-2)}
+.card.match .front{box-shadow:0 0 0 4px var(--accent),var(--sh-1);border-color:transparent}
+.card.match::after{content:"";position:absolute;top:-12px;right:-12px;width:40px;height:40px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M13 25l7 7 15-16' fill='none' stroke='white' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/26px no-repeat;box-shadow:0 0 0 4px var(--bg)}
+.card.flip{transform:perspective(900px) rotateY(58deg)}
+.card.wrong .front{box-shadow:0 0 0 4px var(--honey),var(--sh-1)}
+/* tła placeholderów zdjęć — neutralne, kolor wnosi „zdjęcie” */
+.g1{background:#F1EDE7}.g2{background:#EDF0F1}.g3{background:#EEF1EC}.g4{background:#F0EDF0}.g5{background:#F3F0E8}.g6{background:#F2ECEB}
+
+/* Win */
+.dim{position:absolute;inset:0;background:rgba(246,244,240,.72);backdrop-filter:blur(6px)}
+.win{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:600px;background:var(--surface);border:1px solid var(--line);border-radius:36px;box-shadow:var(--sh-2);padding:48px 40px 44px;text-align:center}
+.badge-win{width:120px;height:120px;border-radius:50%;background:var(--honey-soft);display:grid;place-items:center;margin:0 auto}
+.badge-win svg{width:64px;height:64px;fill:var(--honey)}
+.win h3{font-size:52px;font-weight:600;color:var(--ink);margin-top:18px}
+.win .stars{justify-content:center;margin:14px 0 30px;gap:10px}
+.win .stars svg{width:60px;height:60px}
+.win .row{display:flex;gap:24px;justify-content:center}
+.bigbtn{width:136px;height:136px;border-radius:36px;display:grid;place-items:center}
+.bigbtn svg.i{width:60px;height:60px;stroke-width:2.8}
+.bigbtn.go{background:var(--accent);color:#fff;box-shadow:var(--sh-1)}
+.bigbtn.home{background:var(--surface);border:1px solid var(--line-2);color:var(--ink-2)}
+.confetti i{position:absolute;display:block;border-radius:2px;opacity:.75}
+
+/* Puzzle choose */
+.pics{position:absolute;top:140px;left:80px;right:80px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pic{height:205px;border-radius:var(--r-l);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);overflow:hidden;position:relative;padding:10px}
+.pic .photo{height:100%;font-size:100px}
+.pic.sel{box-shadow:0 0 0 3px var(--accent),var(--sh-1);border-color:transparent}
+.diff{position:absolute;bottom:40px;left:0;right:0;display:flex;gap:20px;justify-content:center}
+.dbtn{width:200px;height:116px;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;gap:16px;font-size:24px;font-weight:500;color:var(--ink-2)}
+.dbtn.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-d)}
+.dbtn .mini i{width:20px;height:20px;border-radius:5px;background:var(--line-2)}
+.dbtn .mini{gap:4px}
+.dbtn.sel .mini i{background:var(--accent)}
+.dbtn svg.swp{width:34px;height:34px}
+
+/* Puzzle snap */
+.board{position:absolute;border-radius:var(--r-m);background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);padding:14px}
+.board .inner{position:relative;width:100%;height:100%;border-radius:12px;overflow:hidden;background:var(--bg-2)}
+.ghost{position:absolute;inset:0;background:url(assets/scene.svg) center/cover;opacity:.18;filter:grayscale(.6)}
+.slot{position:absolute;border:2px dashed var(--line-2);border-radius:10px}
+.piece{position:absolute;background-image:url(assets/scene.svg);border-radius:10px;box-shadow:0 0 0 3px #fff, var(--sh-1)}
+.slot.target{border:3px solid var(--accent);background:rgba(126,156,140,.14)}
+.tray{position:absolute;top:150px;right:72px;width:300px;height:610px;border-radius:var(--r-l);background:var(--bg-2)}
+.drag{transform:rotate(-3deg) scale(1.04);box-shadow:0 0 0 3px #fff, 0 22px 36px rgba(59,57,54,.18)!important;z-index:5}
+.touch{position:absolute;width:72px;height:72px;border-radius:50%;background:rgba(59,57,54,.14);box-shadow:0 0 0 10px rgba(59,57,54,.06);z-index:6}
+.trail{position:absolute;border-top:3px dotted var(--line-2);transform-origin:0 0}
+
+/* Swap */
+.swapgrid{position:absolute;top:150px;left:120px;width:720px;height:540px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:8px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);box-shadow:var(--sh-1)}
+.t{background-image:url(assets/scene.svg);background-size:300% 300%;border-radius:10px;position:relative}
+.t.ok::after{content:"";position:absolute;right:10px;bottom:10px;width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px #fff}
+.t.selected{box-shadow:0 0 0 4px var(--accent), 0 14px 26px rgba(59,57,54,.18);transform:scale(1.03);z-index:2}
+.t.nb{box-shadow:0 0 0 3px var(--accent-soft)}
+.ref{position:absolute;top:150px;right:88px;width:300px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-m);padding:12px}
+.ref .img{height:210px;border-radius:10px;background:url(assets/scene.svg) center/cover}
+.ref p{text-align:center;font-size:20px;color:var(--ink-2);margin-top:10px;font-weight:500}
+
+/* Parent gate */
+.blur{filter:blur(6px);position:absolute;inset:0}
+.gate{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:660px;background:#fff;border:1px solid var(--p-line);border-radius:28px;padding:44px 48px;font-family:var(--font-ui);box-shadow:var(--sh-2)}
+.gate h3{font-size:28px;font-weight:800;color:var(--p-ink);display:flex;align-items:center;gap:14px}
+.gate p{color:var(--p-ink-2);font-size:18px;margin-top:6px}
+.seg{display:inline-flex;background:var(--p-bg);border-radius:12px;padding:4px;margin-top:22px}
+.seg span{padding:10px 18px;border-radius:9px;font-weight:700;color:var(--p-ink-2);font-size:16px}
+.seg span.on{background:#fff;color:var(--p-ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.q{font-size:60px;font-weight:700;text-align:center;margin:28px 0 22px;color:var(--p-ink);letter-spacing:2px}
+.ans{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ans b{height:84px;border-radius:16px;border:1.5px solid var(--p-line);display:grid;place-items:center;font-size:32px;font-weight:700;color:var(--p-ink)}
+.gate .foot{display:flex;justify-content:space-between;margin-top:26px;font-size:15px;color:var(--p-ink-2)}
+.xbtn{position:absolute;top:22px;right:22px;width:48px;height:48px;border-radius:50%;background:var(--p-bg);display:grid;place-items:center;color:var(--p-ink-2)}
+.xbtn svg.i{width:22px;height:22px}
+
+/* Parent panel */
+.pp{font-family:var(--font-ui);background:var(--p-bg);color:var(--p-ink)}
+.side{position:absolute;top:0;bottom:0;left:0;width:264px;background:#fff;border-right:1px solid var(--p-line);padding:28px 18px}
+.brand{font-family:var(--font-kid);font-size:23px;font-weight:600;padding:0 12px 22px;display:flex;gap:10px;align-items:center}
+.brand .dot{display:block;width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.brand small{font-family:var(--font-ui);font-size:11px;color:var(--p-accent);background:var(--p-accent-soft);padding:3px 8px;border-radius:6px;font-weight:800;letter-spacing:.4px}
+.nav a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:var(--p-ink-2);font-weight:700;font-size:16px;margin-bottom:4px;text-decoration:none}
+.nav a svg.i{width:22px;height:22px;stroke-width:2.2}
+.nav a.on{background:var(--p-accent-soft);color:var(--p-accent)}
+.nav .sep{height:1px;background:var(--p-line);margin:14px 6px}
+.nav a.danger{color:var(--p-danger)}
+.side .ver{position:absolute;bottom:24px;left:30px;font-size:13px;color:var(--p-ink-2)}
+.main{position:absolute;top:0;left:264px;right:0;bottom:0;padding:30px 36px}
+.mh{display:flex;align-items:center;justify-content:space-between}
+.mh h3{font-size:28px;font-weight:800}
+.mh .sub{color:var(--p-ink-2);font-size:15px;margin-top:2px}
+.pbtn{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 20px;border-radius:12px;font-weight:800;font-size:16px;border:1px solid var(--p-line);background:#fff;color:var(--p-ink)}
+.pbtn svg.i{width:22px;height:22px;stroke-width:2.2}
+.pbtn.pri{background:var(--p-accent);border-color:var(--p-accent);color:#fff}
+.pbtn.dng{background:#fff;border-color:#E8CFC6;color:var(--p-danger)}
+.chips{display:flex;gap:10px;margin:22px 0 16px}
+.chip{padding:9px 16px;border-radius:99px;background:#fff;border:1px solid var(--p-line);font-weight:700;font-size:15px;color:var(--p-ink-2)}
+.chip.on{background:var(--p-accent-soft);color:var(--p-accent);border-color:var(--accent)}
+.chip.add{border-style:dashed}
+.info{display:flex;gap:12px;align-items:center;background:var(--p-accent-soft);color:var(--p-accent);border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600}
+.pgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:16px}
+.pc{background:#fff;border-radius:14px;border:1px solid var(--p-line);overflow:hidden}
+.pc .photo{height:132px;border-radius:0;font-size:70px}
+.pc .meta{padding:10px 12px;display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:700}
+.pc .meta span{color:var(--p-ink-2);font-weight:600;display:flex;gap:6px;align-items:center}
+.pc .meta svg.i{width:18px;height:18px;stroke-width:2.2}
+.pc.new{border:2px dashed var(--p-line);display:grid;place-items:center;color:var(--p-ink-2);font-weight:700;background:transparent;height:176px}
+.crop{position:absolute;top:100px;left:36px;width:560px;height:560px;background:#2B2A28;border-radius:18px;overflow:hidden}
+.crop .img{position:absolute;left:-94px;top:0;width:747px;height:560px;background:url(assets/scene.svg) center/cover}
+.crop .frame{position:absolute;left:60px;top:60px;width:440px;height:440px;border:2px solid #fff;box-shadow:0 0 0 999px rgba(20,18,16,.55)}
+.crop .frame::before,.crop .frame::after{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,transparent 33.1%,rgba(255,255,255,.5) 33.3% 33.5%,transparent 33.7% 66.4%,rgba(255,255,255,.5) 66.6% 66.8%,transparent 67%)}
+.crop .frame::after{transform:rotate(90deg)}
+.crop .h{position:absolute;width:26px;height:26px;border:4px solid #fff}
+.form{position:absolute;top:100px;left:630px;right:36px;bottom:30px;background:#fff;border-radius:18px;border:1px solid var(--p-line);padding:26px}
+.lbl{font-size:13px;font-weight:800;color:var(--p-ink-2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px}
+.inp{height:54px;border:1.5px solid var(--p-line);border-radius:12px;padding:0 16px;display:flex;align-items:center;font-size:18px;font-weight:700;justify-content:space-between}
+.inp.focus{border-color:var(--p-accent)}
+.rec{display:flex;align-items:center;gap:16px;border:1.5px solid var(--p-line);border-radius:14px;padding:14px}
+.recbtn{width:60px;height:60px;border-radius:50%;background:var(--p-danger);display:grid;place-items:center;box-shadow:0 0 0 7px #F3E4DF}
+.recbtn i{width:20px;height:20px;background:#fff;border-radius:5px;display:block}
+.wave{flex:1;height:46px;display:flex;align-items:center;gap:3px}
+.wave b{display:block;width:5px;border-radius:3px;background:var(--p-accent)}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.pcard{background:#fff;border:1px solid var(--p-line);border-radius:16px;padding:22px}
+.pcard h4{font-size:18px;font-weight:800;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pcard h4 svg.i{width:24px;height:24px;stroke-width:2.2;color:var(--p-accent)}
+.kv{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F0ECE6;font-size:15px}
+.kv:last-child{border:0}
+.kv span{color:var(--p-ink-2);font-weight:600}
+.kv b{font-weight:800}
+.ok{color:var(--p-ok)}
+.bar{height:10px;border-radius:99px;background:#ECE8E2;overflow:hidden;margin:14px 0 8px}
+.bar i{display:block;height:100%;width:64%;background:var(--p-accent);border-radius:99px}
+.tog{width:50px;height:30px;border-radius:99px;background:var(--p-accent);position:relative;flex:none}
+.tog::after{content:"";position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;background:#fff}
+.tog.off{background:#D9D4CC}.tog.off::after{right:auto;left:3px}
+.chlog{background:var(--p-bg);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--p-ink-2);line-height:1.6}
+.pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:800;background:var(--p-accent-soft);color:var(--p-accent)}
+
+/* ---------- v2.1: nowe gry (docs/12) ---------- */
+.tile.sm{width:300px;height:228px;gap:14px;border-radius:28px}
+.tile.sm .ico{width:118px;height:118px}.tile.sm .ico svg{width:70px;height:70px;stroke-width:3.4}
+.tile.sm .name{font-size:27px}
+.menu6{position:absolute;top:236px;left:0;right:0;display:grid;grid-template-columns:repeat(3,300px);gap:26px 30px;justify-content:center}
+.pagedots{position:absolute;bottom:26px;left:0;right:0;display:flex;justify-content:center;gap:12px}
+.pagedots i{width:14px;height:14px;border-radius:50%;background:var(--line)}.pagedots i.on{background:var(--accent)}
+.ask{position:absolute;top:140px;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.spk{width:96px;height:96px;border-radius:50%;background:var(--accent-soft);color:var(--accent-d);display:grid;place-items:center}
+.spk svg.i{width:44px;height:44px}
+.say{font-family:var(--font-ui);font-style:italic;font-size:20px;color:var(--ink-2)}
+.rowc{position:absolute;left:0;right:0;display:flex;justify-content:center;gap:32px;align-items:flex-end}
+.kc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);box-shadow:var(--sh-1);padding:12px;display:flex;flex-direction:column;position:relative}
+.kc .photo{flex:1;font-size:120px}
+.kc.ok{box-shadow:0 0 0 4px var(--accent),var(--sh-1);border-color:transparent;transform:translateY(-14px) scale(1.04)}
+.kc.ok::after{content:"";position:absolute;top:-12px;right:-12px;width:40px;height:40px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath d='M13 25l7 7 15-16' fill='none' stroke='white' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/26px no-repeat;box-shadow:0 0 0 4px var(--bg)}
+.kc.dim2{opacity:.55}
+.kc.lift{transform:translateY(-40px)}
+/* A kuku */
+.peek{position:absolute;left:50%;top:150px;transform:translateX(-50%);width:560px;height:520px;background:var(--surface);border:1px solid var(--line);border-radius:36px;box-shadow:var(--sh-2);padding:26px;perspective:1400px}
+.peek .inside{position:absolute;inset:26px;border-radius:22px;display:grid;place-items:center;font-size:220px}
+.door{position:absolute;top:26px;bottom:26px;width:calc(50% - 26px);background:var(--bg-2);border:1px solid var(--line-2);display:flex;align-items:center}
+.door.l{left:26px;border-radius:22px 6px 6px 22px;justify-content:flex-end;padding-right:22px}
+.door.r{right:26px;border-radius:6px 22px 22px 6px;padding-left:22px;transform-origin:right center;transform:rotateY(72deg);box-shadow:-20px 0 40px rgba(59,57,54,.12)}
+.door .knob{width:22px;height:22px;border-radius:50%;background:var(--surface);border:2px solid var(--ink-3)}
+.door::before{content:"";position:absolute;inset:40px 30px;border:2px solid var(--line-2);border-radius:14px}
+.peek-hint{position:absolute;bottom:40px;left:0;right:0;text-align:center;font-family:var(--font-ui);font-style:italic;font-size:20px;color:var(--ink-2)}
+/* Zdrapka */
+.scratch{position:absolute;left:50%;top:120px;transform:translateX(-50%);width:800px;height:600px;background:var(--surface);border:1px solid var(--line);border-radius:28px;box-shadow:var(--sh-1);padding:16px}
+.scratch .img{position:absolute;inset:16px;border-radius:16px;background:url(assets/scene.svg) center/cover}
+.scratch canvas{position:absolute;inset:16px;border-radius:16px}
+.meter{position:absolute;right:40px;top:44px;width:96px;height:96px;border-radius:50%;background:conic-gradient(var(--accent) 0 46%, var(--line) 46% 100%);display:grid;place-items:center}
+.meter::after{content:"";width:72px;height:72px;border-radius:50%;background:var(--bg)}
+/* Koszyczki */
+.trayrow{position:absolute;top:140px;left:110px;right:110px;height:230px;background:var(--bg-2);border-radius:28px;display:flex;justify-content:center;align-items:center;gap:22px}
+.trayrow .kc{width:150px;height:170px}.trayrow .kc .photo{font-size:80px}
+.baskets{position:absolute;bottom:56px;left:0;right:0;display:flex;justify-content:center;gap:80px}
+.basket{width:380px;height:250px;background:var(--surface);border:1px solid var(--line);border-radius:32px 32px 44px 44px;box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;position:relative}
+.basket .th{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;font-size:54px}
+.basket b{font-size:24px;font-weight:500;color:var(--ink-2)}
+.basket .dots{display:flex;gap:8px}.basket .dots i{width:14px;height:14px;border-radius:50%;background:var(--line)}.basket .dots i.on{background:var(--accent)}
+.basket.target{box-shadow:0 0 0 4px var(--accent),var(--sh-1);border-color:transparent}
+.basket::before{content:"";position:absolute;left:30px;right:30px;top:-1px;height:10px;border-radius:0 0 10px 10px;background:var(--bg-2)}
+.floating{position:absolute;width:170px;height:190px;transform:rotate(-4deg);box-shadow:0 22px 36px rgba(59,57,54,.18)!important;z-index:5}
+/* Memo dźwiękowe */
+.sndface{flex:1;border-radius:16px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent-d)}
+.sndface svg.i{width:84px;height:84px;stroke-width:2.2}
+.wavelet{display:flex;gap:5px;align-items:center;height:30px;justify-content:center}
+.wavelet b{width:5px;border-radius:3px;background:var(--accent)}
+/* Bańki */
+.bub{position:absolute;border-radius:50%;border:2px solid rgba(214,208,198,.9);background:rgba(255,255,255,.55);display:grid;place-items:center;box-shadow:0 8px 24px rgba(59,57,54,.06)}
+.bub .in{width:78%;height:78%;border-radius:50%;display:grid;place-items:center;opacity:.95}
+.bub::after{content:"";position:absolute;inset:10%;border-radius:50%;border-top:6px solid rgba(255,255,255,.9);border-left:6px solid transparent;transform:rotate(-30deg)}
+.drop{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--line-2)}
+/* Cymbałki */
+.bars{position:absolute;top:140px;left:96px;right:96px;bottom:60px;display:flex;gap:18px;align-items:center}
+.bar{flex:1;border-radius:26px;border:1px solid var(--line-2);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:18px 0;position:relative;box-shadow:var(--sh-1)}
+.bar .face{width:96px;height:96px;border-radius:50%;background:var(--surface);border:3px solid var(--surface);box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;font-size:58px;overflow:hidden}
+.bar .pin{width:14px;height:14px;border-radius:50%;background:var(--ink-3);opacity:.5}
+.bar.hit{transform:translateY(6px)}.bar.hit .face{transform:scale(1.08);box-shadow:0 0 0 4px var(--accent)}
+.note{position:absolute;font-size:34px;color:var(--accent);font-family:var(--font-ui)}
+/* Po kolei */
+.seqline{position:absolute;top:262px;left:200px;right:200px;height:3px;background:var(--line-2)}
+.slots{position:absolute;top:150px;left:0;right:0;display:flex;justify-content:center;gap:48px}
+.sslot{width:210px;height:230px;border:3px dashed var(--line-2);border-radius:24px;background:var(--bg);position:relative;display:flex}
+.sslot .n{position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;font-size:20px;font-weight:600;color:var(--ink-2);z-index:2}
+.sslot .kc{flex:1;margin:-3px}.sslot .kc .photo{font-size:96px}
+.sslot.active{border:3px solid var(--accent);background:var(--accent-soft)}
+.sslot.active .n{background:var(--accent);color:#fff;border-color:var(--accent)}
+.seqtray{position:absolute;bottom:50px;left:300px;right:300px;height:250px;background:var(--bg-2);border-radius:28px;display:flex;justify-content:center;align-items:center;gap:40px}
+.seqtray .kc{width:190px;height:210px}.seqtray .kc .photo{font-size:96px}
+/* Ile jest */
+.ctile{position:absolute;width:150px;height:150px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--sh-1);display:grid;place-items:center;font-size:96px}
+.ctile .cn{position:absolute;top:-14px;right:-14px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;font-size:24px;font-weight:600;display:grid;place-items:center;box-shadow:0 0 0 4px var(--bg);font-family:var(--font-kid)}
+.numrow{position:absolute;bottom:44px;left:0;right:0;display:flex;justify-content:center;gap:22px}
+.numbtn{width:124px;height:150px;background:var(--surface);border:1px solid var(--line);border-radius:26px;box-shadow:var(--sh-1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.numbtn b{font-size:60px;font-weight:600;line-height:1}
+.numbtn .dd{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:80px}.numbtn .dd i{width:11px;height:11px;border-radius:50%;background:var(--ink-3)}
+/* Kolorowanki */
+.paper{position:absolute;top:120px;left:150px;width:820px;height:640px;background:var(--surface);border:1px solid var(--line);border-radius:28px;box-shadow:var(--sh-1);display:grid;place-items:center}
+.pots{position:absolute;top:120px;right:56px;width:150px;display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;justify-items:center}
+.pot{width:62px;height:62px;border-radius:50%;box-shadow:inset 0 -6px 0 rgba(0,0,0,.08)}
+.pot.sel{box-shadow:0 0 0 4px var(--bg),0 0 0 8px var(--accent)}
+.tools{position:absolute;bottom:40px;right:56px;display:flex;flex-direction:column;gap:14px}
+.tools .btn-round{position:static}
+/* Panel rodzica: gry i sekwencje */
+.agecard{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--p-line);border-radius:16px;padding:18px 22px;margin-top:20px}
+.agecard .seg{margin:0}
+.glist{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.grow{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--p-line);border-radius:14px;padding:12px 16px}
+.grow .gi{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--p-accent-soft)}
+.grow .gi svg{width:28px;height:28px;fill:none;stroke:var(--p-accent);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.grow .tx{flex:1;min-width:0}.grow .tx b{display:block;font-size:15px}.grow .tx span{display:block;font-size:13px;color:var(--p-ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.grow .age{font-size:12px;font-weight:800;color:var(--p-ink-2);background:var(--p-bg);border-radius:99px;padding:3px 9px;white-space:nowrap}
+.grow.off{opacity:.6}
+.seqcard{background:#fff;border:1px solid var(--p-line);border-radius:16px;padding:18px 20px;margin-top:16px}
+.seqcard .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.seqcard .hd b{font-size:18px}.seqcard .hd span{color:var(--p-ink-2);font-size:14px;font-weight:600}
+.steps{display:flex;align-items:center;gap:10px}
+.step{width:132px;border:1px solid var(--p-line);border-radius:12px;overflow:hidden;position:relative}
+.step .photo{height:96px;font-size:56px;border-radius:0}
+.step em{display:block;font-style:normal;font-size:13px;font-weight:700;padding:6px 10px}
+.step i{position:absolute;top:6px;left:6px;width:24px;height:24px;border-radius:50%;background:#fff;font-style:normal;font-size:13px;font-weight:800;display:grid;place-items:center;color:var(--p-ink-2)}
+.chev{color:var(--p-ink-2);font-size:22px}
+.empty-tip{margin-top:16px;border:2px dashed var(--p-line);border-radius:16px;padding:22px;color:var(--p-ink-2);font-size:15px;text-align:center}
+
+</style>
+</head>
+<body>
+<!-- Ikony (stroke, 3px). W aplikacji zastąpić Material Symbols Rounded lub własnymi VectorDrawable. -->
+<svg width="0" height="0" style="position:absolute">
+    <symbol id="i-star" viewBox="0 0 48 48"><path d="M24 6l5.3 11.2 12.2 1.5-9 8.4 2.3 12.1L24 33.3 13.2 39.2l2.3-12.1-9-8.4 12.2-1.5z"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 48 48"><path d="M10 17h26l-7-7M38 31H12l7 7"/></symbol>
+  <symbol id="g-mem" viewBox="0 0 96 96"><rect x="14" y="22" width="38" height="52" rx="8" transform="rotate(-9 33 48)"/><rect x="44" y="22" width="38" height="52" rx="8" transform="rotate(7 63 48)"/><path d="M63 40l2.6 5.4 5.9.8-4.3 4 1.1 5.8-5.3-2.9-5.2 2.9 1-5.8-4.3-4 5.9-.8z"/></symbol>
+  <symbol id="g-puz" viewBox="0 0 96 96"><path d="M22 30h15a9 9 0 1 1 18 0h15v15a9 9 0 1 1 0 18v15H55a9 9 0 1 0-18 0H22z"/></symbol>
+  <symbol id="g-soon" viewBox="0 0 96 96"><circle cx="48" cy="48" r="28" stroke-dasharray="6 8"/><path d="M48 36v24M36 48h24"/></symbol>
+  
+  <symbol id="g-where" viewBox="0 0 96 96"><circle cx="42" cy="42" r="22"/><path d="M58 58l18 18"/><path d="M34 40a8 8 0 0 1 8-8"/></symbol>
+  <symbol id="g-peek" viewBox="0 0 96 96"><rect x="22" y="16" width="52" height="66" rx="8"/><path d="M48 16v66"/><circle cx="41" cy="50" r="3"/><circle cx="55" cy="50" r="3"/></symbol>
+  <symbol id="g-scratch" viewBox="0 0 96 96"><rect x="16" y="22" width="64" height="52" rx="10"/><path d="M28 60c8-10 14-4 20-12s12-6 20-14"/></symbol>
+  <symbol id="g-sort" viewBox="0 0 96 96"><path d="M18 46h60l-7 30H25z"/><path d="M34 46l10-22M62 46L52 24"/></symbol>
+  <symbol id="g-odd" viewBox="0 0 96 96"><rect x="12" y="38" width="20" height="20" rx="4"/><rect x="38" y="38" width="20" height="20" rx="4"/><circle cx="74" cy="48" r="11"/></symbol>
+  <symbol id="g-smemo" viewBox="0 0 96 96"><rect x="16" y="20" width="40" height="56" rx="8"/><path d="M28 42h6l8-7v26l-8-7h-6z"/><path d="M66 38a12 12 0 0 1 0 20M74 30a22 22 0 0 1 0 36"/></symbol>
+  <symbol id="g-bubble" viewBox="0 0 96 96"><circle cx="40" cy="54" r="22"/><circle cx="68" cy="30" r="12"/><path d="M30 46a10 10 0 0 1 8-6"/></symbol>
+  <symbol id="g-xylo" viewBox="0 0 96 96"><rect x="14" y="22" width="12" height="52" rx="5"/><rect x="32" y="28" width="12" height="40" rx="5"/><rect x="50" y="33" width="12" height="30" rx="5"/><rect x="68" y="38" width="12" height="20" rx="5"/></symbol>
+  <symbol id="g-seq" viewBox="0 0 96 96"><rect x="10" y="36" width="20" height="24" rx="5"/><rect x="38" y="36" width="20" height="24" rx="5"/><rect x="66" y="36" width="20" height="24" rx="5"/><path d="M30 48h8M58 48h8"/></symbol>
+  <symbol id="g-count" viewBox="0 0 96 96"><circle cx="24" cy="36" r="7"/><circle cx="48" cy="36" r="7"/><circle cx="72" cy="36" r="7"/><path d="M20 62h56M32 70l-6-8 6-8M64 70l6-8-6-8"/></symbol>
+  <symbol id="g-color" viewBox="0 0 96 96"><path d="M62 16l18 18-34 34-18-18z"/><path d="M28 50c-8 2-12 10-12 22 10 0 20-4 22-12"/></symbol>
+  <symbol id="i-seq" viewBox="0 0 48 48"><rect x="6" y="18" width="10" height="12" rx="3"/><rect x="19" y="18" width="10" height="12" rx="3"/><rect x="32" y="18" width="10" height="12" rx="3"/></symbol>
+  <symbol id="i-game" viewBox="0 0 48 48"><rect x="8" y="8" width="13" height="13" rx="3"/><rect x="27" y="8" width="13" height="13" rx="3"/><rect x="8" y="27" width="13" height="13" rx="3"/><circle cx="33.5" cy="33.5" r="6.5"/></symbol>
+  <symbol id="i-note" viewBox="0 0 48 48"><path d="M18 36V12l20-4v24"/><circle cx="13" cy="36" r="5"/><circle cx="33" cy="32" r="5"/></symbol>
+  <symbol id="i-next" viewBox="0 0 48 48"><path d="M18 10l14 14-14 14"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 48 48"><path d="M14 20h18a8 8 0 0 1 0 16H20"/><path d="M20 12l-8 8 8 8"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 48 48"><path d="M10 14h28M18 14V9h12v5M14 14l2 25h16l2-25"/></symbol>
+  <symbol id="i-back" viewBox="0 0 48 48"><path d="M28 10 L14 24 L28 38"/></symbol>
+  <symbol id="i-home" viewBox="0 0 48 48"><path d="M8 22 L24 9 L40 22 V39 H29 V29 H19 V39 H8Z"/></symbol>
+  <symbol id="i-restart" viewBox="0 0 48 48"><path d="M10 24a14 14 0 1 0 4-10"/><path d="M10 8 V16 H18"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 48 48"><rect x="11" y="21" width="26" height="19" rx="4"/><path d="M16 21v-5a8 8 0 0 1 16 0v5"/></symbol>
+  <symbol id="i-vol" viewBox="0 0 48 48"><path d="M9 19h7l10-8v26l-10-8H9z"/><path d="M32 18a8 8 0 0 1 0 12"/><path d="M36 13a14 14 0 0 1 0 22"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 48 48"><path d="M18 33h12M20 39h8"/><path d="M24 7a11 11 0 0 0-6 20v4h12v-4a11 11 0 0 0-6-20z"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 48 48"><rect x="6" y="14" width="36" height="26" rx="5"/><circle cx="24" cy="27" r="7"/><path d="M17 14l3-5h8l3 5"/></symbol>
+  <symbol id="i-img" viewBox="0 0 48 48"><rect x="7" y="9" width="34" height="30" rx="5"/><circle cx="17" cy="19" r="3.5"/><path d="M7 33l10-9 8 7 6-5 10 8"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 48 48"><rect x="18" y="6" width="12" height="22" rx="6"/><path d="M11 23a13 13 0 0 0 26 0M24 36v6"/></symbol>
+  <symbol id="i-play" viewBox="0 0 48 48"><path d="M16 10 L37 24 L16 38Z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 48 48"><circle cx="24" cy="24" r="6"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6M11 11l4 4M33 33l4 4M11 37l4-4M33 15l4-4"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 48 48"><path d="M24 8v22M15 21l9 9 9-9M9 38h30"/></symbol>
+  <symbol id="i-exit" viewBox="0 0 48 48"><path d="M20 8H10v32h10M30 15l9 9-9 9M39 24H19"/></symbol>
+  <symbol id="i-x" viewBox="0 0 48 48"><path d="M13 13l22 22M35 13L13 35"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path d="M24 6l15 6v11c0 9-6 16-15 19C15 39 9 32 9 23V12z"/><path d="M17 24l5 5 9-10"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 48 48"><path d="M8 40h32M14 34V22M24 34V12M34 34V26"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 48 48"><path d="M6 14a4 4 0 0 1 4-4h9l4 5h15a4 4 0 0 1 4 4v17a4 4 0 0 1-4 4H10a4 4 0 0 1-4-4z"/></symbol>
+  <symbol id="i-rot" viewBox="0 0 48 48"><path d="M36 24a12 12 0 1 1-4-9"/><path d="M34 7v8h-8"/></symbol>
+  <symbol id="i-check" viewBox="0 0 48 48"><path d="M10 25l9 9 19-20"/></symbol>
+  <symbol id="i-key" viewBox="0 0 48 48"><circle cx="16" cy="30" r="8"/><path d="M22 24L38 8M32 14l5 5M28 18l4 4"/></symbol>
+</svg>
+
+<header class="doc-head">
+  <h1>FamilyGames — makiety ekranów v2</h1>
+  <p>Tablet, orientacja pozioma, kadr 1280×800 dp (referencja: 10–11" tablet). Wersja stonowana: neutralne tło, jeden przygaszony akcent (szałwia), ikony liniowe — kolor wnoszą wyłącznie zdjęcia. Strefa dziecka (S01–S07) opiera się na dużych elementach i ikonach zamiast tekstu. Strefa rodzica (S08–S11) ma spokojny, „dorosły” styl. Emoji i grafika domku to wyłącznie placeholdery dla zdjęć rodzinnych. Szczegóły zachowań: <code>docs/03_SCREENS_AND_UX.md</code>.</p>
+  <nav class="toc">
+    <a href="#s01">S01 Menu</a><a href="#s02">S02 Poziomy</a><a href="#s03">S03 Memorki</a><a href="#s04">S04 Wygrana</a><a href="#s05">S05 Wybór obrazka</a><a href="#s06">S06 Puzzle Snap</a><a href="#s07">S07 Puzzle Swap</a><a href="#s08">S08 Bramka rodzica</a><a href="#s09">S09 Zdjęcia</a><a href="#s10">S10 Dodaj zdjęcie</a><a href="#s11">S11 Ustawienia</a><a href="#s16">S15–S28 Nowe gry</a>
+  </nav>
+</header>
+
+<!-- ============ S01 MENU ============ -->
+<section class="spec" id="s01-wrap">
+<h2>S01 · Menu główne <small>route: <code>menu</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s01">
+  <div class="btn-round small tl" style="opacity:.55"><svg class="i"><use href="#i-lock"/></svg></div>
+  <div class="btn-round small tr"><svg class="i"><use href="#i-vol"/></svg></div>
+  <div class="logo">Family <em>Games</em></div>
+  <div class="game-tiles">
+    <div class="tile mem"><div class="ico"><svg><use href="#g-mem"/></svg></div><div class="name">Memorki</div></div>
+    <div class="tile puz"><div class="ico"><svg><use href="#g-puz"/></svg></div><div class="name">Puzzle</div></div>
+    <div class="tile soon"><div class="ico"><svg><use href="#g-soon"/></svg></div><div class="name" style="font-size:30px">Wkrótce</div></div>
+  </div>
+</div></div>
+<div class="notes"><ul>
+<li><b>Kafle gier</b> 340×400 dp, cały kafel klikalny. Tap → cichy dźwięk „tap” + skalowanie 0.97 → nawigacja do S02 (Memorki) lub S05 (Puzzle).</li>
+<li><b>Kafel „Wkrótce”</b> nieaktywny (tylko delikatne potrząśnięcie przy tapnięciu). Generowany z rejestru gier (<code>GameRegistry</code>) – nowe gry pojawiają się automatycznie.</li>
+<li><b>Kłódka (lewy górny róg)</b> celowo mała i półprzezroczysta. Wymaga <b>przytrzymania 3 s</b> (pierścień postępu) → S08. Zwykły tap nic nie robi.</li>
+<li><b>Głośność</b> – przełącza dźwięki gry (nie systemową głośność). Stan w DataStore.</li>
+</ul></div>
+</section>
+
+<!-- ============ S02 LEVELS ============ -->
+<section class="spec" id="s02-wrap">
+<h2>S02 · Wybór poziomu (Memorki) <small>route: <code>memory/levels</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s02">
+  <div class="btn-round tl"><svg class="i"><use href="#i-back"/></svg></div>
+  <div class="title">Wybierz poziom</div>
+  <div class="levels">
+    <div class="lvl"><div class="num">1</div><div class="mini" style="grid-template-columns:repeat(2,34px)"><i></i><i></i><i></i><i></i></div><div class="cnt">4 karty</div><div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg></div></div>
+    <div class="lvl sel"><div class="num">2</div><div class="mini" style="grid-template-columns:repeat(3,34px)"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="cnt">6 kart</div><div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg class="off"><use href="#i-star"/></svg></div></div>
+    <div class="lvl"><div class="num">3</div><div class="mini" style="grid-template-columns:repeat(4,34px)"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="cnt">8 kart</div><div class="stars"><svg class="off"><use href="#i-star"/></svg><svg class="off"><use href="#i-star"/></svg><svg class="off"><use href="#i-star"/></svg></div></div>
+    <div class="lvl locked"><div class="num">4</div><div class="mini" style="grid-template-columns:repeat(4,34px)"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="cnt">12 kart</div><div class="lock"><svg class="i"><use href="#i-lock"/></svg></div></div>
+  </div>
+  <div class="cats">
+    <div class="cat sel"><div class="th g1 emoji">🏠</div>Nasz dom</div>
+    <div class="cat"><div class="th g4 emoji">👨‍👩‍👧</div>Rodzina</div>
+    <div class="cat"><div class="th g3 emoji">🐾</div>Zwierzęta</div>
+  </div>
+</div></div>
+<div class="notes"><ul>
+<li><b>4 poziomy</b>: 2×2, 2×3, 2×4, 3×4 (wg specyfikacji 4.2). Podgląd siatki jako szare kwadraciki (akcent na wybranym) – dziecko „liczy” wizualnie.</li>
+<li><b>Odblokowanie</b>: poziom N+1 odblokowany po ukończeniu N (min. 1 gwiazdka). Rodzic może w ustawieniach wyłączyć blokady.</li>
+<li><b>Gwiazdki</b>: najlepszy wynik z <code>GameResultEntity</code> (reguła w docs/04).</li>
+<li><b>Kategorie</b> = pakiety zdjęć z Room. Miniatura = okładka kategorii. Kategoria z za małą liczbą zdjęć dla danego poziomu → poziom wyszarzony (bez kłódki, z ikoną 📷).</li>
+<li>Wybranie poziomu = start gry od razu (bez przycisku „Start”).</li>
+</ul></div>
+</section>
+
+<!-- ============ S03 MEMORY ============ -->
+<section class="spec" id="s03-wrap">
+<h2>S03 · Gra Memorki (poziom 3: 2×4) <small>route: <code>memory/play/{level}/{categoryId}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s03">
+  <div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div>
+  <div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div>
+  <div class="pairs"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+  <div class="grid-mem">
+    <div class="card"><div class="back"><svg class="cb"><use href="#i-star"/></svg></div></div>
+    <div class="card match"><div class="front"><div class="photo g1 emoji">🐱</div><div class="cap">Kot Filemon</div></div></div>
+    <div class="card"><div class="back"><svg class="cb"><use href="#i-star"/></svg></div></div>
+    <div class="card flip"><div class="front"><div class="photo g2 emoji">🛋️</div><div class="cap">Kanapa</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g3 emoji">🐶</div><div class="cap">Pies Reksio</div></div></div>
+    <div class="card"><div class="back"><svg class="cb"><use href="#i-star"/></svg></div></div>
+    <div class="card match"><div class="front"><div class="photo g1 emoji">🐱</div><div class="cap">Kot Filemon</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g3 emoji">🐶</div><div class="cap">Pies Reksio</div></div></div>
+  </div>
+</div></div>
+<div class="notes"><ul>
+<li><b>Licznik par</b> (góra, środek): kropki wypełniają się kolorem akcentu po każdej parze.</li>
+<li><b>Karta</b>: tył = jasny, neutralny wzór kropek + konturowa gwiazdka; przód = zdjęcie + podpis (podpis opcjonalny, ustawienie rodzica). Obrót <code>graphicsLayer { rotationY }</code>, 350 ms; karta 4 (Kanapa) pokazana w trakcie obrotu.</li>
+<li><b>Para trafiona</b>: obwódka w kolorze akcentu + ✓, delikatny dźwięk, subtelne konfetti, odtworzenie nagrania głosowego rodzica (jeśli istnieje). Karty zostają odkryte.</li>
+<li><b>Para chybiona</b>: obie karty z miodową (nie czerwoną!) obwódką na 1000 ms, potem zakrycie. Brak „negatywnych” dźwięków. Wejście zablokowane w tym czasie.</li>
+<li><b>Dom</b> → wraca do S01 bez pytania (gra się nie zapisuje). <b>Restart</b> → nowe tasowanie.</li>
+</ul></div>
+</section>
+
+<!-- ============ S04 WIN ============ -->
+<section class="spec" id="s04-wrap">
+<h2>S04 · Ekran sukcesu (wspólny dla wszystkich gier) <small>overlay: <code>WinOverlay</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s04">
+  <div class="grid-mem" style="filter:blur(3px)">
+    <div class="card match"><div class="front"><div class="photo g1 emoji">🐱</div><div class="cap">Kot</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g2 emoji">🛋️</div><div class="cap">Kanapa</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g4 emoji">🧸</div><div class="cap">Miś</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g3 emoji">🐶</div><div class="cap">Pies</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g3 emoji">🐶</div><div class="cap">Pies</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g4 emoji">🧸</div><div class="cap">Miś</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g1 emoji">🐱</div><div class="cap">Kot</div></div></div>
+    <div class="card match"><div class="front"><div class="photo g2 emoji">🛋️</div><div class="cap">Kanapa</div></div></div>
+  </div>
+  <div class="dim"></div>
+  <div class="confetti" id="conf"></div>
+  <div class="win">
+    <div class="badge-win"><svg><use href="#i-star"/></svg></div>
+    <h3>Brawo!</h3>
+    <div class="stars"><svg><use href="#i-star"/></svg><svg><use href="#i-star"/></svg><svg class="off"><use href="#i-star"/></svg></div>
+    <div class="row">
+      <div class="bigbtn go"><svg class="i"><use href="#i-restart"/></svg></div>
+      <div class="bigbtn home"><svg class="i"><use href="#i-home"/></svg></div>
+    </div>
+  </div>
+</div></div>
+<div class="notes"><ul>
+<li>Pojawia się 600 ms po ostatniej parze / ostatnim fragmencie. Delikatne konfetti w kolorach palety (Compose Canvas, ~40 cząstek, 2 s) + krótka melodyjka.</li>
+<li>Gwiazdki „wskakują” po kolei (stagger 250 ms) z dźwiękiem „ding”.</li>
+<li><b>Tylko 2 przyciski bez tekstu</b>: wypełniony (akcent) = zagraj ponownie (ten sam poziom, nowe tasowanie), obrysowany = menu. Brak „Następny poziom” w v1 (decyzja rodzica przez S02).</li>
+<li>Overlay jest komponentem wspólnym (<code>presentation/common/WinOverlay.kt</code>) – używają go Memorki i Puzzle.</li>
+</ul></div>
+</section>
+
+<!-- ============ S05 PUZZLE CHOOSE ============ -->
+<section class="spec" id="s05-wrap">
+<h2>S05 · Puzzle – wybór obrazka i trudności <small>route: <code>puzzle/setup</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s05">
+  <div class="btn-round tl"><svg class="i"><use href="#i-back"/></svg></div>
+  <div class="title">Wybierz obrazek</div>
+  <div class="pics">
+    <div class="pic sel"><div class="photo" style="background:url(assets/scene.svg) center/cover"></div></div>
+    <div class="pic"><div class="photo g1 emoji">🐱</div></div>
+    <div class="pic"><div class="photo g4 emoji">🧸</div></div>
+    <div class="pic"><div class="photo g2 emoji">🛋️</div></div>
+    <div class="pic"><div class="photo g3 emoji">🐶</div></div>
+    <div class="pic"><div class="photo g5 emoji">🚗</div></div>
+  </div>
+  <div class="diff">
+    <div class="dbtn sel"><div class="mini" style="grid-template-columns:repeat(2,20px)"><i></i><i></i><i></i><i></i></div>Dopasuj</div>
+    <div class="dbtn"><div class="mini" style="grid-template-columns:repeat(3,20px)"><i></i><i></i><i></i><i></i><i></i><i></i></div>Dopasuj</div>
+    <div class="dbtn"><div class="mini" style="grid-template-columns:repeat(2,20px)"><i></i><i></i><i></i><i></i></div><svg class="i swp"><use href="#i-swap"/></svg></div>
+    <div class="dbtn"><div class="mini" style="grid-template-columns:repeat(3,20px)"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><svg class="i swp"><use href="#i-swap"/></svg></div>
+  </div>
+</div></div>
+<div class="notes"><ul>
+<li><b>Obrazki</b>: zdjęcia z kategorii oznaczonych „do puzzli” (domyślnie wszystkie). Proporcja 4:3, jeśli rodzic kadrował 4:3; zdjęcia 1:1 są dopasowywane (crop-center) do 4:3.</li>
+<li><b>Trudność</b> (4 przyciski): Snap 2×2, Snap 2×3, Swap 2×2, Swap 3×3. Tekst „Dopasuj” jest pomocniczy dla rodzica – dziecko rozróżnia po ikonach.</li>
+<li>Tap w obrazek przy już wybranej trudności = start gry (S06 lub S07). Ostatni wybór trudności zapamiętany w DataStore.</li>
+</ul></div>
+</section>
+
+<!-- ============ S06 PUZZLE SNAP ============ -->
+<section class="spec" id="s06-wrap">
+<h2>S06 · Puzzle – tryb Snap (przeciągnij i upuść) <small>route: <code>puzzle/snap/{photoId}/{rows}x{cols}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s06">
+  <div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div>
+  <div class="btn-round tr"><svg class="i"><use href="#i-bulb"/></svg></div>
+  <div class="board" style="top:150px;left:96px;width:768px;height:604px"><div class="inner" id="snapInner"></div></div>
+  <div class="tray" id="tray"></div>
+</div></div>
+<div class="notes"><ul>
+<li><b>Plansza</b> 4:3 z „ghost image” (alpha 0.22) i przerywanymi obrysami pól. Fragment lewy-górny już ułożony.</li>
+<li><b>Tacka</b> po prawej: pozostałe fragmenty w losowej kolejności, pomniejszone do 70%. Podczas przeciągania fragment rośnie do 100%, przechyla się (−4°) i rzuca cień.</li>
+<li><b>Magnes</b>: gdy środek fragmentu jest &lt; 40 dp (konfigurowalne, <code>SNAP_DISTANCE_DP</code>) od środka <i>właściwego</i> pola – pole podświetla się kolorem akcentu; puszczenie = animacja dosunięcia (spring) + „klik”.</li>
+<li><b>Złe miejsce</b>: fragment płynnie wraca na tackę (bez dźwięku błędu).</li>
+<li><b>Żarówka</b>: na 2 s podnosi alpha ghost image do 0.6 i pulsuje właściwe pole dla losowego fragmentu z tacki.</li>
+</ul></div>
+</section>
+
+<!-- ============ S07 PUZZLE SWAP ============ -->
+<section class="spec" id="s07-wrap">
+<h2>S07 · Puzzle – tryb Swap (zamiana kafelków) <small>route: <code>puzzle/swap/{photoId}/{n}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s07">
+  <div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div>
+  <div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div>
+  <div class="swapgrid" id="swap"></div>
+  <div class="ref"><div class="img"></div><p>Tak ma wyglądać</p></div>
+</div></div>
+<div class="notes"><ul>
+<li><b>Interakcja</b>: tap kafelka = zaznaczenie (ramka w kolorze akcentu + lekkie uniesienie). Sąsiednie kafelki (góra/dół/lewo/prawo) dostają jasną obwódkę. Tap sąsiada = zamiana z animacją 250 ms. Tap gdzie indziej = zmiana zaznaczenia.</li>
+<li>Opcjonalnie (ustawienie): zamiana także przeciągnięciem (swipe) w stronę sąsiada.</li>
+<li>Kafelek na właściwym miejscu dostaje małą kropkę w kolorze akcentu – dziecko widzi postęp.</li>
+<li><b>Tasowanie</b>: losowa permutacja z min. 60% kafelków na złych miejscach; nigdy rozwiązana na starcie (docs/05).</li>
+<li>Podgląd „Tak ma wyglądać” zawsze widoczny po prawej.</li>
+</ul></div>
+</section>
+
+<!-- ============ S08 PARENT GATE ============ -->
+<section class="spec" id="s08-wrap">
+<h2>S08 · Bramka rodzica (Parental Gate) <small>dialog: <code>ParentGateDialog</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s08">
+  <div class="blur">
+    <div class="logo">Family <em>Games</em></div>
+    <div class="game-tiles">
+      <div class="tile mem"><div class="ico"><svg><use href="#g-mem"/></svg></div><div class="name">Memorki</div></div>
+      <div class="tile puz"><div class="ico"><svg><use href="#g-puz"/></svg></div><div class="name">Puzzle</div></div>
+      <div class="tile soon"><div class="ico"><svg><use href="#g-soon"/></svg></div><div class="name">Wkrótce</div></div>
+    </div>
+  </div>
+  <div class="dim" style="background:rgba(20,18,36,.55)"></div>
+  <div class="gate">
+    <div class="xbtn"><svg class="i"><use href="#i-x"/></svg></div>
+    <h3><svg class="i" style="width:34px;height:34px;color:var(--p-accent);stroke-width:2.6"><use href="#i-shield"/></svg>Strefa rodzica</h3>
+    <p>Rozwiąż zadanie, aby przejść dalej.</p>
+    <div class="seg"><span class="on">Zadanie</span><span>Kod PIN</span></div>
+    <div class="q">7 × 3 = ?</div>
+    <div class="ans"><b>18</b><b>21</b><b>24</b><b>27</b></div>
+    <div class="foot"><span>Pozostałe próby: 3</span><span>Zamknie się za 0:28</span></div>
+  </div>
+</div></div>
+<div class="notes"><ul>
+<li><b>Wejście</b>: przytrzymanie kłódki 3 s (S01) lub próba wyjścia (Back/gesty są i tak zablokowane w Lock Task).</li>
+<li><b>Zadanie</b>: losowe mnożenie 2–9 × 2–9 (poza zasięgiem malucha), 4 odpowiedzi. Tryb <b>PIN</b>: 4 cyfry, klawiatura numeryczna w dialogu, PIN zapisany jako hash (PBKDF2 + sól) w DataStore.</li>
+<li>3 błędne próby → blokada 60 s. Brak interakcji 30 s → dialog się zamyka.</li>
+<li>Domyślnie: zadanie aktywne zawsze, PIN wymagany dodatkowo dla akcji krytycznych: <b>wyjście z kiosku</b> i <b>zmiana PIN</b> (docs/06).</li>
+</ul></div>
+</section>
+
+<!-- ============ S09 PARENT PHOTOS ============ -->
+<section class="spec" id="s09-wrap">
+<h2>S09 · Panel rodzica – Zdjęcia i kategorie <small>route: <code>parent/photos</code></small></h2>
+<div class="scaler"><div class="screen pp" id="s09">
+  <aside class="side">
+    <div class="brand"><span class="dot"></span>FamilyGames <small>RODZIC</small></div>
+    <nav class="nav">
+      <a class="on"><svg class="i"><use href="#i-img"/></svg>Zdjęcia</a>
+      <a><svg class="i"><use href="#i-folder"/></svg>Kategorie</a>
+      <a><svg class="i"><use href="#i-chart"/></svg>Postępy</a>
+      <a><svg class="i"><use href="#i-gear"/></svg>Ustawienia</a>
+      <div class="sep"></div>
+      <a><svg class="i"><use href="#i-back"/></svg>Wróć do gier</a>
+      <a class="danger"><svg class="i"><use href="#i-exit"/></svg>Wyjdź z kiosku</a>
+    </nav>
+    <div class="ver">Wersja 1.2.0 (10200)</div>
+  </aside>
+  <main class="main">
+    <div class="mh">
+      <div><h3>Zdjęcia</h3><div class="sub">Kategoria „Nasz dom” · 8 zdjęć</div></div>
+      <div style="display:flex;gap:12px"><span class="pbtn"><svg class="i"><use href="#i-img"/></svg>Z galerii</span><span class="pbtn pri"><svg class="i"><use href="#i-cam"/></svg>Zrób zdjęcie</span></div>
+    </div>
+    <div class="chips"><span class="chip on">Nasz dom · 8</span><span class="chip">Rodzina · 11</span><span class="chip">Zwierzęta · 5</span><span class="chip add">+ Nowa kategoria</span></div>
+    <div class="info"><svg class="i" style="width:22px;height:22px;stroke-width:2.6"><use href="#i-check"/></svg>Wystarczy na wszystkie poziomy Memorków (najtrudniejszy wymaga 6 zdjęć).</div>
+    <div class="pgrid">
+      <div class="pc"><div class="photo g2 emoji">🛋️</div><div class="meta">Kanapa<span><svg class="i"><use href="#i-mic"/></svg></span></div></div>
+      <div class="pc"><div class="photo g1 emoji">🐱</div><div class="meta">Kot Filemon<span><svg class="i"><use href="#i-mic"/></svg></span></div></div>
+      <div class="pc"><div class="photo g4 emoji">🧸</div><div class="meta">Miś<span></span></div></div>
+      <div class="pc"><div class="photo g5 emoji">🚗</div><div class="meta">Auto taty<span><svg class="i"><use href="#i-mic"/></svg></span></div></div>
+      <div class="pc"><div class="photo g3 emoji">🪴</div><div class="meta">Kwiatek<span></span></div></div>
+      <div class="pc"><div class="photo g6 emoji">🛁</div><div class="meta">Wanna<span></span></div></div>
+      <div class="pc"><div class="photo g2 emoji">🍎</div><div class="meta">Jabłko<span><svg class="i"><use href="#i-mic"/></svg></span></div></div>
+      <div class="pc"><div class="photo" style="background:url(assets/scene.svg) center/cover"></div><div class="meta">Nasz dom<span class="pill">okładka</span></div></div>
+      <div class="pc new">+ Dodaj zdjęcie</div>
+    </div>
+  </main>
+</div></div>
+<div class="notes"><ul>
+<li>Strefa rodzica: <b>inny styl wizualny</b> (Nunito, neutralne kolory) – rodzic od razu widzi, że jest „poza grą”.</li>
+<li><b>Z galerii</b> → systemowy Photo Picker (<code>PickMultipleVisualMedia</code>, bez uprawnień do pamięci). <b>Zrób zdjęcie</b> → <code>TakePicture</code> + FileProvider. Oba prowadzą do S10.</li>
+<li>Tap w kartę zdjęcia → S10 w trybie edycji (zmiana etykiety, nagrania, kategorii, usunięcie). Długie przytrzymanie → zaznaczanie wielu (przenieś / usuń).</li>
+<li>Pasek informacyjny liczy, czy kategoria wystarcza na poziomy (6 par dla 3×4). Gdy nie – komunikat w kolorze miodowym.</li>
+<li>Ikona mikrofonu = zdjęcie ma nagranie głosu.</li>
+</ul></div>
+</section>
+
+<!-- ============ S10 ADD PHOTO ============ -->
+<section class="spec" id="s10-wrap">
+<h2>S10 · Dodawanie zdjęcia – kadrowanie, etykieta, głos <small>route: <code>parent/photo/edit?id=</code></small></h2>
+<div class="scaler"><div class="screen pp" id="s10">
+  <div style="position:absolute;top:28px;left:36px;right:36px" class="mh">
+    <div style="display:flex;align-items:center;gap:16px"><span class="pbtn" style="width:52px;padding:0;justify-content:center"><svg class="i"><use href="#i-back"/></svg></span><div><h3>Nowe zdjęcie</h3></div></div>
+    <div style="display:flex;gap:12px"><span class="seg" style="margin:0"><span class="on">1:1</span><span>4:3</span></span><span class="pbtn"><svg class="i"><use href="#i-rot"/></svg>Obróć</span></div>
+  </div>
+  <div class="crop"><div class="img"></div><div class="frame">
+    <i class="h" style="left:-5px;top:-5px;border-right:0;border-bottom:0"></i><i class="h" style="right:-5px;top:-5px;border-left:0;border-bottom:0"></i>
+    <i class="h" style="left:-5px;bottom:-5px;border-right:0;border-top:0"></i><i class="h" style="right:-5px;bottom:-5px;border-left:0;border-top:0"></i>
+  </div></div>
+  <div style="position:absolute;top:676px;left:36px;width:560px;text-align:center;color:var(--p-ink-2);font-size:14px">Przesuń i przybliż dwoma palcami</div>
+  <div class="form">
+    <div class="lbl">Etykieta (podpis karty)</div>
+    <div class="inp focus">Nasz dom<span style="color:var(--p-ink-2);font-size:14px">8/24</span></div>
+    <div class="lbl" style="margin-top:22px">Kategoria</div>
+    <div class="inp">Nasz dom<span style="color:var(--p-ink-2)">▾</span></div>
+    <div class="lbl" style="margin-top:22px">Nagranie głosu (opcjonalne)</div>
+    <div class="rec">
+      <div class="recbtn"><i></i></div>
+      <div class="wave" id="wave"></div>
+      <b style="font-size:18px">0:03</b>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px"><span class="pbtn"><svg class="i"><use href="#i-play"/></svg>Odsłuchaj</span><span class="pbtn">Nagraj ponownie</span></div>
+    <div class="lbl" style="margin-top:22px">Używaj w grach</div>
+    <div style="display:flex;gap:18px;font-weight:700;font-size:15px"><span style="display:flex;gap:8px;align-items:center"><span class="tog"></span>Memorki</span><span style="display:flex;gap:8px;align-items:center"><span class="tog"></span>Puzzle</span></div>
+    <div style="position:absolute;left:26px;right:26px;bottom:26px;display:flex;gap:12px;justify-content:flex-end"><span class="pbtn">Anuluj</span><span class="pbtn pri"><svg class="i"><use href="#i-check"/></svg>Zapisz zdjęcie</span></div>
+  </div>
+</div></div>
+<div class="notes"><ul>
+<li><b>Kadrowanie</b> własnym komponentem Compose (pan + pinch-zoom pod stałą ramką), proporcje 1:1 lub 4:3, obrót o 90°. Wynik: JPEG q=85, dłuższy bok max 1600 px, zapis do <code>filesDir/photos/{uuid}.jpg</code> + miniatura 400 px.</li>
+<li><b>Etykieta</b> max 24 znaki. Pole wymagane? Nie – pusta etykieta = brak podpisu na karcie.</li>
+<li><b>Nagranie</b>: przycisk nagrywania (tap start / tap stop, limit 8 s), <code>MediaRecorder</code> AAC → <code>filesDir/audio/{uuid}.m4a</code>. Uprawnienie <code>RECORD_AUDIO</code> pytane dopiero przy pierwszym użyciu.</li>
+<li>Przy wyborze wielu zdjęć z galerii ekran działa jak „kreator” (1/5, 2/5…) z przyciskiem „Pomiń”.</li>
+</ul></div>
+</section>
+
+<!-- ============ S11 SETTINGS ============ -->
+<section class="spec" id="s11-wrap">
+<h2>S11 · Panel rodzica – Ustawienia, kiosk i aktualizacje <small>route: <code>parent/settings</code></small></h2>
+<div class="scaler"><div class="screen pp" id="s11">
+  <aside class="side">
+    <div class="brand"><span class="dot"></span>FamilyGames <small>RODZIC</small></div>
+    <nav class="nav">
+      <a><svg class="i"><use href="#i-img"/></svg>Zdjęcia</a>
+      <a><svg class="i"><use href="#i-folder"/></svg>Kategorie</a>
+      <a><svg class="i"><use href="#i-chart"/></svg>Postępy</a>
+      <a class="on"><svg class="i"><use href="#i-gear"/></svg>Ustawienia</a>
+      <div class="sep"></div>
+      <a><svg class="i"><use href="#i-back"/></svg>Wróć do gier</a>
+      <a class="danger"><svg class="i"><use href="#i-exit"/></svg>Wyjdź z kiosku</a>
+    </nav>
+    <div class="ver">Wersja 1.2.0 (10200)</div>
+  </aside>
+  <main class="main">
+    <div class="mh"><div><h3>Ustawienia</h3><div class="sub">Tablet: Galaxy Tab A9+ · Android 15</div></div></div>
+    <div class="cards2">
+      <div class="pcard">
+        <h4><svg class="i"><use href="#i-dl"/></svg>Aktualizacje</h4>
+        <div class="kv"><span>Zainstalowana</span><b>1.2.0 (10200)</b></div>
+        <div class="kv"><span>Dostępna</span><b class="ok">1.3.0 (10300)</b></div>
+        <div class="bar"><i></i></div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;color:var(--p-ink-2);font-weight:600"><span>Pobieranie… 11,2 / 17,5 MB</span><span>SHA-256: weryfikacja po pobraniu</span></div>
+        <div class="chlog" style="margin-top:12px">• Nowy poziom Memorków 3×4<br>• Szybsze ładowanie zdjęć<br>• Poprawka: dźwięk po wybudzeniu</div>
+        <div class="kv" style="margin-top:8px"><span>Sprawdzaj przy starcie</span><span class="tog"></span></div>
+        <div class="kv"><span>Tylko przez Wi-Fi</span><span class="tog"></span></div>
+      </div>
+      <div class="pcard">
+        <h4><svg class="i"><use href="#i-shield"/></svg>Tryb kiosku</h4>
+        <div class="kv"><span>Device Owner</span><b class="ok">Aktywny ✓</b></div>
+        <div class="kv"><span>Lock Task</span><b class="ok">Włączony ✓</b></div>
+        <div class="kv"><span>Aplikacja domowa (launcher)</span><b class="ok">Ustawiona ✓</b></div>
+        <div class="kv"><span>Ukryj paski systemowe</span><span class="tog"></span></div>
+        <div class="kv"><span>Ekran zawsze włączony podczas gry</span><span class="tog off"></span></div>
+        <div style="display:flex;gap:10px;margin-top:14px"><span class="pbtn dng"><svg class="i"><use href="#i-exit"/></svg>Wyjdź z kiosku (PIN)</span></div>
+      </div>
+      <div class="pcard">
+        <h4><svg class="i"><use href="#i-key"/></svg>Bezpieczeństwo</h4>
+        <div class="kv"><span>Bramka</span><b>Zadanie + PIN dla akcji krytycznych</b></div>
+        <div class="kv"><span>Kod PIN</span><b>••••</b></div>
+        <div style="margin-top:12px"><span class="pbtn">Zmień PIN</span></div>
+      </div>
+      <div class="pcard">
+        <h4><svg class="i"><use href="#i-vol"/></svg>Gra i dźwięk</h4>
+        <div class="kv"><span>Efekty dźwiękowe</span><span class="tog"></span></div>
+        <div class="kv"><span>Podpisy na kartach</span><span class="tog"></span></div>
+        <div class="kv"><span>Blokady poziomów</span><span class="tog off"></span></div>
+      </div>
+    </div>
+  </main>
+</div></div>
+<div class="notes"><ul>
+<li><b>Aktualizacje</b>: stan z <code>UpdateState</code> (Idle / Checking / Available / Downloading(p) / Verifying / Installing / Error). Instalacja startuje automatycznie po weryfikacji, gdy aplikacja jest Device Ownerem; w przeciwnym razie przycisk „Zainstaluj” otwiera systemowy dialog.</li>
+<li>Aktualizacja nigdy nie przerywa gry dziecka – instalacja odpalana tylko z ekranu menu lub panelu rodzica (docs/07).</li>
+<li><b>Kiosk</b>: statusy liczone na żywo z <code>DevicePolicyManager</code>. Gdy aplikacja NIE jest Device Ownerem – karta pokazuje instrukcję provisioningu (komenda adb) i ostrzeżenie o trybie zastępczym (screen pinning).</li>
+<li><b>Wyjdź z kiosku</b> wymaga PIN-u, wywołuje <code>stopLockTask()</code> i otwiera ustawienia systemu.</li>
+</ul></div>
+</section>
+
+<header class="doc-head" style="margin-top:40px"><h1>Nowe gry · makiety v2.1</h1><p>Ekrany do <code>docs/12_NEW_GAMES.md</code> (milestone M10–M18). Ten sam stonowany design system co v2.</p></header>
+
+<section class="spec" id="s16-wrap">
+<h2>S16 · Menu na wiele gier (M10) <small>route: <code>menu</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s16">
+<div class="btn-round small tl" style="opacity:.55"><svg class="i"><use href="#i-lock"/></svg></div><div class="btn-round small tr"><svg class="i"><use href="#i-vol"/></svg></div><div class="logo" style="top:90px;font-size:52px">Family <em>Games</em></div><div class="menu6"><div class="tile sm mem"><div class="ico"><svg><use href="#g-mem"/></svg></div><div class="name">Memorki</div></div><div class="tile sm puz"><div class="ico"><svg><use href="#g-puz"/></svg></div><div class="name">Puzzle</div></div><div class="tile sm mem"><div class="ico"><svg><use href="#g-where"/></svg></div><div class="name">Gdzie jest?</div></div><div class="tile sm puz"><div class="ico"><svg><use href="#g-peek"/></svg></div><div class="name">A kuku</div></div><div class="tile sm mem"><div class="ico"><svg><use href="#g-scratch"/></svg></div><div class="name">Zdrapka</div></div><div class="tile sm puz"><div class="ico"><svg><use href="#g-sort"/></svg></div><div class="name">Koszyczki</div></div></div><div class="pagedots"><i class="on"></i><i></i></div>
+</div></div>
+<div class="notes"><ul><li><b>&gt; 3 gry</b> → siatka 3×2 (kafle 300×228 dp), <b>&gt; 6</b> → kolejne strony przesuwane poziomo (<code>HorizontalPager</code>), kropki stron na dole.</li><li>Tła kół ikon na zmianę <code>AccentSoft</code> / <code>MistSoft</code> — żadnych nowych kolorów.</li><li>Widoczne są tylko gry pasujące do przedziału wieku i niewyłączone przez rodzica (S17).</li></ul></div>
+</section>
+
+<section class="spec" id="s17-wrap">
+<h2>S17 · Panel rodzica – Gry (M10) <small>route: <code>parent/games</code></small></h2>
+<div class="scaler"><div class="screen pp" id="s17">
+<aside class="side"><div class="brand"><span class="dot"></span>FamilyGames <small>RODZIC</small></div><nav class="nav"><a><svg class="i"><use href="#i-img"/></svg>Zdjęcia</a><a><svg class="i"><use href="#i-folder"/></svg>Kategorie</a><a><svg class="i"><use href="#i-seq"/></svg>Sekwencje</a><a><svg class="i"><use href="#i-chart"/></svg>Postępy</a><a class="on"><svg class="i"><use href="#i-game"/></svg>Gry</a><a><svg class="i"><use href="#i-gear"/></svg>Ustawienia</a><div class="sep"></div><a><svg class="i"><use href="#i-back"/></svg>Wróć do gier</a><a class="danger"><svg class="i"><use href="#i-exit"/></svg>Wyjdź z kiosku</a></nav><div class="ver">Wersja 1.4.0 (10400)</div></aside><main class="main"><div class="mh"><div><h3>Gry</h3><div class="sub">Wybierz, w co dziecko może grać</div></div></div><div class="agecard"><div><b style="font-size:17px">Wiek dziecka</b><div style="color:var(--p-ink-2);font-size:14px;margin-top:2px">Ukrywa gry za trudne lub za łatwe. Każdą grę możesz też włączyć ręcznie.</div></div><span class="seg"><span class="on">1–2,5 roku</span><span>2,5–5 lat</span></span></div><div class="glist"><div class="grow"><div class="gi"><svg><use href="#g-mem"/></svg></div><div class="tx"><b>Memorki</b><span>Odkrywanie par zdjęć</span></div><span class="age">2–5 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-puz"/></svg></div><div class="tx"><b>Puzzle</b><span>Układanie zdjęcia z części</span></div><span class="age">2–5 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-where"/></svg></div><div class="tx"><b>Gdzie jest…?</b><span>Wskaż osobę lub rzecz z pytania</span></div><span class="age">1,5–3 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-peek"/></svg></div><div class="tx"><b>A kuku</b><span>Otwieranie drzwiczek ze zdjęciem</span></div><span class="age">1–2 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-scratch"/></svg></div><div class="tx"><b>Zdrapka</b><span>Ścieranie mgiełki palcem</span></div><span class="age">1,5–3 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-sort"/></svg></div><div class="tx"><b>Do koszyczków</b><span>Sortowanie zdjęć do kategorii</span></div><span class="age">2,5–4 l.</span><span class="tog"></span></div><div class="grow off"><div class="gi"><svg><use href="#g-odd"/></svg></div><div class="tx"><b>Co nie pasuje?</b><span>Znajdź zdjęcie z innej grupy</span></div><span class="age">3–5 l.</span><span class="tog off"></span></div><div class="grow"><div class="gi"><svg><use href="#g-smemo"/></svg></div><div class="tx"><b>Memo dźwiękowe</b><span>Pary dźwięk – zdjęcie</span></div><span class="age">2–4 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-bubble"/></svg></div><div class="tx"><b>Bańki</b><span>Przebijanie baniek ze zdjęciami</span></div><span class="age">1–3 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-xylo"/></svg></div><div class="tx"><b>Cymbałki</b><span>Granie na zdjęciach rodziny</span></div><span class="age">1,5–4 l.</span><span class="tog"></span></div><div class="grow off"><div class="gi"><svg><use href="#g-seq"/></svg></div><div class="tx"><b>Po kolei</b><span>Układanie sekwencji dnia</span></div><span class="age">3–5 l.</span><span class="tog off"></span></div><div class="grow off"><div class="gi"><svg><use href="#g-count"/></svg></div><div class="tx"><b>Ile jest?</b><span>Liczenie do 3 / do 5</span></div><span class="age">3–5 l.</span><span class="tog off"></span></div></div></main>
+</div></div>
+<div class="notes"><ul><li>Nowa pozycja w nawigacji „Gry”. Przedział wieku: <code>child_age_band</code>; przełącznik przy grze: <code>hidden_games</code> / <code>forced_games</code>.</li><li>Gry niepasujące do wieku są wyszarzone, ale można je włączyć (wtedy trafiają do <code>forced_games</code>).</li><li>Lista przewija się pionowo, gdy gier jest więcej niż mieści ekran.</li></ul></div>
+</section>
+
+<section class="spec" id="s15-wrap">
+<h2>S15 · Panel rodzica – Sekwencje (M16) <small>route: <code>parent/sequences</code></small></h2>
+<div class="scaler"><div class="screen pp" id="s15">
+<aside class="side"><div class="brand"><span class="dot"></span>FamilyGames <small>RODZIC</small></div><nav class="nav"><a><svg class="i"><use href="#i-img"/></svg>Zdjęcia</a><a><svg class="i"><use href="#i-folder"/></svg>Kategorie</a><a class="on"><svg class="i"><use href="#i-seq"/></svg>Sekwencje</a><a><svg class="i"><use href="#i-chart"/></svg>Postępy</a><a><svg class="i"><use href="#i-game"/></svg>Gry</a><a><svg class="i"><use href="#i-gear"/></svg>Ustawienia</a><div class="sep"></div><a><svg class="i"><use href="#i-back"/></svg>Wróć do gier</a><a class="danger"><svg class="i"><use href="#i-exit"/></svg>Wyjdź z kiosku</a></nav><div class="ver">Wersja 1.4.0 (10400)</div></aside><main class="main"><div class="mh"><div><h3>Sekwencje</h3><div class="sub">Do gry „Po kolei” · 3–5 zdjęć w ustalonej kolejności</div></div><span class="pbtn pri">+ Nowa sekwencja</span></div><div class="seqcard"><div class="hd"><b>Poranek</b><span>4 kroki · edytuj</span></div><div class="steps"><div class="step"><i>1</i><div class="photo g2 emoji">🛏️</div><em>Pobudka</em></div><span class="chev">›</span><div class="step"><i>2</i><div class="photo g3 emoji">🪥</div><em>Mycie zębów</em></div><span class="chev">›</span><div class="step"><i>3</i><div class="photo g1 emoji">🥣</div><em>Śniadanie</em></div><span class="chev">›</span><div class="step"><i>4</i><div class="photo g4 emoji">🧥</div><em>Ubieranie</em></div></div></div><div class="seqcard"><div class="hd"><b>Wieczór</b><span>3 kroki · edytuj</span></div><div class="steps"><div class="step"><i>1</i><div class="photo g6 emoji">🛁</div><em>Kąpiel</em></div><span class="chev">›</span><div class="step"><i>2</i><div class="photo g5 emoji">📖</div><em>Bajka</em></div><span class="chev">›</span><div class="step"><i>3</i><div class="photo g4 emoji">🧸</div><em>Spanie z misiem</em></div></div></div><div class="empty-tip">Przeciągnij kroki, aby zmienić kolejność. Zdjęcia możesz wybrać z dowolnej kategorii.</div></main>
+</div></div>
+<div class="notes"><ul><li>Tworzenie: nazwa → wybór 3–5 zdjęć (siatka jak S09 z numerkami zaznaczenia) → kolejność przeciąganiem → zapis do <code>sequences</code> / <code>sequence_steps</code>.</li><li>Gra „Po kolei” jest widoczna w menu dopiero, gdy istnieje co najmniej 1 sekwencja.</li></ul></div>
+</section>
+
+<section class="spec" id="s18-wrap">
+<h2>S18 · Gdzie jest…? (M11) <small>route: <code>whereis/play/{level}/{categoryId}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s18">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="pairs"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div><div class="ask"><div class="spk"><svg class="i"><use href="#i-vol"/></svg></div><div class="say">„Gdzie jest babcia?”</div></div><div class="rowc" style="top:330px"><div class="kc" style="width:280px;height:330px"><div class="photo g4 emoji">👴</div></div><div class="kc ok" style="width:280px;height:330px"><div class="photo g1 emoji">👵</div></div><div class="kc" style="width:280px;height:330px"><div class="photo g2 emoji">👩</div></div></div>
+</div></div>
+<div class="notes"><ul><li>Pytanie odtwarza się automatycznie; duży głośnik powtarza je. Źródło głosu: nagranie pytania → prefiks + etykieta → TTS (docs/12 M10.3).</li><li>Trafienie: ramka akcentu, karta lekko się unosi, odtwarza się „To jest babcia”. Pudło: karta kiwa się, pytanie wraca; po 2 pudłach poprawna karta pulsuje.</li><li>Poziomy: 2 / 3 / 4 zdjęcia. Kropki u góry = rundy.</li></ul></div>
+</section>
+
+<section class="spec" id="s19-wrap">
+<h2>S19 · A kuku (M12) <small>route: <code>peekaboo</code> · gra swobodna</small></h2>
+<div class="scaler"><div class="screen kidbg" id="s19">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="peek"><div class="inside g1 emoji">🐶</div><div class="door l"><span class="knob"></span></div><div class="door r"><span class="knob"></span></div></div><div class="peek-hint">„A kuku! To jest Reksio.”</div>
+</div></div>
+<div class="notes"><ul><li>Tap w drzwiczki → otwierają się (rotationY, 500 ms) i odsłaniają losowe zdjęcie + głos. Po 3 s same się zamykają.</li><li>Brak wygranej i licznika. Opcja w ustawieniach gry: 1 lub 2 okienka.</li><li>Drzwiczki w neutralnych odcieniach (<code>Bg2</code>, <code>Line2</code>) — kolor daje tylko zdjęcie.</li></ul></div>
+</section>
+
+<section class="spec" id="s20-wrap">
+<h2>S20 · Zdrapka (M12) <small>route: <code>scratch</code> · gra swobodna</small></h2>
+<div class="scaler"><div class="screen kidbg" id="s20">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-next"/></svg></div><div class="scratch"><div class="img"></div><canvas id="scr" width="768" height="568"></canvas></div><div class="touch" style="left:700px;top:330px"></div>
+</div></div>
+<div class="notes"><ul><li>Mgiełka (wzór kropek jak tył kart) ścierana palcem — <code>BlendMode.Clear</code> na warstwie offscreen, pędzel 64 dp. Wiele palców naraz dozwolone.</li><li>Postęp liczony na siatce 32×24; przy ≥ 70% reszta mgiełki znika, odtwarza się etykieta, strzałka (prawy górny róg) przechodzi do następnego zdjęcia.</li><li>Opcja: lekki kontur zdjęcia pod mgiełką dla najmłodszych.</li></ul></div>
+</section>
+
+<section class="spec" id="s21-wrap">
+<h2>S21 · Do koszyczków (M13) <small>route: <code>sorting/{level}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s21">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="trayrow"><div class="kc"><div class="photo g3 emoji">🐮</div></div><div class="kc"><div class="photo g2 emoji">🛋️</div></div><div class="kc"><div class="photo g5 emoji">🦆</div></div><div class="kc"><div class="photo g1 emoji">🪑</div></div></div><div class="baskets"><div class="basket target"><div class="th g3 emoji">🐾</div><b>Zwierzęta</b><div class="dots"><i class="on"></i><i></i><i></i></div></div><div class="basket"><div class="th g1 emoji">🏠</div><b>Nasz dom</b><div class="dots"><i class="on"></i><i></i><i></i></div></div></div><div class="kc floating" style="left:300px;top:395px"><div class="photo g1 emoji" style="font-size:90px">🐱</div></div><div class="touch" style="left:350px;top:480px"></div>
+</div></div>
+<div class="notes"><ul><li>Przeciąganie z komponentu Puzzli (<code>DragDropBoard</code>). Koszyk podświetla się, gdy zdjęcie jest nad nim.</li><li>Dobry koszyk: zdjęcie „wpada”, przybywa kropka. Zły: zdjęcie wraca na tackę, właściwy koszyk delikatnie pulsuje.</li><li>Poziomy: 2 koszyki / 6 zdjęć, 3 koszyki / 9 zdjęć.</li></ul></div>
+</section>
+
+<section class="spec" id="s22-wrap">
+<h2>S22 · Co nie pasuje? (M13) <small>route: <code>oddoneout/{level}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s22">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="pairs"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div><div class="ask"><div class="spk"><svg class="i"><use href="#i-vol"/></svg></div><div class="say">„Co tu nie pasuje?”</div></div><div class="rowc" style="top:350px;gap:26px"><div class="kc" style="width:230px;height:280px"><div class="photo g1 emoji" style="font-size:100px">🐱</div></div><div class="kc" style="width:230px;height:280px"><div class="photo g3 emoji" style="font-size:100px">🐶</div></div><div class="kc ok lift" style="width:230px;height:280px"><div class="photo g5 emoji" style="font-size:100px">🚗</div></div><div class="kc" style="width:230px;height:280px"><div class="photo g4 emoji" style="font-size:100px">🐮</div></div></div>
+</div></div>
+<div class="notes"><ul><li>3 zdjęcia z jednej kategorii + 1 intruz z innej. Trafienie: intruz unosi się i znika, reszta przysuwa się do siebie (widać grupę).</li><li>Poziomy: 3 zdjęcia (2+1) lub 4 (3+1). Silnik <code>RoundEngine</code>.</li></ul></div>
+</section>
+
+<section class="spec" id="s23-wrap">
+<h2>S23 · Memo dźwiękowe (M14) <small>route: <code>soundmemo/play/{level}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s23">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="pairs"><i class="on"></i><i></i><i></i></div><div class="grid-mem" style="grid-template-columns:repeat(3,232px);top:150px"><div class="card match"><div class="front"><div class="sndface"><svg class="i"><use href="#i-vol"/></svg></div><div class="wavelet"><b style="height:10px"></b><b style="height:18px"></b><b style="height:26px"></b><b style="height:16px"></b><b style="height:22px"></b><b style="height:12px"></b><b style="height:8px"></b></div></div></div><div class="card"><div class="back"><svg class="cb"><use href="#i-star"/></svg></div></div><div class="card match"><div class="front"><div class="photo g1 emoji">🐱</div><div class="cap">Kot</div></div></div><div class="card"><div class="back"><svg class="cb"><use href="#i-star"/></svg></div></div><div class="card"><div class="front"><div class="sndface"><svg class="i"><use href="#i-vol"/></svg></div><div class="wavelet"><b style="height:10px"></b><b style="height:18px"></b><b style="height:26px"></b><b style="height:16px"></b><b style="height:22px"></b><b style="height:12px"></b><b style="height:8px"></b></div></div></div><div class="card"><div class="back"><svg class="cb"><use href="#i-star"/></svg></div></div></div>
+</div></div>
+<div class="notes"><ul><li>Para = karta-dźwięk (głośnik) + karta-zdjęcie. Odkrycie karty-dźwięku zawsze odtwarza dźwięk; przy dopasowaniu odtwarza się ponownie.</li><li>Dźwięki: nagranie rodzica (<code>audioPath</code>) lub wbudowane odgłosy dla zdjęć wbudowanych (miau, hau…).</li><li>Ten sam <code>MemoryEngine</code> co Memorki — karta dostaje <code>face: Photo | Sound</code>.</li></ul></div>
+</section>
+
+<section class="spec" id="s24-wrap">
+<h2>S24 · Bańki (M15) <small>route: <code>bubbles</code> · gra swobodna</small></h2>
+<div class="scaler"><div class="screen kidbg" id="s24">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="bub" style="left:150px;top:470px;width:200px;height:200px"><div class="in g1 emoji" style="font-size:84px">🐱</div></div><div class="bub" style="left:430px;top:220px;width:170px;height:170px"><div class="in g3 emoji" style="font-size:71px">🐶</div></div><div class="bub" style="left:700px;top:420px;width:220px;height:220px"><div class="in g4 emoji" style="font-size:92px">👵</div></div><div class="bub" style="left:930px;top:150px;width:150px;height:150px"><div class="in g2 emoji" style="font-size:63px">🧸</div></div><div class="bub" style="left:1010px;top:470px;width:190px;height:190px"><div class="in g5 emoji" style="font-size:79px">🦆</div></div><div class="bub" style="left:300px;top:110px;width:130px;height:130px"><div class="in g6 emoji" style="font-size:54px">👶</div></div><i class="drop" style="left:620px;top:190px"></i><i class="drop" style="left:654px;top:204px"></i><i class="drop" style="left:664px;top:236px"></i><i class="drop" style="left:650px;top:266px"></i><i class="drop" style="left:616px;top:276px"></i><i class="drop" style="left:582px;top:260px"></i><i class="drop" style="left:574px;top:228px"></i><i class="drop" style="left:588px;top:196px"></i><div class="touch" style="left:584px;top:194px"></div>
+</div></div>
+<div class="notes"><ul><li>Bańki unoszą się powoli (40–70 dp/s), max 6 naraz. Wnętrze: okrągła miniatura zdjęcia, połysk biały, obrys neutralny — bez tęczy.</li><li>Tap → pęknięcie (8 kropelek, 250 ms) + „pop”; co 3. pęknięcie odtwarza etykietę zdjęcia.</li><li>Całość w jednym <code>Canvas</code> z <code>withFrameNanos</code>.</li></ul></div>
+</section>
+
+<section class="spec" id="s25-wrap">
+<h2>S25 · Cymbałki (M15) <small>route: <code>xylophone</code> · gra swobodna</small></h2>
+<div class="scaler"><div class="screen kidbg" id="s25">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-note"/></svg></div><div class="bars"><div class="bar" style="height:580px;background:#EFEBE5"><span class="pin"></span><div class="face emoji">👵</div><span class="pin"></span></div><div class="bar" style="height:548px;background:#ECE8E2"><span class="pin"></span><div class="face emoji">👴</div><span class="pin"></span></div><div class="bar hit" style="height:516px;background:#E9E5DE"><span class="pin"></span><div class="face emoji">👩</div><span class="pin"></span></div><div class="bar" style="height:484px;background:#E6E1DA"><span class="pin"></span><div class="face emoji">👨</div><span class="pin"></span></div><div class="bar" style="height:452px;background:#E3DED6"><span class="pin"></span><div class="face emoji">👶</div><span class="pin"></span></div><div class="bar" style="height:420px;background:#E0DBD2"><span class="pin"></span><div class="face emoji">🐱</div><span class="pin"></span></div><div class="bar" style="height:388px;background:#DDD7CE"><span class="pin"></span><div class="face emoji">🐶</div><span class="pin"></span></div><div class="bar" style="height:356px;background:#DAD4CA"><span class="pin"></span><div class="face emoji">🧸</div><span class="pin"></span></div></div><div class="note" style="left:400px;top:110px">♪</div><div class="note" style="left:440px;top:86px;font-size:26px">♫</div>
+</div></div>
+<div class="notes"><ul><li>8 sztabek, każda z twarzą bliskiej osoby; nuty skali pentatonicznej C-dur (każda kombinacja brzmi dobrze). Multi-touch i przesuwanie palcem dozwolone.</li><li>Sztabki różnią się wysokością i odcieniem szarości, nie kolorem. Uderzona sztabka lekko opada, twarz dostaje ramkę akcentu.</li><li>Nuta (prawy górny róg) → „Zagraj melodię” z podświetlaniem kolejnych sztabek.</li></ul></div>
+</section>
+
+<section class="spec" id="s26-wrap">
+<h2>S26 · Po kolei (M16) <small>route: <code>sequence/{sequenceId}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s26">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="seqline"></div><div class="slots"><div class="sslot"><span class="n">1</span><div class="kc"><div class="photo g2 emoji">🛏️</div></div></div><div class="sslot"><span class="n">2</span><div class="kc"><div class="photo g3 emoji">🪥</div></div></div><div class="sslot active"><span class="n">3</span></div><div class="sslot"><span class="n">4</span></div></div><div class="seqtray"><div class="kc"><div class="photo g4 emoji">🧥</div></div><div class="kc"><div class="photo g1 emoji">🥣</div></div></div>
+</div></div>
+<div class="notes"><ul><li>Sloty połączone linią = oś czasu. Tryb łatwy (domyślny dla młodszych): aktywny jest tylko kolejny wolny slot (podświetlony).</li><li>Po ułożeniu kroki „odtwarzają się” po kolei: każde zdjęcie lekko rośnie i słychać etykietę. Potem ekran sukcesu.</li><li>Sekwencje tworzy rodzic w S15.</li></ul></div>
+</section>
+
+<section class="spec" id="s27-wrap">
+<h2>S27 · Ile jest? (M17) <small>route: <code>counting/{level}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s27">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="pairs"><i class="on"></i><i></i><i></i><i></i><i></i></div><div class="ask" style="top:120px"><div class="spk" style="width:80px;height:80px"><svg class="i"><use href="#i-vol"/></svg></div><div class="say">„Ile jest jabłek?”</div></div><div class="ctile emoji" style="left:330px;top:300px">🍎<span class="cn">1</span></div><div class="ctile emoji" style="left:610px;top:270px">🍎<span class="cn">2</span></div><div class="ctile emoji" style="left:820px;top:350px">🍎</div><div class="numrow"><div class="numbtn"><b>1</b><div class="dd"><i></i></div></div><div class="numbtn"><b>2</b><div class="dd"><i></i><i></i></div></div><div class="numbtn"><b>3</b><div class="dd"><i></i><i></i><i></i></div></div><div class="numbtn"><b>4</b><div class="dd"><i></i><i></i><i></i><i></i></div></div><div class="numbtn"><b>5</b><div class="dd"><i></i><i></i><i></i><i></i><i></i></div></div></div>
+</div></div>
+<div class="notes"><ul><li>Tap w kafelek nadaje mu kolejny numer (liczenie wspomagane), z coraz wyższym tonem.</li><li>Odpowiedź: duże cyfry z kropkami pod spodem — dziecko, które nie zna cyfr, liczy kropki.</li><li>Poziomy: do 3 i do 5. Zdjęcia tylko z flagą „nadaje się do liczenia” (przedmioty, nie osoby).</li></ul></div>
+</section>
+
+<section class="spec" id="s28-wrap">
+<h2>S28 · Kolorowanki (M18) <small>route: <code>coloring</code> · gra swobodna</small></h2>
+<div class="scaler"><div class="screen kidbg" id="s28">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="paper"><svg viewBox="0 0 600 460" width="660" height="506" style="stroke:#3B3936;stroke-width:6;stroke-linejoin:round;stroke-linecap:round">
+<circle cx="500" cy="80" r="46" fill="#F2CC8F"/>
+<path d="M120 220 L300 90 L480 220 Z" fill="#E07A5F"/>
+<rect x="150" y="220" width="300" height="200" fill="#FFFFFF"/>
+<rect x="270" y="300" width="64" height="120" fill="#8D6E63"/>
+<rect x="180" y="250" width="64" height="56" fill="#9DB8D6"/>
+<rect x="358" y="250" width="64" height="56" fill="#FFFFFF"/>
+<path d="M40 420 H560" fill="none"/>
+<path d="M60 420 v-60 M60 360 c-30 -10 -30 -60 0 -60 c30 0 30 50 0 60" fill="#81B29A"/>
+</svg></div><div class="pots"><div class="pot sel" style="background:#E07A5F"></div><div class="pot" style="background:#F2CC8F"></div><div class="pot" style="background:#81B29A"></div><div class="pot" style="background:#3D85C6"></div><div class="pot" style="background:#9C89B8"></div><div class="pot" style="background:#F4A6A6"></div><div class="pot" style="background:#8D6E63"></div><div class="pot" style="background:#3B3936"></div></div><div class="tools"><div class="btn-round"><svg class="i"><use href="#i-undo"/></svg></div><div class="btn-round"><svg class="i"><use href="#i-trash"/></svg></div><div class="btn-round"><svg class="i"><use href="#i-next"/></svg></div></div>
+</div></div>
+<div class="notes"><ul><li>Wbudowane kontury (nie ze zdjęć). Tryb domyślny: tap w obszar = wypełnienie wybranym kolorem; dla starszych opcja malowania palcem.</li><li>Farby to jedyne „pełniejsze” kolory w aplikacji — to treść, nie interfejs; odcienie kredkowe, bez neonów.</li><li>Cofnij, wyczyść (przytrzymanie 1,5 s), następny obrazek. Gotowe rysunki zapisują się automatycznie (S14 → Rysunki).</li></ul></div>
+</section>
+
+<script>
+/* Generowanie powtarzalnych elementów makiet (deterministycznie, dla stabilnych PNG) */
+(function(){
+  // S06: plansza Snap 2x2
+  const inner=document.getElementById('snapInner');
+  const W=740,H=576, cw=W/2, ch=H/2;
+  inner.innerHTML='<div class="ghost"></div>';
+  for(let r=0;r<2;r++)for(let c=0;c<2;c++){
+    const s=document.createElement('div');s.className='slot'+(r===1&&c===0?' target':'');
+    Object.assign(s.style,{left:(c*cw+8)+'px',top:(r*ch+8)+'px',width:(cw-16)+'px',height:(ch-16)+'px'});inner.appendChild(s);
+  }
+  const placed=document.createElement('div');placed.className='piece';
+  Object.assign(placed.style,{left:'8px',top:'8px',width:(cw-16)+'px',height:(ch-16)+'px',backgroundSize:'200% 200%',backgroundPosition:'0% 0%'});
+  inner.appendChild(placed);
+  const scr=document.getElementById('s06');
+  const pw=(cw-16)*0.7, ph=(ch-16)*0.7;
+  const tray=document.getElementById('tray');
+  [[1,1],[0,1]].forEach((p,i)=>{
+    const e=document.createElement('div');e.className='piece';
+    Object.assign(e.style,{left:((300-pw)/2)+'px',top:(40+i*(ph+40))+'px',width:pw+'px',height:ph+'px',backgroundSize:'200% 200%',backgroundPosition:(p[1]*100)+'% '+(p[0]*100)+'%',transform:i?'rotate(3deg)':'rotate(-2deg)'});
+    tray.appendChild(e);
+  });
+  // przeciągany fragment (rząd 1, kol 0) nad polem docelowym
+  const d=document.createElement('div');d.className='piece drag';
+  Object.assign(d.style,{left:(96+14+8+40)+'px',top:(150+14+ch+8-26)+'px',width:(cw-16)+'px',height:(ch-16)+'px',backgroundSize:'200% 200%',backgroundPosition:'0% 100%'});
+  scr.appendChild(d);
+  const hand=document.createElement('div');hand.className='touch';
+  Object.assign(hand.style,{left:(96+14+8+40+cw/2-36)+'px',top:(150+14+ch+ch/2-36)+'px'});scr.appendChild(hand);
+  const tr=document.createElement('div');tr.className='trail';
+  Object.assign(tr.style,{left:'560px',top:'640px',width:'440px',transform:'rotate(-38deg)'});scr.appendChild(tr);
+
+  // S07: siatka Swap 3x3 – permutacja (indeks docelowego kafla na pozycji)
+  const perm=[0,5,2,7,4,1,6,3,8]; // 0,2,4,6,8 na miejscu
+  const sw=document.getElementById('swap');
+  perm.forEach((k,pos)=>{
+    const t=document.createElement('div');t.className='t'+(k===pos?' ok':'');
+    const r=Math.floor(k/3), c=k%3;
+    t.style.backgroundPosition=(c*50)+'% '+(r*50)+'%';
+    if(pos===1) t.classList.add('selected');
+    if(pos===0||pos===2||pos===4) t.classList.add('nb');
+    sw.appendChild(t);
+  });
+
+  // S04: konfetti (seeded)
+  let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+  const cols=['#7E9C8C','#D6B47A','#7F95A6','#CFC6BA','#B9C9BF'];
+  const conf=document.getElementById('conf');
+  for(let i=0;i<38;i++){
+    const e=document.createElement('i');
+    const w=8+rnd()*12;
+    Object.assign(e.style,{left:(rnd()*1280)+'px',top:(rnd()*800)+'px',width:w+'px',height:(w*0.45)+'px',background:cols[i%cols.length],transform:'rotate('+(rnd()*360)+'deg)'});
+    conf.appendChild(e);
+  }
+  // S10: fala dźwięku
+  const wave=document.getElementById('wave');
+  for(let i=0;i<46;i++){const b=document.createElement('b');b.style.height=(6+Math.abs(Math.sin(i*0.55))*30+rnd()*8)+'px';if(i>34)b.style.background='#D9D4CC';wave.appendChild(b);}
+
+
+  // S20: mgiełka zdrapki z wytartą ścieżką
+  (function(){const c=document.getElementById('scr');if(!c)return;const g=c.getContext('2d');
+    g.fillStyle='#EDE9E3';g.fillRect(0,0,c.width,c.height);g.fillStyle='#E2DDD5';
+    for(let y=11;y<c.height;y+=22)for(let x=11;x<c.width;x+=22){g.beginPath();g.arc(x,y,1.8,0,7);g.fill();}
+    g.globalCompositeOperation='destination-out';g.lineCap='round';g.lineJoin='round';g.lineWidth=110;g.strokeStyle='#000';
+    g.beginPath();g.moveTo(140,420);g.bezierCurveTo(220,250,330,330,380,200);g.bezierCurveTo(420,110,520,160,560,260);g.bezierCurveTo(600,350,520,420,600,470);g.stroke();
+    g.lineWidth=90;g.beginPath();g.moveTo(260,470);g.bezierCurveTo(320,400,420,450,470,380);g.stroke();})();
+
+  // Skalowanie podglądu w wąskim oknie (nie wpływa na PNG renderowane w 1280px)
+  function fit(){document.querySelectorAll('.scaler').forEach(s=>{const sc=Math.min(1,s.clientWidth/1280);const scr=s.firstElementChild;scr.style.transform='scale('+sc+')';scr.style.transformOrigin='0 0';s.style.height=(800*sc)+'px';});}
+  addEventListener('resize',fit);fit();
+})();
+</script>
+</body>
+</html>

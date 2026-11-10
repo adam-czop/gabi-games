@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from mockups/index.html symbols (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <group
+        android:pivotX="33"
+        android:pivotY="48"
+        android:rotation="-9">
+        <path
+            android:pathData="M22.0,22.0h22.0a8.0,8.0 0 0,1 8.0,8.0v36.0a8.0,8.0 0 0,1 -8.0,8.0h-22.0a8.0,8.0 0 0,1 -8.0,-8.0v-36.0a8.0,8.0 0 0,1 8.0,-8.0z"
+            android:strokeColor="#FF8B867F"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+    <group
+        android:pivotX="63"
+        android:pivotY="48"
+        android:rotation="7">
+        <path
+            android:pathData="M52.0,22.0h22.0a8.0,8.0 0 0,1 8.0,8.0v36.0a8.0,8.0 0 0,1 -8.0,8.0h-22.0a8.0,8.0 0 0,1 -8.0,-8.0v-36.0a8.0,8.0 0 0,1 8.0,-8.0z"
+            android:strokeColor="#FF8B867F"
+            android:strokeWidth="3"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+    <path
+        android:pathData="M63 40l2.6 5.4 5.9.8-4.3 4 1.1 5.8-5.3-2.9-5.2 2.9 1-5.8-4.3-4 5.9-.8z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

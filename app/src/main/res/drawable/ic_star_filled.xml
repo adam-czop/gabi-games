@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Filled variant of the mockup star (i-star); tinted Honey / Line in Compose. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="#FFD6B47A"
+        android:pathData="M24 6l5.3 11.2 12.2 1.5-9 8.4 2.3 12.1L24 33.3 13.2 39.2l2.3-12.1-9-8.4 12.2-1.5z"
+        android:strokeColor="#FFD6B47A"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2" />
+</vector>

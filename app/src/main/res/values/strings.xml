@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="pl">
+    <string name="app_name">Gabi Gry</string>
+
+    <!-- S01 · Menu -->
+    <string name="logo_family">Gabi</string>
+    <string name="logo_games">Gry</string>
+    <string name="game_memory">Memorki</string>
+    <string name="game_puzzle">Puzzle</string>
+    <string name="game_soon">Wkrótce</string>
+    <string name="cd_parent_lock">Strefa rodzica – przytrzymaj 3 sekundy</string>
+    <string name="cd_sound_on">Dźwięk włączony</string>
+    <string name="cd_sound_off">Dźwięk wyłączony</string>
+    <string name="cd_home">Menu główne</string>
+    <string name="cd_back">Wróć</string>
+
+    <!-- S02 · Wybór poziomu -->
+    <string name="memory_levels_title">Wybierz poziom</string>
+    <plurals name="memory_cards">
+        <item quantity="one">%d karta</item>
+        <item quantity="few">%d karty</item>
+        <item quantity="many">%d kart</item>
+        <item quantity="other">%d karty</item>
+    </plurals>
+    <string name="cd_level">Poziom %1$d: %2$s</string>
+    <string name="cd_level_locked">Poziom %1$d – zablokowany</string>
+    <string name="cd_level_not_enough">Poziom %1$d – za mało zdjęć w tej kategorii</string>
+    <string name="memory_no_categories">Dodaj zdjęcia w strefie rodzica, aby zagrać.</string>
+
+    <!-- S03 · Memorki -->
+    <string name="cd_restart">Zagraj od nowa</string>
+    <string name="cd_pairs">Znalezione pary: %1$d z %2$d</string>
+    <string name="cd_card_hidden">Zakryta karta</string>
+    <string name="cd_card_open">Odkryta karta</string>
+    <string name="cd_card_photo">Karta: %1$s</string>
+    <string name="memory_not_enough_photos">Za mało zdjęć w tej kategorii.</string>
+
+    <!-- S04 · Sukces -->
+    <string name="win_title">Brawo!</string>
+    <string name="cd_play_again">Zagraj ponownie</string>
+
+    <!-- S05–S07 · Puzzle -->
+    <string name="puzzle_setup_title">Wybierz obrazek</string>
+    <string name="puzzle_no_photos">Dodaj zdjęcia w strefie rodzica, aby zagrać.</string>
+    <string name="puzzle_photo_missing">Nie ma już tego obrazka.</string>
+    <string name="puzzle_snap_label">Dopasuj</string>
+    <string name="puzzle_reference">Tak ma wyglądać</string>
+    <string name="cd_puzzle_photo">Obrazek: %1$s</string>
+    <string name="cd_puzzle_photo_unlabeled">Obrazek</string>
+    <string name="cd_difficulty_snap">Dopasuj fragmenty, liczba fragmentów: %1$d</string>
+    <string name="cd_difficulty_swap">Zamieniaj kafelki, liczba kafelków: %1$d</string>
+    <string name="cd_hint">Podpowiedź</string>
+    <string name="cd_piece">Fragment obrazka</string>
+    <string name="cd_tile">Kafelek %1$d</string>
+
+
+    <!-- Parent zone navigation (S09, S11, S13, S14) -->
+    <string name="nav_photos">Zdjęcia</string>
+    <string name="nav_categories">Kategorie</string>
+    <string name="nav_progress">Postępy</string>
+    <string name="nav_settings">Ustawienia</string>
+    <string name="nav_back_to_games">Wróć do gier</string>
+
+    <!-- Built-in content (docs/02 §4), written to the database on first start -->
+    <string name="builtin_category_home">Nasz dom</string>
+    <string name="builtin_category_animals">Zwierzęta</string>
+    <string name="builtin_category_toys">Zabawki</string>
+    <string name="builtin_sofa">Kanapa</string>
+    <string name="builtin_bed">Łóżko</string>
+    <string name="builtin_lamp">Lampa</string>
+    <string name="builtin_bathtub">Wanna</string>
+    <string name="builtin_table">Stół</string>
+    <string name="builtin_chair">Krzesło</string>
+    <string name="builtin_window">Okno</string>
+    <string name="builtin_door">Drzwi</string>
+    <string name="builtin_cat">Kot</string>
+    <string name="builtin_dog">Pies</string>
+    <string name="builtin_cow">Krowa</string>
+    <string name="builtin_duck">Kaczka</string>
+    <string name="builtin_horse">Koń</string>
+    <string name="builtin_pig">Świnka</string>
+    <string name="builtin_hen">Kura</string>
+    <string name="builtin_sheep">Owca</string>
+    <string name="builtin_teddy">Miś</string>
+    <string name="builtin_ball">Piłka</string>
+    <string name="builtin_blocks">Klocki</string>
+    <string name="builtin_car">Auto</string>
+    <string name="builtin_doll">Lalka</string>
+    <string name="builtin_drum">Bębenek</string>
+    <string name="builtin_rocket">Rakieta</string>
+    <string name="builtin_rubber_duck">Kaczuszka</string>
+    <string name="builtin_category_vehicles">Pojazdy</string>
+    <string name="builtin_excavator">Koparka</string>
+    <string name="builtin_tractor">Traktor</string>
+    <string name="builtin_combine">Kombajn</string>
+    <string name="builtin_passenger_car">Samochód</string>
+    <string name="builtin_bus">Autobus</string>
+    <string name="builtin_fire_truck">Wóz strażacki</string>
+    <string name="builtin_dump_truck">Wywrotka</string>
+    <string name="builtin_train">Pociąg</string>
+
+    <!-- Common actions -->
+    <string name="action_next">Dalej</string>
+    <string name="action_continue">Kontynuuj</string>
+    <string name="action_cancel">Anuluj</string>
+    <string name="action_skip">Pomiń</string>
+    <string name="action_rotate">Obróć</string>
+    <string name="action_create">Utwórz</string>
+    <string name="action_delete">Usuń</string>
+    <string name="action_save">Zapisz</string>
+    <string name="action_ok">OK</string>
+    <string name="action_copy_command">Kopiuj polecenie</string>
+    <string name="cd_close">Zamknij</string>
+
+    <!-- S08 · Bramka rodzica -->
+    <string name="gate_title">Strefa rodzica</string>
+    <string name="gate_subtitle_task">Rozwiąż zadanie, aby przejść dalej.</string>
+    <string name="gate_subtitle_pin">Wpisz kod PIN rodzica.</string>
+    <string name="gate_subtitle_recovery">Wpisz kod odzyskiwania zapisany przy pierwszym uruchomieniu.</string>
+    <string name="gate_subtitle_new_pin">Ustaw nowy PIN (4 cyfry).</string>
+    <string name="gate_subtitle_repeat_pin">Powtórz nowy PIN.</string>
+    <string name="gate_subtitle_new_code">Nowy kod odzyskiwania – zapisz go w bezpiecznym miejscu.</string>
+    <string name="gate_tab_task">Zadanie</string>
+    <string name="gate_tab_pin">Kod PIN</string>
+    <string name="gate_equation">%1$d × %2$d = ?</string>
+    <string name="gate_locked">Za dużo prób. Spróbuj za %1$d:%2$02d</string>
+    <string name="gate_forgot_pin">Nie pamiętam PIN</string>
+    <string name="gate_recovery_label">Kod odzyskiwania</string>
+    <string name="gate_recovery_submit">Sprawdź kod</string>
+    <string name="gate_code_saved">Zapisałem kod – dalej</string>
+    <string name="gate_attempts_left">Pozostałe próby: %1$d</string>
+    <string name="gate_closes_in">Zamknie się za %1$d:%2$02d</string>
+    <string name="pin_mismatch">PIN-y się różnią. Spróbuj jeszcze raz.</string>
+    <string name="cd_pin_progress">Wpisane cyfry: %1$d z 4</string>
+    <string name="cd_delete_digit">Usuń cyfrę</string>
+
+    <!-- S12 · Pierwsze uruchomienie -->
+    <string name="first_run_welcome_title">Witaj! To są Gabi Gry</string>
+    <string name="first_run_welcome_text">Spokojne gry dla dziecka na Waszych rodzinnych zdjęciach: memorki, puzzle, szukanie, liczenie, kolorowanki i więcej. Za chwilę ustawisz PIN rodzica, który chroni ustawienia i zdjęcia.</string>
+    <string name="first_run_pin_title">Ustaw PIN rodzica</string>
+    <string name="first_run_pin_repeat">Powtórz PIN</string>
+    <string name="first_run_pin_text">4 cyfry. Będzie potrzebny do wyjścia z trybu kiosku i do ważnych zmian w ustawieniach.</string>
+    <string name="first_run_code_title">Kod odzyskiwania</string>
+    <string name="first_run_code_text">Jeśli zapomnisz PIN, ten kod pozwoli ustawić nowy. Pokazujemy go tylko raz – zapisz go w bezpiecznym miejscu.</string>
+    <string name="first_run_code_saved">Zapisałem kod</string>
+    <string name="first_run_kiosk_ready">Tryb kiosku jest gotowy</string>
+    <string name="first_run_kiosk_ready_text">Tablet działa jako urządzenie dziecka: aplikacji nie da się zamknąć bez PIN-u.</string>
+    <string name="first_run_kiosk_missing">Tryb kiosku nie jest skonfigurowany</string>
+    <string name="first_run_kiosk_missing_text">Bez uprawnień właściciela urządzenia (Device Owner) dziecko może wyjść z aplikacji. Aby je nadać, podłącz tablet do komputera i uruchom polecenie:</string>
+    <string name="first_run_kiosk_warning">Możesz kontynuować bez kiosku, ale aplikacja nie będzie zablokowana.</string>
+    <string name="first_run_add_photos">Dodaj pierwsze zdjęcia</string>
+    <string name="first_run_play">Zacznij grać</string>
+    <string name="first_run_continue_without_kiosk">Kontynuuj bez kiosku</string>
+
+    <!-- Strefa rodzica -->
+    <string name="parent_brand">Gabi Gry</string>
+    <string name="parent_badge">RODZIC</string>
+    <string name="nav_exit_kiosk">Wyjdź z kiosku</string>
+    <string name="parent_version">Wersja %1$s (%2$d)</string>
+
+    <!-- S09 · Zdjęcia -->
+    <string name="photos_subtitle">Kategoria „%1$s” · %2$s</string>
+    <plurals name="photos_count">
+        <item quantity="one">%d zdjęcie</item>
+        <item quantity="few">%d zdjęcia</item>
+        <item quantity="many">%d zdjęć</item>
+        <item quantity="other">%d zdjęcia</item>
+    </plurals>
+    <string name="photos_from_gallery">Z galerii</string>
+    <string name="photos_take_photo">Zrób zdjęcie</string>
+    <string name="category_chip">%1$s · %2$d</string>
+    <string name="category_new">+ Nowa kategoria</string>
+    <string name="photos_status_ok">Wystarczy na wszystkie poziomy Memorków (najtrudniejszy wymaga 6 zdjęć).</string>
+    <plurals name="photos_status_missing">
+        <item quantity="one">Dodaj jeszcze %1$d zdjęcie, aby odblokować poziom %2$d×%3$d.</item>
+        <item quantity="few">Dodaj jeszcze %1$d zdjęcia, aby odblokować poziom %2$d×%3$d.</item>
+        <item quantity="many">Dodaj jeszcze %1$d zdjęć, aby odblokować poziom %2$d×%3$d.</item>
+        <item quantity="other">Dodaj jeszcze %1$d zdjęcia, aby odblokować poziom %2$d×%3$d.</item>
+    </plurals>
+    <string name="photos_add">+ Dodaj zdjęcie</string>
+    <string name="category_new_title">Nowa kategoria</string>
+    <string name="category_name">Nazwa</string>
+    <string name="category_name_error">Taka kategoria już istnieje albo nazwa jest pusta.</string>
+    <plurals name="photos_delete_title">
+        <item quantity="one">Usunąć %d zdjęcie?</item>
+        <item quantity="few">Usunąć %d zdjęcia?</item>
+        <item quantity="many">Usunąć %d zdjęć?</item>
+        <item quantity="other">Usunąć %d zdjęcia?</item>
+    </plurals>
+    <string name="photos_delete_text">Pliki zostaną skasowane z tabletu. Ilustracji wbudowanych nie można usunąć – możesz je wyłączyć z gier w edycji zdjęcia.</string>
+    <string name="photos_selected">Zaznaczono: %1$d</string>
+    <string name="photos_move">Przenieś do…</string>
+    <string name="photos_set_cover">Ustaw jako okładkę</string>
+    <string name="photos_cover_badge">okładka</string>
+    <string name="photo_no_label">bez podpisu</string>
+    <string name="cd_has_voice">Ma nagranie głosu</string>
+
+    <!-- S10 · Zdjęcie -->
+    <string name="photo_new_title">Nowe zdjęcie</string>
+    <string name="photo_edit_title">Edytuj zdjęcie</string>
+    <string name="photo_progress">%1$d / %2$d</string>
+    <string name="aspect_square">1:1</string>
+    <string name="aspect_four_three">4:3</string>
+    <string name="photo_crop_hint">Przesuń i przybliż dwoma palcami</string>
+    <string name="photo_decode_failed">Nie udało się otworzyć tego zdjęcia.</string>
+    <string name="photo_label_title">Etykieta (podpis karty)</string>
+    <string name="photo_category_title">Kategoria</string>
+    <string name="photo_voice_title">Nagranie głosu (opcjonalne)</string>
+    <string name="photo_games_title">Używaj w grach</string>
+    <string name="photo_save">Zapisz zdjęcie</string>
+    <string name="cd_record">Nagraj głos</string>
+    <string name="voice_timer">0:%1$02d</string>
+    <string name="voice_play">Odsłuchaj</string>
+    <string name="voice_rerecord">Nagraj ponownie</string>
+    <string name="voice_delete">Usuń nagranie</string>
+    <string name="mic_rationale_title">Mikrofon</string>
+    <string name="mic_rationale_text">Aplikacja nagra krótki podpis Twoim głosem (do 8 sekund). Dziecko usłyszy go po znalezieniu pary. Nagranie zostaje tylko na tym tablecie.</string>
+
+    <!-- S13 · Kategorie -->
+    <string name="categories_subtitle">Kolejność i widoczność kategorii dla dziecka</string>
+    <string name="category_rename_title">Zmień nazwę</string>
+    <string name="category_delete_title">Usunąć kategorię „%1$s”?</string>
+    <plurals name="category_delete_text">
+        <item quantity="one">Razem z nią zostanie usunięte %d zdjęcie.</item>
+        <item quantity="few">Razem z nią zostaną usunięte %d zdjęcia.</item>
+        <item quantity="many">Razem z nią zostanie usuniętych %d zdjęć.</item>
+        <item quantity="other">Razem z nią zostaną usunięte %d zdjęcia.</item>
+    </plurals>
+    <string name="category_builtin">wbudowana</string>
+    <string name="category_visible">Widoczna</string>
+    <string name="cd_move_up">Przesuń wyżej</string>
+    <string name="cd_move_down">Przesuń niżej</string>
+    <string name="cd_rename">Zmień nazwę</string>
+    <string name="cd_delete_category">Usuń kategorię</string>
+
+    <!-- S11 · Ustawienia -->
+    <string name="settings_device">Tablet: %1$s %2$s · Android %3$s</string>
+    <string name="settings_updates">Aktualizacje</string>
+    <string name="settings_kiosk">Tryb kiosku</string>
+    <string name="settings_security">Bezpieczeństwo</string>
+    <string name="settings_gate">Bramka</string>
+    <string name="settings_gate_always_pin">Zawsze PIN</string>
+    <string name="settings_gate_task_and_pin">Zadanie + PIN dla akcji krytycznych</string>
+    <string name="settings_always_pin">Zawsze wymagaj PIN</string>
+    <string name="settings_pin">Kod PIN</string>
+    <string name="settings_change_pin">Zmień PIN</string>
+    <string name="settings_game_sound">Gra i dźwięk</string>
+    <string name="settings_sound">Efekty dźwiękowe</string>
+    <string name="settings_labels">Podpisy na kartach</string>
+    <string name="settings_level_locks">Blokady poziomów</string>
+    <string name="settings_device_owner">Device Owner</string>
+    <string name="settings_lock_task">Lock Task</string>
+    <string name="settings_home_app">Aplikacja domowa (launcher)</string>
+    <string name="status_active">Aktywny</string>
+    <string name="status_missing">Brak</string>
+    <string name="status_on">Włączony</string>
+    <string name="status_off">Wyłączony</string>
+    <string name="status_set">Ustawiona</string>
+    <string name="status_not_set">Nie</string>
+    <string name="settings_hide_bars">Ukryj paski systemowe</string>
+    <string name="settings_keep_screen_on">Ekran zawsze włączony podczas gry</string>
+    <string name="settings_exit_kiosk">Wyjdź z kiosku (PIN)</string>
+    <string name="settings_kiosk_missing">Aplikacja nie jest właścicielem urządzenia – dziecko może z niej wyjść. Nadaj uprawnienia poleceniem:</string>
+    <string name="settings_advanced">Zaawansowane</string>
+    <string name="settings_clear_progress">Wyczyść postępy</string>
+    <string name="settings_decommission">Usuń uprawnienia Device Owner</string>
+    <string name="settings_build_info">Wersja %1$s (%2$d) · kiosk w tym buildzie: %3$s</string>
+    <string name="decommission_title">Usunąć uprawnienia Device Owner?</string>
+    <string name="decommission_text">Wpisz USUŃ, aby potwierdzić</string>
+    <string name="decommission_word">USUŃ</string>
+    <string name="updates_installed">Zainstalowana</string>
+    <string name="updates_check_on_start">Sprawdzaj przy starcie</string>
+    <string name="updates_wifi_only">Tylko przez Wi-Fi</string>
+
+    <!-- S11 · Aktualizacje -->
+    <string name="updates_available">Dostępna</string>
+    <string name="updates_idle">Jeszcze nie sprawdzono</string>
+    <string name="updates_checking">Sprawdzam…</string>
+    <string name="updates_up_to_date">Aktualna (sprawdzono %1$s)</string>
+    <string name="updates_downloading">Pobieranie…</string>
+    <string name="updates_progress">Pobrano %1$s z %2$s · SHA-256 sprawdzane po pobraniu</string>
+    <string name="updates_ready">Gotowa do instalacji</string>
+    <string name="updates_installing">Instaluję…</string>
+    <string name="updates_error">Błąd: %1$s</string>
+    <string name="updates_check_now">Sprawdź teraz</string>
+    <string name="updates_install">Zainstaluj</string>
+    <string name="update_error_network">brak połączenia</string>
+    <string name="update_error_no_file">wydanie bez pliku aktualizacji</string>
+    <string name="update_error_bad_file">uszkodzony opis aktualizacji</string>
+    <string name="update_error_verification">plik nie przeszedł weryfikacji</string>
+    <string name="update_error_device">tablet ma za starą wersję Androida</string>
+    <string name="update_error_install">instalacja się nie powiodła</string>
+    <string name="updates_restarting">Za chwilę wracamy!</string>
+
+    <!-- S14 · Postępy -->
+    <string name="progress_subtitle">Podsumowanie gier na tym tablecie</string>
+    <plurals name="progress_games">
+        <item quantity="one">%d gra</item>
+        <item quantity="few">%d gry</item>
+        <item quantity="many">%d gier</item>
+        <item quantity="other">%d gry</item>
+    </plurals>
+    <string name="progress_today">dzisiaj</string>
+    <string name="progress_week">w tym tygodniu</string>
+    <string name="progress_minutes">%1$d min</string>
+    <string name="progress_time_week">czasu gry w tym tygodniu</string>
+    <string name="progress_best">Najlepsze wyniki</string>
+    <string name="progress_puzzle_snap">Puzzle – dopasuj</string>
+    <string name="progress_puzzle_swap">Puzzle – zamień</string>
+</resources>
