@@ -40,6 +40,8 @@ import com.familygames.R
 import com.familygames.domain.game.board.SortingLevel
 import com.familygames.domain.game.maze.MazeLevel
 import com.familygames.domain.game.maze.TrackShape
+import com.familygames.domain.game.shadow.ShadowDealer
+import com.familygames.domain.game.shadow.ShadowLevel
 import com.familygames.domain.game.round.CountingLevel
 import com.familygames.domain.game.round.OddLevel
 import com.familygames.domain.game.round.WhereIsLevel
@@ -61,6 +63,7 @@ import com.familygames.presentation.games.memory.MiniGrid
 import com.familygames.presentation.games.maze.MiniTrack
 import com.familygames.presentation.navigation.CountingRoute
 import com.familygames.presentation.navigation.MazeRoute
+import com.familygames.presentation.navigation.ShadowsRoute
 import com.familygames.presentation.navigation.OddOneOutRoute
 import com.familygames.presentation.navigation.SortingRoute
 import com.familygames.presentation.navigation.SoundMemoRoute
@@ -81,7 +84,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 /** How a level tile describes itself (the screen turns it into text). */
-enum class TileCaption { Photos, Baskets, CountTo, Cards, Named }
+enum class TileCaption { Photos, Baskets, CountTo, Cards, Named, Shadows }
 
 data class PickTile(
     val key: String,
@@ -191,6 +194,11 @@ class LevelPickViewModel(
                     tiles = MemoryLevel.entries.map { l -> tile(l.key, l.rows, l.cols, TileCaption.Cards, l.cards, withSound >= l.pairs) },
                 )
             }
+            GameId.SHADOWS -> LevelPickUiState(
+                loading = false,
+                title = R.string.levels_shadows_title,
+                tiles = ShadowLevel.entries.map { l -> tile(l.key, 1, l.items, TileCaption.Shadows, l.items, ShadowDealer.canPlay(c.groups, l)) },
+            )
             GameId.MAZE -> LevelPickUiState(
                 loading = false,
                 title = R.string.levels_maze_title,
@@ -219,6 +227,7 @@ class LevelPickViewModel(
                     GameId.COUNTING -> CountingRoute(tile.key)
                     GameId.SOUND_MEMO -> SoundMemoRoute(MemoryLevel.fromKey(tile.key) ?: MemoryLevel.L1)
                     GameId.MAZE -> MazeRoute(tile.key)
+                    GameId.SHADOWS -> ShadowsRoute(tile.key)
                     else -> return@launch
                 }
                 effects.send(LevelPickEffect.Play(route))
@@ -299,6 +308,7 @@ private fun PickTileView(tile: PickTile, number: Int, scale: Float, shakeKey: In
         TileCaption.CountTo -> stringResource(R.string.levels_count_to, tile.amount)
         TileCaption.Cards -> pluralStringResource(R.plurals.memory_cards, tile.amount, tile.amount)
         TileCaption.Named -> stringResource(tile.name ?: R.string.app_name)
+        TileCaption.Shadows -> pluralStringResource(R.plurals.levels_shadows, tile.amount, tile.amount)
     }
     val description = stringResource(R.string.cd_level_simple, number, caption)
     Box(

@@ -4,6 +4,7 @@ Format: one `## [x.y.z]` section per release; lines starting with `- ` become th
 `changelog` array in `update.json` (see `.github/workflows/release.yml`).
 
 ## [Unreleased]
+- Nowa gra Cienie: przeciągnij obrazek na jego cień — zwierzęta, pojazdy, zabawki i meble, 3 poziomy.
 - Zamiast nagrań głosu: przy zdjęciu wpisujesz nazwę i opcjonalnie własne pytanie, a gry czyta lektor (syntezator mowy). Aplikacja nie używa już mikrofonu; dotychczasowe nagrania zostają usunięte.
 - Zdrapka: nazwa zdjęcia pada dopiero po zdrapaniu całej mgiełki, a mgiełka jest wyraźnie odróżniona od tła.
 - Nowa gra Labirynt: prowadzenie piłeczki paluszkiem po ścieżce do zdjęcia z rodziny — 4 poziomy, od prostej drogi po prawdziwy labirynt.

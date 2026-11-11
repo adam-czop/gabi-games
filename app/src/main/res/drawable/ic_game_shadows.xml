@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M21 "Cienie": a star and its hatched shadow (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M28 18l6.5 13.2 14.5 2.1-10.5 10.2 2.5 14.5L28 51.2 15 58l2.5-14.5L7 33.3l14.5-2.1z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M68 38l6.5 13.2 14.5 2.1-10.5 10.2 2.5 14.5L68 71.2 55 78l2.5-14.5L47 53.3l14.5-2.1z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M60 56l8-8M57 66l15-15M62 70l14-14M70 71l8-8"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round" />
+</vector>

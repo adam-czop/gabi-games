@@ -47,6 +47,7 @@ object GameRegistry {
         GameEntry(GameId.COUNTING, R.string.game_counting, R.string.game_desc_counting, R.drawable.ic_game_counting, AgeRange(3f, 5f), PlayStyle.TASK, GameLevelsRoute(GameId.COUNTING)),
         GameEntry(GameId.COLORING, R.string.game_coloring, R.string.game_desc_coloring, R.drawable.ic_game_coloring, AgeRange(2.5f, 5f), PlayStyle.FREE_PLAY, ColoringRoute),
         GameEntry(GameId.MAZE, R.string.game_maze, R.string.game_desc_maze, R.drawable.ic_game_maze, AgeRange(2.5f, 5f), PlayStyle.TASK, GameLevelsRoute(GameId.MAZE)),
+        GameEntry(GameId.SHADOWS, R.string.game_shadows, R.string.game_desc_shadows, R.drawable.ic_game_shadows, AgeRange(2f, 4.5f), PlayStyle.TASK, GameLevelsRoute(GameId.SHADOWS)),
     )
 
     fun entry(id: GameId): GameEntry = games.first { it.id == id }

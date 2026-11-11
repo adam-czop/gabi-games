@@ -1,7 +1,7 @@
 # 12 · Nowe gry (po v1.0) — specyfikacja wdrożeniowa
 
 > Dokument dla agenta implementującego. Realizuj **po ukończeniu M0–M9** (v1.0). Obowiązują wszystkie zasady z `CLAUDE.md`, architektura z `docs/01`, model danych z `docs/02`, stonowany design system z `docs/08` (kolor wnoszą zdjęcia, UI neutralne, jeden akcent) i zasady UX dla dziecka z `docs/03 §0`.
-> **Makiety:** `mockups/png/S15…S29_*.png` + adnotacje w `mockups/index.html` (sekcja „Nowe gry · makiety v2.1”). Adnotacje są częścią wymagań. Buduj z komponentów wspólnych i tokenów z docs/08, dla każdego ekranu dodaj `@Preview` 1280×800 dp. W raporcie po milestonie dołącz zrzuty ekranu z emulatora do porównania z makietą.
+> **Makiety:** `mockups/png/S15…S30_*.png` + adnotacje w `mockups/index.html` (sekcja „Nowe gry · makiety v2.1”). Adnotacje są częścią wymagań. Buduj z komponentów wspólnych i tokenów z docs/08, dla każdego ekranu dodaj `@Preview` 1280×800 dp. W raporcie po milestonie dołącz zrzuty ekranu z emulatora do porównania z makietą.
 
 ---
 
@@ -22,6 +22,7 @@
 | M17 | **Ile jest?** | `COUNTING` | 3–5 | zadaniowa | zdjęcia | S27 |
 | M18 | **Kolorowanki** | `COLORING` | 2,5–5 | swobodna | wbudowane kontury | S28 |
 | M19 | **Labirynt** | `MAZE` | 2,5–5 | zadaniowa | zdjęcia na mecie (najpierw „Rodzina”) | S29 |
+| M21 | **Cienie** | `SHADOWS` | 2–4,5 | zadaniowa | ilustracje wbudowane, drag & drop z Koszyczków | S30 |
 
 - **Zadaniowa** = ma cel, kończy się `WinOverlay` (S04) i zapisem `GameResultEntity`, punktacja 1–3★ (zawsze min. 1★).
 - **Swobodna** = brak wygranej i punktów; dziecko bawi się, ile chce; wyjście przyciskiem Dom. Zapisujemy tylko czas zabawy (`GameResultEntity` z `stars = 0`, `levelKey = "free"`), żeby S14 Postępy mogło to pokazać.
@@ -257,20 +258,35 @@ S10 Edycja zdjęcia: nowa sekcja „Pytanie głosowe (opcjonalne)” pod nagrani
 
 ---
 
+## M21 · Cienie (`SHADOWS`)
+
+**Makieta:** S30 · **Kod:** `domain/game/shadow/Shadows.kt` (`ShadowDealer`, `ShadowBoard`, `Silhouette`), `presentation/games/shadow/Shadows.kt`
+
+Na górze 2–4 cienie, na dole te same obrazki w innej kolejności; dziecko przeciąga obrazek na jego cień (komponent `DraggableItem` z Koszyczków).
+
+- **Treść:** wyłącznie ilustracje wbudowane z widocznych kategorii (dom, zwierzęta, zabawki, pojazdy) — zdjęcia rodzica nie mają czystego tła, z którego da się wyciąć cień.
+- **Cień** wycinany w aplikacji z miniatury 400 px (ADR-031): wypełnianie od krawędzi przez piksele podobne do tła (kolory tła kategorii, jasna szarość tylko w pasie ziemi — droga, cień pod obiektem), z uszczelnieniem szczelin 1–2 px w konturze; prawie biała barwa nigdy nie jest tłem. Kolor cienia `Ink2`. Pamięć podręczna 40 cieni.
+- **Trafienie:** obrazek zostaje na cieniu, ramka `Accent`, `Sfx.MATCH`, lektor mówi nazwę. **Pudło:** obrazek wraca na dół (300 ms), `Sfx.SOFT`; po 2 pomyłkach z tym samym obrazkiem właściwy cień pulsuje.
+- Tacka nigdy nie powtarza kolejności cieni. Obrazki w grze nie powtarzają się, dopóki są nowe; łatwe poziomy mieszają kategorie (różne kształty).
+- **Poziomy:** `shadow_2` (2 cienie), `shadow_3` (3 cienie), `shadow_4` (4 cienie z jednej kategorii — podobne kształty). 3 rundy, potem `WinOverlay`; gwiazdki `RoundScoring` (pomyłki na wszystkie obrazki gry).
+- Testy: `ShadowDomainTest` (rozdawanie, plansza, algorytm cienia na danych syntetycznych) i `BuiltinSilhouetteTest` — cień każdej z 32 ilustracji (Robolectric, prawdziwe piksele): nie dotyka krawędzi, zajmuje 8–70 % obrazka, ma sensowny rozmiar; zapisuje arkusz kontrolny `app/build/reports/shadows-sheet.png`.
+
+---
+
 ## Kolejka pomysłów właściciela (2026-11-11, przed specyfikacją)
 
 Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę przed implementacją.
 
 1. ~~**Zdrapka — poprawka**~~ — zrobione (ADR-029).
 2. ~~**Nagrania → tekst**~~ — zrobione (ADR-030).
-3. **Cienie:** na planszy sylwetki (cienie) ilustracji wbudowanych — budynki, zwierzęta, pojazdy; dziecko przeciąga obrazek na pasujący cień (drag & drop jak w Koszyczkach).
+3. ~~**Cienie**~~ — zrobione (M21, ADR-031).
 4. **Kulki:** spokojny „marble shooter” — łańcuch kolorowych kulek sunie wolno po torze, stuknięcie strzela kulką z działka, 3 tego samego koloru pękają. Odpowiedzi: zwykłe kolorowe kulki (nie zdjęcia); kolejna kulka tylko w kolorach obecnych w łańcuchu; zamiana kulki stuknięciem w działko. Nie da się przegrać (łańcuch zatrzymuje się przed metą). Własny wygląd, bez motywów z istniejących gier. Wymaga ADR na stonowaną paletę kulek (docs/08). Tor wspólny z Labiryntem (`Track`).
 5. **Znajdź na zdjęciu:** scena (wieś, miasto, kuchnia…) i polecenie lektora „Pokaż krowę”; tryb zadaniowy i tryb odkrywania. _Otwarte: sceny wbudowane czy zdjęcia rodzica z zaznaczanymi obszarami; lista scen; tryb odkrywania jako osobny kafel czy przełącznik._
 6. **Propozycje do wyboru:** Klocki do dziurek (sorter kształtów), Kto zniknął?, Połówki, Ubierz na pogodę, Powtórz za mną (Cymbałki), Ogródek.
 
 ---
 
-## Definition of Done dla każdego milestone'u M10–M19
+## Definition of Done dla każdego milestone'u M10–M21
 1. Gra zarejestrowana w `GameRegistry` z `ageBand`, `kind`, ikoną liniową i opisem dla S11.
 2. Logika domenowa w `domain/game/<gra>/` z testami jednostkowymi (deterministyczny `Random`, czas przez `TestScope`).
 3. Ekrany zgodne z docs/08 (paleta stonowana, miękkie cienie, ikony liniowe, brak czerwieni i „buczków”), cele dotyku ≥ 96/64 dp, obsługa tylko pierwszego wskaźnika (poza Zdrapką i Cymbałkami).
@@ -288,6 +304,8 @@ Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę 
 - [x] M17 Ile jest?
 - [x] M18 Kolorowanki
 - [x] M19 Labirynt
+- [x] M20 Tekst czytany przez syntezator zamiast nagrań (ADR-030)
+- [x] M21 Cienie
 
 _Stan (2026-11-11):_ wszystkie gry zarejestrowane i sprawdzone na emulatorze 1280×800 dp (menu 3×2 ze stronami, S15, S17, każda gra przeszła co najmniej jedną rundę lub wygraną); `lint testDebugUnitTest assembleDebug` zielone (122 testy, w tym test migracji v1→v2). Odstępstwa: ADR-023…ADR-027. Niesprawdzone: dźwięk (emulator bez audio — kolejność klipów i syntezatora tylko w testach i logice), nagrywanie prefiksów i pytań głosowych mikrofonem, wielodotyk w Zdrapce i Cymbałkach (emulator ma jeden palec).
 

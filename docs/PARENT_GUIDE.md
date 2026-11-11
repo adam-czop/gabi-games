@@ -56,6 +56,8 @@ Gotowe kolorowanki zapisują się same — znajdziesz je w **Postępach → Rysu
 
 **Labirynt**: dziecko prowadzi palcem piłeczkę po ścieżce do zdjęcia — na mecie czekają zdjęcia z kategorii „Rodzina” (gdy ma co najmniej 4 zdjęcia), w przeciwnym razie wszystkie widoczne. Wyjście palcem poza ścieżkę tylko zatrzymuje piłeczkę; gwiazdki zależą od tego, jak często to się zdarza.
 
+**Cienie** korzystają tylko z ilustracji wbudowanych (Nasz dom, Zwierzęta, Zabawki, Pojazdy) — jeśli ukryjesz te kategorie, gra nie będzie miała z czego układać cieni.
+
 ## Tryb kiosku
 
 Prawdziwa blokada (dziecko nie wyjdzie z aplikacji, tablet startuje od razu w grach) wymaga jednorazowej konfiguracji z komputerem — patrz [README](../README.md) („Tryb kiosku”). Bez niej aplikacja działa normalnie, ale da się z niej wyjść przyciskiem Home.

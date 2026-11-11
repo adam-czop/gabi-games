@@ -69,6 +69,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable data class MazeRoute(val level: String)
 
+@Serializable data class ShadowsRoute(val level: String)
+
 @Serializable object ParentGamesRoute
 
 @Serializable object ParentSequencesRoute

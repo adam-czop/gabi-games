@@ -13,6 +13,7 @@
     <string name="game_counting">Ile jest?</string>
     <string name="game_coloring">Kolorowanki</string>
     <string name="game_maze">Labirynt</string>
+    <string name="game_shadows">Cienie</string>
 
     <string name="game_desc_memory">Odkrywanie par zdjęć</string>
     <string name="game_desc_puzzle">Układanie zdjęcia z części</string>
@@ -28,6 +29,7 @@
     <string name="game_desc_counting">Liczenie do 3 / do 5</string>
     <string name="game_desc_coloring">Kolorowanie obrazków</string>
     <string name="game_desc_maze">Prowadzenie piłeczki paluszkiem po ścieżce</string>
+    <string name="game_desc_shadows">Dopasuj obrazek do jego cienia</string>
 
     <!-- S16 -->
     <string name="cd_menu_page">Strona %1$d z %2$d</string>
@@ -68,6 +70,15 @@
     <string name="maze_level_2">Zakręty</string>
     <string name="maze_level_3">Ślimak</string>
     <string name="maze_level_4">Labirynt</string>
+    <string name="levels_shadows_title">Cienie</string>
+    <plurals name="levels_shadows">
+        <item quantity="one">%d cień</item>
+        <item quantity="few">%d cienie</item>
+        <item quantity="many">%d cieni</item>
+        <item quantity="other">%d cienia</item>
+    </plurals>
+    <string name="cd_shadow">Cień %d</string>
+    <string name="cd_shadow_filled">Cień %d dopasowany</string>
     <plurals name="levels_photos">
         <item quantity="one">%d zdjęcie</item>
         <item quantity="few">%d zdjęcia</item>
