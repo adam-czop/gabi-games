@@ -1,7 +1,7 @@
 # 12 · Nowe gry (po v1.0) — specyfikacja wdrożeniowa
 
 > Dokument dla agenta implementującego. Realizuj **po ukończeniu M0–M9** (v1.0). Obowiązują wszystkie zasady z `CLAUDE.md`, architektura z `docs/01`, model danych z `docs/02`, stonowany design system z `docs/08` (kolor wnoszą zdjęcia, UI neutralne, jeden akcent) i zasady UX dla dziecka z `docs/03 §0`.
-> **Makiety:** `mockups/png/S15…S30_*.png` + adnotacje w `mockups/index.html` (sekcja „Nowe gry · makiety v2.1”). Adnotacje są częścią wymagań. Buduj z komponentów wspólnych i tokenów z docs/08, dla każdego ekranu dodaj `@Preview` 1280×800 dp. W raporcie po milestonie dołącz zrzuty ekranu z emulatora do porównania z makietą.
+> **Makiety:** `mockups/png/S15…S31_*.png` + adnotacje w `mockups/index.html` (sekcja „Nowe gry · makiety v2.1”). Adnotacje są częścią wymagań. Buduj z komponentów wspólnych i tokenów z docs/08, dla każdego ekranu dodaj `@Preview` 1280×800 dp. W raporcie po milestonie dołącz zrzuty ekranu z emulatora do porównania z makietą.
 
 ---
 
@@ -23,6 +23,7 @@
 | M18 | **Kolorowanki** | `COLORING` | 2,5–5 | swobodna | wbudowane kontury | S28 |
 | M19 | **Labirynt** | `MAZE` | 2,5–5 | zadaniowa | zdjęcia na mecie (najpierw „Rodzina”) | S29 |
 | M21 | **Cienie** | `SHADOWS` | 2–4,5 | zadaniowa | ilustracje wbudowane, drag & drop z Koszyczków | S30 |
+| M22 | **Kulki** | `MARBLES` | 2,5–5 | zadaniowa | brak (kolorowe kulki) | S31 |
 
 - **Zadaniowa** = ma cel, kończy się `WinOverlay` (S04) i zapisem `GameResultEntity`, punktacja 1–3★ (zawsze min. 1★).
 - **Swobodna** = brak wygranej i punktów; dziecko bawi się, ile chce; wyjście przyciskiem Dom. Zapisujemy tylko czas zabawy (`GameResultEntity` z `stars = 0`, `levelKey = "free"`), żeby S14 Postępy mogło to pokazać.
@@ -273,6 +274,32 @@ Na górze 2–4 cienie, na dole te same obrazki w innej kolejności; dziecko prz
 
 ---
 
+## M22 · Kulki (`MARBLES`)
+
+**Makieta:** S31 · **Kod:** `domain/game/marble/Marbles.kt` (`MarblePath`, `MarbleLevel`, `MarbleEngine`), `presentation/games/marble/Marbles.kt`
+
+Spokojna gra typu „marble shooter” dla 2,5–5 lat, z własnym, stonowanym wyglądem.
+
+- **Plansza** 1200 × 640 jednostek, tło `Bg2`, tor to jasny rowek; na końcu toru domek. Działko na dole pośrodku (koło 124 j.), obok mała kulka „następna”.
+- **Strzał:** stuknięcie w planszę — działko obraca się i strzela w tę stronę (1300 j./s); nie ma celowania przeciąganiem. Jednocześnie leci najwyżej jedna kulka. Pudło (kulka wylatuje poza planszę) wraca do działka bez kary. **Stuknięcie w działko** zamienia bieżącą kulkę z następną (odp. właściciela).
+- **Łańcuch** wjeżdża szybko do ~22 % toru, potem toczy się wolno (16–22 j./s). Pcha tylko tylny segment; po zbiciu przerwa domyka się szybciej (160 j./s), a segment przed przerwą cofa się, gdy po obu stronach przerwy jest ten sam kolor. Zetknięcie tego samego koloru może zbić znowu — reakcja łańcuchowa z coraz wyższym „pyk”.
+- **Nie da się przegrać:** łańcuch zatrzymuje się przed domkiem i czeka; wygrana = zbicie wszystkich kulek → `WinOverlay`.
+- **Kolory w działku** tylko spośród kulek obecnych na torze (odp. właściciela); po zbiciu ostatniej kulki koloru działko podmienia go od razu.
+- **Startowy łańcuch:** serie o jedną krótsze niż zbicie (na poziomie 1 pojedyncze kulki na przemian), sąsiednie serie w różnych kolorach — każdy celny strzał coś zbija.
+- **Kolory:** 4 farby z Kolorowanek (`Paints[0..3]`) + biały znak na kulce (kropka, romb, trójkąt, plus) dla dzieci słabiej rozróżniających barwy (ADR-032).
+
+| Poziom | `levelKey` | Kolory | Kulki | Zbija | Tor | Prędkość |
+|---|---|---|---|---|---|---|
+| 1 | `marbles_1` | 2 | 12 | 2 | łuk | 16 |
+| 2 | `marbles_2` | 3 | 18 | 3 | fala | 18 |
+| 3 | `marbles_3` | 3 | 24 | 3 | wąż, 2 rzędy | 20 |
+| 4 | `marbles_4` | 4 | 30 | 3 | wąż, 3 rzędy | 22 |
+
+- **Gwiazdki** (`Marbles.stars`): kulki dołożone do łańcucha bez zbicia ≤ ¼ liczby kulek → 3★, ≤ ½ → 2★, więcej → 1★; pudła się nie liczą.
+- Testy: `MarbleEngineTest` — startowy łańcuch, zbicie i dołożenie, pudło bez kary, reakcja łańcuchowa (combo 1 → 2), zatrzymanie przed końcem przez 10 min gry, kolory działka, wygrana, tory na planszy i z dala od działka.
+
+---
+
 ## Kolejka pomysłów właściciela (2026-11-11, przed specyfikacją)
 
 Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę przed implementacją.
@@ -280,13 +307,13 @@ Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę 
 1. ~~**Zdrapka — poprawka**~~ — zrobione (ADR-029).
 2. ~~**Nagrania → tekst**~~ — zrobione (ADR-030).
 3. ~~**Cienie**~~ — zrobione (M21, ADR-031).
-4. **Kulki:** spokojny „marble shooter” — łańcuch kolorowych kulek sunie wolno po torze, stuknięcie strzela kulką z działka, 3 tego samego koloru pękają. Odpowiedzi: zwykłe kolorowe kulki (nie zdjęcia); kolejna kulka tylko w kolorach obecnych w łańcuchu; zamiana kulki stuknięciem w działko. Nie da się przegrać (łańcuch zatrzymuje się przed metą). Własny wygląd, bez motywów z istniejących gier. Wymaga ADR na stonowaną paletę kulek (docs/08). Tor wspólny z Labiryntem (`Track`).
+4. ~~**Kulki**~~ — zrobione (M22, ADR-032).
 5. **Znajdź na zdjęciu:** scena (wieś, miasto, kuchnia…) i polecenie lektora „Pokaż krowę”; tryb zadaniowy i tryb odkrywania. _Otwarte: sceny wbudowane czy zdjęcia rodzica z zaznaczanymi obszarami; lista scen; tryb odkrywania jako osobny kafel czy przełącznik._
 6. **Propozycje do wyboru:** Klocki do dziurek (sorter kształtów), Kto zniknął?, Połówki, Ubierz na pogodę, Powtórz za mną (Cymbałki), Ogródek.
 
 ---
 
-## Definition of Done dla każdego milestone'u M10–M21
+## Definition of Done dla każdego milestone'u M10–M22
 1. Gra zarejestrowana w `GameRegistry` z `ageBand`, `kind`, ikoną liniową i opisem dla S11.
 2. Logika domenowa w `domain/game/<gra>/` z testami jednostkowymi (deterministyczny `Random`, czas przez `TestScope`).
 3. Ekrany zgodne z docs/08 (paleta stonowana, miękkie cienie, ikony liniowe, brak czerwieni i „buczków”), cele dotyku ≥ 96/64 dp, obsługa tylko pierwszego wskaźnika (poza Zdrapką i Cymbałkami).
@@ -306,6 +333,7 @@ Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę 
 - [x] M19 Labirynt
 - [x] M20 Tekst czytany przez syntezator zamiast nagrań (ADR-030)
 - [x] M21 Cienie
+- [x] M22 Kulki
 
 _Stan (2026-11-11):_ wszystkie gry zarejestrowane i sprawdzone na emulatorze 1280×800 dp (menu 3×2 ze stronami, S15, S17, każda gra przeszła co najmniej jedną rundę lub wygraną); `lint testDebugUnitTest assembleDebug` zielone (122 testy, w tym test migracji v1→v2). Odstępstwa: ADR-023…ADR-027. Niesprawdzone: dźwięk (emulator bez audio — kolejność klipów i syntezatora tylko w testach i logice), nagrywanie prefiksów i pytań głosowych mikrofonem, wielodotyk w Zdrapce i Cymbałkach (emulator ma jeden palec).
 

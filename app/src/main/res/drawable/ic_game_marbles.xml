@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M22 "Kulki": a curved row of marbles and the cannon below (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M10 40a8 8 0 1 0 16 0a8 8 0 1 0 -16 0zM26 26a8 8 0 1 0 16 0a8 8 0 1 0 -16 0zM44 20a8 8 0 1 0 16 0a8 8 0 1 0 -16 0zM62 26a8 8 0 1 0 16 0a8 8 0 1 0 -16 0zM72 42a8 8 0 1 0 16 0a8 8 0 1 0 -16 0z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M36 78a12 12 0 1 0 24 0a12 12 0 1 0 -24 0zM48 66V54"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

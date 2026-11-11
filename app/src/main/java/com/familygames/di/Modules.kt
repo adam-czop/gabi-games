@@ -73,6 +73,7 @@ import com.familygames.domain.game.round.WhereIsRoundGenerator
 import com.familygames.presentation.games.bubbles.BubblesViewModel
 import com.familygames.presentation.games.coloring.ColoringViewModel
 import com.familygames.presentation.games.maze.MazeViewModel
+import com.familygames.presentation.games.marble.MarblesViewModel
 import com.familygames.presentation.games.shadow.ShadowsViewModel
 import com.familygames.presentation.games.shadow.SilhouetteLoader
 import com.familygames.presentation.games.shadow.ThumbSilhouetteLoader
@@ -205,6 +206,7 @@ val viewModelModule = module {
     viewModel { ColoringViewModel(get(), get(), get(), get()) }
     viewModel { (level: String) -> MazeViewModel(level, get(), get(), androidContext().resources, get(), get(), get(), get()) }
     viewModel { (level: String) -> ShadowsViewModel(level, get(), get(), get(), get(), get(), get()) }
+    viewModel { (level: String) -> MarblesViewModel(level, get(), get(), get()) }
     viewModelOf(::PuzzleSetupViewModel)
     viewModel { (purpose: GatePurpose) -> ParentGateViewModel(purpose, get(), get(), get(), get()) }
     viewModel {

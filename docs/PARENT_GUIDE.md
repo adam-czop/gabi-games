@@ -58,6 +58,8 @@ Gotowe kolorowanki zapisują się same — znajdziesz je w **Postępach → Rysu
 
 **Cienie** korzystają tylko z ilustracji wbudowanych (Nasz dom, Zwierzęta, Zabawki, Pojazdy) — jeśli ukryjesz te kategorie, gra nie będzie miała z czego układać cieni.
 
+**Kulki** nie używają zdjęć: dziecko stuka w planszę, a działko strzela kulką w tę stronę (stuknięcie w działko zamienia kulki). Nie da się przegrać — łańcuch zatrzymuje się przed domkiem i czeka.
+
 ## Tryb kiosku
 
 Prawdziwa blokada (dziecko nie wyjdzie z aplikacji, tablet startuje od razu w grach) wymaga jednorazowej konfiguracji z komputerem — patrz [README](../README.md) („Tryb kiosku”). Bez niej aplikacja działa normalnie, ale da się z niej wyjść przyciskiem Home.

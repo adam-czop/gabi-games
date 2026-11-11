@@ -29,6 +29,8 @@ import com.familygames.presentation.games.counting.CountingScreen
 import com.familygames.presentation.games.counting.CountingViewModel
 import com.familygames.presentation.games.maze.MazeScreen
 import com.familygames.presentation.games.maze.MazeViewModel
+import com.familygames.presentation.games.marble.MarblesScreen
+import com.familygames.presentation.games.marble.MarblesViewModel
 import com.familygames.presentation.games.shadow.ShadowsScreen
 import com.familygames.presentation.games.shadow.ShadowsViewModel
 import com.familygames.presentation.games.memory.MemoryEffect
@@ -184,6 +186,12 @@ fun NavGraphBuilder.newGamesGraph(navController: NavHostController, sound: Sound
         val state by vm.uiState.collectAsStateWithLifecycle()
         GameEffects(vm.effect, sound, navController)
         KidTheme { ShadowsScreen(state, vm::onEvent, vm::drop, star) }
+    }
+    composable<MarblesRoute> { entry ->
+        val vm: MarblesViewModel = koinViewModel { parametersOf(entry.toRoute<MarblesRoute>().level) }
+        val state by vm.uiState.collectAsStateWithLifecycle()
+        GameEffects(vm.effect, sound, navController)
+        KidTheme { MarblesScreen(state, vm::onEvent, star) }
     }
 }
 

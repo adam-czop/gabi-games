@@ -14,6 +14,7 @@
     <string name="game_coloring">Kolorowanki</string>
     <string name="game_maze">Labirynt</string>
     <string name="game_shadows">Cienie</string>
+    <string name="game_marbles">Kulki</string>
 
     <string name="game_desc_memory">Odkrywanie par zdjęć</string>
     <string name="game_desc_puzzle">Układanie zdjęcia z części</string>
@@ -30,6 +31,7 @@
     <string name="game_desc_coloring">Kolorowanie obrazków</string>
     <string name="game_desc_maze">Prowadzenie piłeczki paluszkiem po ścieżce</string>
     <string name="game_desc_shadows">Dopasuj obrazek do jego cienia</string>
+    <string name="game_desc_marbles">Strzelanie kulkami do kolorowego łańcucha</string>
 
     <!-- S16 -->
     <string name="cd_menu_page">Strona %1$d z %2$d</string>
@@ -79,6 +81,12 @@
     </plurals>
     <string name="cd_shadow">Cień %d</string>
     <string name="cd_shadow_filled">Cień %d dopasowany</string>
+    <string name="levels_marbles_title">Kulki</string>
+    <string name="marbles_level_1">2 kolory</string>
+    <string name="marbles_level_2">3 kolory</string>
+    <string name="marbles_level_3">3 kolory, dłużej</string>
+    <string name="marbles_level_4">4 kolory</string>
+    <string name="cd_marbles_board">Tor z kolorowymi kulkami. Dotknij miejsca, w które ma polecieć kulka; dotknij działka na dole, aby zamienić kulki.</string>
     <plurals name="levels_photos">
         <item quantity="one">%d zdjęcie</item>
         <item quantity="few">%d zdjęcia</item>

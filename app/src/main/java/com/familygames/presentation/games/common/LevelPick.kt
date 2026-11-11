@@ -38,6 +38,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.familygames.R
 import com.familygames.domain.game.board.SortingLevel
+import com.familygames.domain.game.marble.MarbleLevel
 import com.familygames.domain.game.maze.MazeLevel
 import com.familygames.domain.game.maze.TrackShape
 import com.familygames.domain.game.shadow.ShadowDealer
@@ -62,6 +63,7 @@ import com.familygames.presentation.games.memory.CategoryChipUi
 import com.familygames.presentation.games.memory.MiniGrid
 import com.familygames.presentation.games.maze.MiniTrack
 import com.familygames.presentation.navigation.CountingRoute
+import com.familygames.presentation.navigation.MarblesRoute
 import com.familygames.presentation.navigation.MazeRoute
 import com.familygames.presentation.navigation.ShadowsRoute
 import com.familygames.presentation.navigation.OddOneOutRoute
@@ -119,6 +121,7 @@ sealed interface LevelPickEffect {
 }
 
 private val MAZE_LEVEL_NAMES = listOf(R.string.maze_level_1, R.string.maze_level_2, R.string.maze_level_3, R.string.maze_level_4)
+private val MARBLE_LEVEL_NAMES = listOf(R.string.marbles_level_1, R.string.marbles_level_2, R.string.marbles_level_3, R.string.marbles_level_4)
 
 /** Snapshot of what the games can use: photos per visible category plus chip data. */
 private data class Content(val groups: Map<Long, List<Photo>>, val chips: List<CategoryChipUi>)
@@ -199,6 +202,13 @@ class LevelPickViewModel(
                 title = R.string.levels_shadows_title,
                 tiles = ShadowLevel.entries.map { l -> tile(l.key, 1, l.items, TileCaption.Shadows, l.items, ShadowDealer.canPlay(c.groups, l)) },
             )
+            GameId.MARBLES -> LevelPickUiState(
+                loading = false,
+                title = R.string.levels_marbles_title,
+                tiles = MarbleLevel.entries.mapIndexed { i, l ->
+                    PickTile(l.key, 1, l.colors, TileCaption.Named, i + 1, enabled = true, bestStars = best[l.key] ?: 0, name = MARBLE_LEVEL_NAMES[i])
+                },
+            )
             GameId.MAZE -> LevelPickUiState(
                 loading = false,
                 title = R.string.levels_maze_title,
@@ -228,6 +238,7 @@ class LevelPickViewModel(
                     GameId.SOUND_MEMO -> SoundMemoRoute(MemoryLevel.fromKey(tile.key) ?: MemoryLevel.L1)
                     GameId.MAZE -> MazeRoute(tile.key)
                     GameId.SHADOWS -> ShadowsRoute(tile.key)
+                    GameId.MARBLES -> MarblesRoute(tile.key)
                     else -> return@launch
                 }
                 effects.send(LevelPickEffect.Play(route))
