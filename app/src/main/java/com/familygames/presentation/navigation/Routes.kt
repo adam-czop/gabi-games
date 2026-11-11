@@ -83,6 +83,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable data class EchoRoute(val level: String)
 
+@Serializable object GardenRoute
+
 @Serializable object ParentGamesRoute
 
 @Serializable object ParentSequencesRoute

@@ -313,4 +313,10 @@
         <item quantity="many">%d nut</item>
         <item quantity="other">%d nuty</item>
     </plurals>
+
+    <!-- M28 · Ogródek -->
+    <string name="game_garden">Ogródek</string>
+    <string name="game_desc_garden">Sadzenie, podlewanie i zbieranie kwiatków</string>
+    <string name="garden_bloomed">Kwiatki zakwitły!</string>
+    <string name="cd_garden_board">Ogródek. Dotknij grządki, aby posadzić nasionko; konewka podlewa, chmurka odsłania słońce, a kwiatek trafia do wazonu.</string>
 </resources>

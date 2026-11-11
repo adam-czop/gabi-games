@@ -81,6 +81,7 @@ import com.familygames.presentation.games.missing.MissingViewModel
 import com.familygames.presentation.games.halves.HalvesViewModel
 import com.familygames.presentation.games.sorter.SorterViewModel
 import com.familygames.presentation.games.echo.EchoViewModel
+import com.familygames.presentation.games.garden.GardenViewModel
 import com.familygames.presentation.games.marble.MarblesViewModel
 import com.familygames.presentation.games.shadow.ShadowsViewModel
 import com.familygames.presentation.games.shadow.SilhouetteLoader
@@ -223,6 +224,7 @@ val viewModelModule = module {
     viewModel { (level: String) -> HalvesViewModel(level, get(), get(), androidContext().resources, get(), get(), get()) }
     viewModel { (level: String) -> SorterViewModel(level, get(), get(), androidContext().resources, get(), get()) }
     viewModel { (level: String) -> EchoViewModel(level, get(), get(), get(), androidContext().resources, get(), get(), get()) }
+    viewModel { GardenViewModel(get(), androidContext().resources, get(), get()) }
     viewModelOf(::PuzzleSetupViewModel)
     viewModel { (purpose: GatePurpose) -> ParentGateViewModel(purpose, get(), get(), get(), get()) }
     viewModel {

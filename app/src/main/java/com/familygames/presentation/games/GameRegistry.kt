@@ -12,6 +12,7 @@ import com.familygames.domain.model.PlayStyle
 import com.familygames.presentation.navigation.BubblesRoute
 import com.familygames.presentation.navigation.ColoringRoute
 import com.familygames.presentation.navigation.GameLevelsRoute
+import com.familygames.presentation.navigation.GardenRoute
 import com.familygames.presentation.navigation.MemoryLevelsRoute
 import com.familygames.presentation.navigation.PeekabooRoute
 import com.familygames.presentation.navigation.PuzzleSetupRoute
@@ -54,6 +55,7 @@ object GameRegistry {
         GameEntry(GameId.HALVES, R.string.game_halves, R.string.game_desc_halves, R.drawable.ic_game_halves, AgeRange(2.5f, 4.5f), PlayStyle.TASK, GameLevelsRoute(GameId.HALVES)),
         GameEntry(GameId.SORTER, R.string.game_sorter, R.string.game_desc_sorter, R.drawable.ic_game_sorter, AgeRange(1.5f, 4f), PlayStyle.TASK, GameLevelsRoute(GameId.SORTER)),
         GameEntry(GameId.ECHO, R.string.game_echo, R.string.game_desc_echo, R.drawable.ic_game_echo, AgeRange(2.5f, 5f), PlayStyle.TASK, GameLevelsRoute(GameId.ECHO)),
+        GameEntry(GameId.GARDEN, R.string.game_garden, R.string.game_desc_garden, R.drawable.ic_game_garden, AgeRange(1.5f, 4f), PlayStyle.FREE_PLAY, GardenRoute),
     )
 
     fun entry(id: GameId): GameEntry = games.first { it.id == id }

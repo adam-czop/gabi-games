@@ -405,7 +405,7 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
   <h1>FamilyGames — makiety ekranów v2</h1>
   <p>Tablet, orientacja pozioma, kadr 1280×800 dp (referencja: 10–11" tablet). Wersja stonowana: neutralne tło, jeden przygaszony akcent (szałwia), ikony liniowe — kolor wnoszą wyłącznie zdjęcia. Strefa dziecka (S01–S07) opiera się na dużych elementach i ikonach zamiast tekstu. Strefa rodzica (S08–S11) ma spokojny, „dorosły” styl. Emoji i grafika domku to wyłącznie placeholdery dla zdjęć rodzinnych. Szczegóły zachowań: <code>docs/03_SCREENS_AND_UX.md</code>.</p>
   <nav class="toc">
-    <a href="#s01">S01 Menu</a><a href="#s02">S02 Poziomy</a><a href="#s03">S03 Memorki</a><a href="#s04">S04 Wygrana</a><a href="#s05">S05 Wybór obrazka</a><a href="#s06">S06 Puzzle Snap</a><a href="#s07">S07 Puzzle Swap</a><a href="#s08">S08 Bramka rodzica</a><a href="#s09">S09 Zdjęcia</a><a href="#s10">S10 Dodaj zdjęcie</a><a href="#s11">S11 Ustawienia</a><a href="#s16">S15–S36 Nowe gry</a>
+    <a href="#s01">S01 Menu</a><a href="#s02">S02 Poziomy</a><a href="#s03">S03 Memorki</a><a href="#s04">S04 Wygrana</a><a href="#s05">S05 Wybór obrazka</a><a href="#s06">S06 Puzzle Snap</a><a href="#s07">S07 Puzzle Swap</a><a href="#s08">S08 Bramka rodzica</a><a href="#s09">S09 Zdjęcia</a><a href="#s10">S10 Dodaj zdjęcie</a><a href="#s11">S11 Ustawienia</a><a href="#s16">S15–S37 Nowe gry</a>
   </nav>
 </header>
 
@@ -908,6 +908,29 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 <div class="kc floating" style="position:absolute;left:330px;top:330px;width:184px;height:184px;transform:rotate(-3deg) scale(1.08);z-index:5"><div class="photo g3 emoji" style="font-size:110px">🐮</div></div><div class="touch" style="left:390px;top:400px"></div>
 </div></div>
 <div class="notes"><ul><li>Na górze cienie wbudowanych ilustracji (zwierzęta, pojazdy, dom, zabawki), na dole te same obrazki w innej kolejności. Przeciągnij obrazek na jego cień.</li><li>Dobry cień: obrazek zostaje, ramka w kolorze akcentu, lektor mówi nazwę. Zły: obrazek wraca na dół (cichy dźwięk), po 2 pomyłkach z tym samym obrazkiem właściwy cień pulsuje.</li><li>Cień wycinany w aplikacji z ilustracji (ADR-031) — kolor <code>Ink2</code>, bez nowych grafik. Zdjęcia rodzica nie mają czystego tła, więc gra używa tylko ilustracji wbudowanych.</li><li>Poziomy: 2 cienie, 3 cienie, 4 cienie z jednej kategorii (podobne kształty). 3 rundy, potem S04.</li></ul></div>
+</section>
+
+<section class="spec" id="s37-wrap">
+<h2>S37 · Ogródek (M28) <small>route: <code>garden</code> · gra swobodna</small></h2>
+<div class="scaler"><div class="screen kidbg" id="s37">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div>
+<svg viewBox="0 0 1200 640" width="1200" height="640" style="position:absolute;left:40px;top:136px;border-radius:32px;box-shadow:0 10px 30px rgba(40,30,20,.08)" stroke="#3B3936" stroke-linecap="round" stroke-linejoin="round">
+<rect width="1200" height="430" fill="#E6ECF0" stroke="none"/><rect y="430" width="1200" height="210" fill="#C9A27E" stroke="none"/>
+<g stroke="#D6B47A" stroke-width="9"><path d="M1076 120h28M896 120h28M1000 16v28M1000 196v28M1068 52l20 -20M912 208l20 -20M1068 188l20 20M912 32l20 20"/></g><circle cx="1000" cy="120" r="62" fill="#D6B47A" stroke-width="5"/>
+<g fill="#fff" stroke="#D6B47A" stroke-width="4"><circle cx="1170" cy="160" r="50"/><circle cx="1230" cy="130" r="66"/></g>
+<g stroke="none" fill="#A9825F"><ellipse cx="330" cy="463" rx="80" ry="23"/><ellipse cx="520" cy="463" rx="80" ry="23"/><ellipse cx="710" cy="463" rx="80" ry="23"/><ellipse cx="900" cy="463" rx="80" ry="23"/></g>
+<line x1="330" y1="452" x2="330" y2="292" stroke="#5E8C76" stroke-width="10"/><g fill="#81B29A" stroke="#5E8C76" stroke-width="3"><ellipse cx="302" cy="400" rx="29" ry="14" transform="rotate(-35 330 400)"/><ellipse cx="358" cy="400" rx="29" ry="14" transform="rotate(35 330 400)"/><ellipse cx="302" cy="352" rx="29" ry="14" transform="rotate(-35 330 352)"/><ellipse cx="358" cy="352" rx="29" ry="14" transform="rotate(35 330 352)"/></g>
+<g fill="#E07A5F" stroke-width="4"><circle cx="364" cy="292" r="26"/><circle cx="347" cy="321" r="26"/><circle cx="313" cy="321" r="26"/><circle cx="296" cy="292" r="26"/><circle cx="313" cy="263" r="26"/><circle cx="347" cy="263" r="26"/></g><circle cx="330" cy="292" r="22" fill="#D6B47A" stroke-width="4"/>
+<line x1="520" y1="452" x2="520" y2="292" stroke="#5E8C76" stroke-width="10"/><g fill="#81B29A" stroke="#5E8C76" stroke-width="3"><ellipse cx="492" cy="400" rx="29" ry="14" transform="rotate(-35 520 400)"/><ellipse cx="548" cy="352" rx="29" ry="14" transform="rotate(35 520 352)"/></g><ellipse cx="520" cy="265" rx="20" ry="27" fill="#3D85C6" stroke-width="4"/>
+<line x1="710" y1="452" x2="710" y2="402" stroke="#5E8C76" stroke-width="10"/><g fill="#81B29A" stroke="#5E8C76" stroke-width="3"><ellipse cx="682" cy="434" rx="29" ry="14" transform="rotate(-35 710 434)"/><ellipse cx="738" cy="434" rx="29" ry="14" transform="rotate(35 710 434)"/></g>
+<ellipse cx="900" cy="439" rx="34" ry="17" fill="#C9A27E" stroke="#A9825F" stroke-width="4"/>
+<circle cx="140" cy="470" r="96" fill="rgba(255,255,255,.55)" stroke="none"/><line x1="170" y1="480" x2="226" y2="430" stroke="#7F95A6" stroke-width="14"/><path d="M90 434h80l8 82H82z" fill="#7F95A6" stroke-width="5"/><path d="M100 434a30 35 0 0 1 60 0" fill="none" stroke-width="6"/><circle cx="230" cy="426" r="12" fill="#E6ECF0" stroke-width="4"/>
+<g stroke="#7F95A6" stroke-width="7"><path d="M310 300v22M330 340v22M350 260v22M500 320v22M520 280v22"/></g>
+<path d="M1066 520h68l12 90h-92z" fill="#E6ECF0" stroke-width="5"/><g stroke="#5E8C76" stroke-width="5"><path d="M1100 530l-60 -90M1100 530l0 -110M1100 530l55 -95"/></g><g stroke-width="3"><circle cx="1040" cy="440" r="16" fill="#E07A5F"/><circle cx="1100" cy="420" r="16" fill="#9C89B8"/><circle cx="1155" cy="435" r="16" fill="#F2CC8F"/></g>
+</svg>
+<div class="touch" style="left:150px;top:560px"></div>
+</div></div>
+<div class="notes"><ul><li>Gra swobodna, bez celu. Dotknięcie pustej grządki sadzi nasionko; <b>konewka</b> (lewa strona) podlewa wszystkie grządki — kropelki i każda roślinka rośnie o krok (nasionko → kiełek → listki → pąk).</li><li><b>Chmurka</b> zasłania słońce; dotknięcie odsuwa ją na ~4 s — pąki rozkwitają, lektor: „Kwiatki zakwitły!”. Kwiatki mają losowe kolory farb.</li><li>Dotknięcie kwiatka: kwiatek trafia do <b>wazonu</b> (prawa strona, do 9 kwiatków), grządka znów jest pusta. Dotknięcie rosnącej roślinki tylko cicho szeleści. Zapisywany tylko czas zabawy.</li></ul></div>
 </section>
 
 <section class="spec" id="s36-wrap">
