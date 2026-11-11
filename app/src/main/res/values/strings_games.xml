@@ -266,4 +266,17 @@
     <string name="missing_look">Popatrz uważnie!</string>
     <string name="missing_question">Czego brakuje?</string>
     <string name="cd_missing_gap">Puste miejsce po zdjęciu</string>
+
+    <!-- M25 · Połówki -->
+    <string name="game_halves">Połówki</string>
+    <string name="game_desc_halves">Znajdź drugą połówkę zdjęcia</string>
+    <string name="levels_halves_title">Połówki</string>
+    <string name="halves_question">Gdzie jest druga połówka?</string>
+    <string name="cd_halves_whole">Połówka zdjęcia i puste miejsce na drugą</string>
+    <plurals name="levels_halves">
+        <item quantity="one">%d połówka</item>
+        <item quantity="few">%d połówki</item>
+        <item quantity="many">%d połówek</item>
+        <item quantity="other">%d połówki</item>
+    </plurals>
 </resources>

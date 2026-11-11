@@ -31,6 +31,8 @@ import com.familygames.presentation.games.maze.MazeScreen
 import com.familygames.presentation.games.maze.MazeViewModel
 import com.familygames.presentation.games.find.FindScreen
 import com.familygames.presentation.games.find.FindViewModel
+import com.familygames.presentation.games.halves.HalvesScreen
+import com.familygames.presentation.games.halves.HalvesViewModel
 import com.familygames.presentation.games.missing.MissingScreen
 import com.familygames.presentation.games.missing.MissingViewModel
 import com.familygames.presentation.games.marble.MarblesScreen
@@ -208,6 +210,12 @@ fun NavGraphBuilder.newGamesGraph(navController: NavHostController, sound: Sound
         val state by vm.uiState.collectAsStateWithLifecycle()
         GameEffects(vm.effect, sound, navController)
         KidTheme { MissingScreen(state, vm::onEvent, star) }
+    }
+    composable<HalvesRoute> { entry ->
+        val vm: HalvesViewModel = koinViewModel { parametersOf(entry.toRoute<HalvesRoute>().level) }
+        val state by vm.uiState.collectAsStateWithLifecycle()
+        GameEffects(vm.effect, sound, navController)
+        KidTheme { HalvesScreen(state, vm::onEvent, star) }
     }
 }
 

@@ -39,6 +39,7 @@ import androidx.lifecycle.viewModelScope
 import com.familygames.R
 import com.familygames.domain.game.board.SortingLevel
 import com.familygames.domain.game.find.FindLevel
+import com.familygames.domain.game.round.HalvesLevel
 import com.familygames.domain.game.round.MissingLevel
 import com.familygames.domain.game.marble.MarbleLevel
 import com.familygames.domain.game.maze.MazeLevel
@@ -66,6 +67,7 @@ import com.familygames.presentation.games.memory.MiniGrid
 import com.familygames.presentation.games.maze.MiniTrack
 import com.familygames.presentation.navigation.CountingRoute
 import com.familygames.presentation.navigation.FindRoute
+import com.familygames.presentation.navigation.HalvesRoute
 import com.familygames.presentation.navigation.MissingRoute
 import com.familygames.presentation.navigation.MarblesRoute
 import com.familygames.presentation.navigation.MazeRoute
@@ -90,7 +92,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 /** How a level tile describes itself (the screen turns it into text). */
-enum class TileCaption { Photos, Baskets, CountTo, Cards, Named, Shadows }
+enum class TileCaption { Photos, Baskets, CountTo, Cards, Named, Shadows, Halves }
 
 data class PickTile(
     val key: String,
@@ -217,6 +219,14 @@ class LevelPickViewModel(
                     tiles = MissingLevel.entries.map { l -> tile(l.key, 1, l.shown, TileCaption.Photos, l.shown, photos >= l.needed) },
                 )
             }
+            GameId.HALVES -> {
+                val photos = c.groups.values.flatten().size
+                LevelPickUiState(
+                    loading = false,
+                    title = R.string.levels_halves_title,
+                    tiles = HalvesLevel.entries.map { l -> tile(l.key, 1, l.options, TileCaption.Halves, l.options, photos >= l.options) },
+                )
+            }
             GameId.FIND -> LevelPickUiState(
                 loading = false,
                 title = R.string.levels_find_title,
@@ -266,6 +276,7 @@ class LevelPickViewModel(
                     GameId.MARBLES -> MarblesRoute(tile.key)
                     GameId.FIND -> FindRoute(tile.key)
                     GameId.MISSING -> MissingRoute(tile.key)
+                    GameId.HALVES -> HalvesRoute(tile.key)
                     else -> return@launch
                 }
                 effects.send(LevelPickEffect.Play(route))
@@ -347,6 +358,7 @@ private fun PickTileView(tile: PickTile, number: Int, scale: Float, shakeKey: In
         TileCaption.Cards -> pluralStringResource(R.plurals.memory_cards, tile.amount, tile.amount)
         TileCaption.Named -> stringResource(tile.name ?: R.string.app_name)
         TileCaption.Shadows -> pluralStringResource(R.plurals.levels_shadows, tile.amount, tile.amount)
+        TileCaption.Halves -> pluralStringResource(R.plurals.levels_halves, tile.amount, tile.amount)
     }
     val description = stringResource(R.string.cd_level_simple, number, caption)
     Box(

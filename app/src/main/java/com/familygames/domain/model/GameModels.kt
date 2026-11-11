@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 /** Games known to the app (docs/12 §0). Only registered ones (GameRegistry) appear in the menu. */
 @Serializable
 enum class GameId {
-    MEMORY, PUZZLE, WHERE_IS, PEEKABOO, SCRATCH, SORTING, ODD_ONE_OUT, SOUND_MEMO, BUBBLES, XYLOPHONE, SEQUENCE, COUNTING, COLORING, MAZE, SHADOWS, MARBLES, FIND, MISSING,
+    MEMORY, PUZZLE, WHERE_IS, PEEKABOO, SCRATCH, SORTING, ODD_ONE_OUT, SOUND_MEMO, BUBBLES, XYLOPHONE, SEQUENCE, COUNTING, COLORING, MAZE, SHADOWS, MARBLES, FIND, MISSING, HALVES,
 }
 
 /** S17 age switch (docs/12 M10.2): 1–2,5 years or 2,5–5 years. */
