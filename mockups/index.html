@@ -806,7 +806,7 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 <div class="scaler"><div class="screen kidbg" id="s20">
 <div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-next"/></svg></div><div class="scratch"><div class="img"></div><canvas id="scr" width="768" height="568"></canvas></div><div class="touch" style="left:700px;top:330px"></div>
 </div></div>
-<div class="notes"><ul><li>Mgiełka (wzór kropek jak tył kart) ścierana palcem — <code>BlendMode.Clear</code> na warstwie offscreen, pędzel 64 dp. Wiele palców naraz dozwolone.</li><li>Postęp liczony na siatce 32×24; przy ≥ 70% reszta mgiełki znika, odtwarza się etykieta, strzałka (prawy górny róg) przechodzi do następnego zdjęcia.</li><li>Opcja: lekki kontur zdjęcia pod mgiełką dla najmłodszych.</li></ul></div>
+<div class="notes"><ul><li>Mgiełka jak srebrna zdrapka: ciepła szarość <code>Line2</code> z kropkami <code>Ink3</code> i kilkoma białymi błyskami — wyraźnie ciemniejsza od tła i białej ramki. Ścierana palcem — <code>BlendMode.Clear</code> na warstwie offscreen, pędzel 64 dp. Wiele palców naraz dozwolone.</li><li>Postęp liczony na siatce 32×24 (pędzel okrągły także w pionie); dopiero przy ≥ 98% (praktycznie wszystko) reszta mgiełki znika, odtwarza się etykieta, strzałka przechodzi do następnego zdjęcia.</li><li>Opcja: lekki kontur zdjęcia pod mgiełką dla najmłodszych.</li></ul></div>
 </section>
 
 <section class="spec" id="s21-wrap">
@@ -964,8 +964,9 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 
   // S20: mgiełka zdrapki z wytartą ścieżką
   (function(){const c=document.getElementById('scr');if(!c)return;const g=c.getContext('2d');
-    g.fillStyle='#EDE9E3';g.fillRect(0,0,c.width,c.height);g.fillStyle='#E2DDD5';
-    for(let y=11;y<c.height;y+=22)for(let x=11;x<c.width;x+=22){g.beginPath();g.arc(x,y,1.8,0,7);g.fill();}
+    g.fillStyle='#D6D0C6';g.fillRect(0,0,c.width,c.height);g.fillStyle='#B4AEA5';
+    for(let y=15,row=0;y<c.height;y+=30,row++)for(let x=(row%2?30:15);x<c.width;x+=30){g.beginPath();g.arc(x,y,3,0,7);g.fill();}
+    g.strokeStyle='rgba(255,255,255,.8)';g.lineWidth=3;g.lineCap='round';[[.12,.18],[.78,.12],[.45,.42],[.2,.76],[.86,.7],[.6,.88]].forEach(([u,v])=>{const x=u*c.width,y=v*c.height;g.beginPath();g.moveTo(x-9,y);g.lineTo(x+9,y);g.moveTo(x,y-9);g.lineTo(x,y+9);g.stroke();});
     g.globalCompositeOperation='destination-out';g.lineCap='round';g.lineJoin='round';g.lineWidth=110;g.strokeStyle='#000';
     g.beginPath();g.moveTo(140,420);g.bezierCurveTo(220,250,330,330,380,200);g.bezierCurveTo(420,110,520,160,560,260);g.bezierCurveTo(600,350,520,420,600,470);g.stroke();
     g.lineWidth=90;g.beginPath();g.moveTo(260,470);g.bezierCurveTo(320,400,420,450,470,380);g.stroke();})();

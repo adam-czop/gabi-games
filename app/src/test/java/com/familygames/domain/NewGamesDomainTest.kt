@@ -250,6 +250,25 @@ class FreePlayLogicTest {
     }
 
     @Test
+    fun `a tenth of the mist left is not enough to reveal the picture`() {
+        val grid = ScratchGrid()
+        for (r in 0 until grid.rows) for (c in 0 until grid.cols - 3) grid.scratch((c + 0.5f) / grid.cols, (r + 0.5f) / grid.rows, 0.2f / grid.cols)
+        assertTrue(grid.fraction < ScratchGrid.REVEAL_AT)
+        for (r in 0 until grid.rows) for (c in grid.cols - 3 until grid.cols) grid.scratch((c + 0.5f) / grid.cols, (r + 0.5f) / grid.rows, 0.2f / grid.cols)
+        assertEquals(1f, grid.fraction)
+    }
+
+    @Test
+    fun `a round brush on a 4 to 3 picture clears as far up as sideways`() {
+        val grid = ScratchGrid(cols = 32, rows = 24)
+        // 64 px brush on a 640 × 480 picture.
+        grid.scratch(0.5f, 0.5f, 64f / 640f, 64f / 480f)
+        val across = (0 until grid.cols).count { grid.isCleared(it, 12) }
+        val down = (0 until grid.rows).count { grid.isCleared(16, it) }
+        assertEquals(across, down)
+    }
+
+    @Test
     fun `melody uses only existing bars`() {
         assertTrue(Xylophone.MELODY.all { it in 0 until Xylophone.BARS })
         assertEquals(Xylophone.BARS, Xylophone.NOTE_NAMES.size)

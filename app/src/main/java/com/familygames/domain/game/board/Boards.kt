@@ -105,10 +105,16 @@ class ScratchGrid(val cols: Int = 32, val rows: Int = 24) {
 
     val fraction: Float get() = clearedCount / (cols * rows).toFloat()
 
-    /** Clears the cells whose centre is within [radius] of ([x], [y]); coordinates are 0..1 of the picture. */
-    fun scratch(x: Float, y: Float, radius: Float) {
-        val rx = radius * cols
-        val ry = radius * rows
+    fun isCleared(col: Int, row: Int): Boolean = cleared[row * cols + col]
+
+    /**
+     * Clears the cells whose centre is within the brush around ([x], [y]); coordinates are 0..1 of the picture.
+     * [radiusX] and [radiusY] are the brush radius as a fraction of the picture width and height (a round brush on a
+     * 4:3 picture covers a larger share of the height than of the width).
+     */
+    fun scratch(x: Float, y: Float, radiusX: Float, radiusY: Float = radiusX) {
+        val rx = radiusX * cols
+        val ry = radiusY * rows
         val cx = x * cols
         val cy = y * rows
         for (r in (cy - ry).toInt().coerceAtLeast(0)..(cy + ry).toInt().coerceAtMost(rows - 1)) {
@@ -124,7 +130,8 @@ class ScratchGrid(val cols: Int = 32, val rows: Int = 24) {
     }
 
     companion object {
-        const val REVEAL_AT = 0.7f
+        /** Almost everything: the last specks at the edges are too small for a child to find (owner, 2026-11-11). */
+        const val REVEAL_AT = 0.98f
     }
 }
 

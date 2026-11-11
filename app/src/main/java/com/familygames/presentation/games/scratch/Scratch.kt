@@ -22,7 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
@@ -215,9 +218,11 @@ private fun Mist(state: ScratchUiState, onRevealed: () -> Unit) {
                             val previous = change.previousPosition
                             // Fill the gap of a fast swipe, but skip points that add nothing new.
                             val steps = ((p - previous).getDistance() / (radius / 2)).toInt().coerceIn(0, 12)
-                            for (i in 1..steps) points += previous + (p - previous) * (i / (steps + 1f))
+                            val wiped = (1..steps).map { i -> previous + (p - previous) * (i / (steps + 1f)) } + p
+                            // Count every wiped point, not only the last one: the reveal needs the whole picture.
+                            wiped.forEach { w -> grid.scratch(w.x / size.width, w.y / size.height, radius / size.width, radius / size.height) }
+                            points += wiped.dropLast(1)
                             if (points.isEmpty() || (p - points.last()).getDistance() > radius / 3) points += p
-                            grid.scratch(p.x / size.width, p.y / size.height, radius / size.width.toFloat())
                             change.consume()
                         }
                         version.intValue++
@@ -227,21 +232,41 @@ private fun Mist(state: ScratchUiState, onRevealed: () -> Unit) {
             },
     ) {
         version.intValue // redraw on every scratch
-        drawRect(Palette.Bg2, alpha = if (state.ghost) 0.85f else 1f)
-        val step = 26.dp.toPx()
-        var y = step / 2
-        while (y < size.height) {
-            var x = step / 2
-            while (x < size.width) {
-                drawCircle(Palette.CardDot, 2.dp.toPx(), Offset(x, y))
-                x += step
-            }
-            y += step
-        }
+        drawMist(ghost = state.ghost)
         val r = BRUSH_RADIUS_DP.dp.toPx()
         points.forEach { drawCircle(Palette.Bg2, r, it, blendMode = BlendMode.Clear) }
     }
 }
+
+/**
+ * Scratch-card layer, clearly darker than the page and the white frame (owner, 2026-11-11): warm grey with a dot
+ * grid and a few white glints. Toddlers get it slightly see-through, so the picture's outline shows (ADR-023).
+ */
+private fun DrawScope.drawMist(ghost: Boolean) {
+    val alpha = if (ghost) 0.88f else 1f
+    drawRect(Palette.Line2, alpha = alpha)
+    val step = 30.dp.toPx()
+    var row = 0
+    var y = step / 2
+    while (y < size.height) {
+        var x = if (row % 2 == 0) step / 2 else step
+        while (x < size.width) {
+            drawCircle(Palette.Ink3, 3.dp.toPx(), Offset(x, y), alpha = alpha)
+            x += step
+        }
+        y += step
+        row++
+    }
+    val glint = 9.dp.toPx()
+    GLINTS.forEach { (gx, gy) ->
+        val c = Offset(gx * size.width, gy * size.height)
+        drawLine(Color.White, c - Offset(glint, 0f), c + Offset(glint, 0f), strokeWidth = 3.dp.toPx(), cap = StrokeCap.Round, alpha = 0.8f * alpha)
+        drawLine(Color.White, c - Offset(0f, glint), c + Offset(0f, glint), strokeWidth = 3.dp.toPx(), cap = StrokeCap.Round, alpha = 0.8f * alpha)
+    }
+}
+
+/** Fixed glint positions (fractions of the picture), so the layer looks the same every time. */
+private val GLINTS = listOf(0.12f to 0.18f, 0.78f to 0.12f, 0.45f to 0.42f, 0.2f to 0.76f, 0.86f to 0.7f, 0.6f to 0.88f)
 
 @Preview(device = "spec:width=1280dp,height=800dp,dpi=240")
 @Composable

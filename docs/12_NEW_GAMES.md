@@ -120,9 +120,9 @@ S10 Edycja zdjęcia: nowa sekcja „Pytanie głosowe (opcjonalne)” pod nagrani
 **Makieta:** S20
 
 **Cel:** motoryka mała, ciekawość.
-- Pełnoekranowe zdjęcie (w ramce `Surface`, 4:3) przykryte warstwą „mgiełki” (`Bg2` z delikatnym wzorem kropek jak tył kart).
+- Pełnoekranowe zdjęcie (w ramce `Surface`, 4:3) przykryte warstwą „mgiełki” jak srebrna zdrapka: `Line2` z kropkami `Ink3` i kilkoma białymi błyskami — wyraźnie ciemniejsza od tła i ramki (ADR-029).
 - Palec ściera mgiełkę: `Canvas` z warstwą maski w offscreen `graphicsLayer(compositingStrategy = Offscreen)`, ścieżka rysowana z `BlendMode.Clear`, pędzel 64 dp z miękką krawędzią.
-- Licz odsłonięty procent na siatce 32×24 komórek (nie po pikselach). Przy ≥ 70% → reszta mgiełki znika animacją (400 ms), odtwarza się `audioPath`/etykieta, po 2 s przycisk „następne” (strzałka 96 dp) — lub automatycznie po 5 s.
+- Licz odsłonięty procent na siatce 32×24 komórek (nie po pikselach; pędzel okrągły także w pionie, liczone wszystkie punkty szybkiego pociągnięcia). Dopiero przy ≥ 98% (praktycznie wszystko, ADR-029) → reszta mgiełki znika animacją (400 ms), odtwarza się `audioPath`/etykieta, po 2 s przycisk „następne” (strzałka 96 dp) — lub automatycznie po 5 s.
 - Multi-touch dozwolony (do 3 palców ściera jednocześnie — tu to zaleta).
 - Opcja dla rodzica: „pokazuj kontur pod mgiełką” (ghost alpha 0.15) dla najmłodszych.
 
@@ -259,7 +259,7 @@ S10 Edycja zdjęcia: nowa sekcja „Pytanie głosowe (opcjonalne)” pod nagrani
 
 Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę przed implementacją.
 
-1. **Zdrapka — poprawka:** nazwa zdjęcia dopiero po zdrapaniu całej mgiełki (dziś pada po części); pole do zdrapania wyraźniej odróżnione od tła.
+1. ~~**Zdrapka — poprawka**~~ — zrobione (ADR-029).
 2. **Nagrania → tekst:** usunąć nagrywanie głosu przy zdjęciach (i prawdopodobnie prefiksy w S17); syntezator czyta tekst wpisany przez rodzica. _Otwarte: czy wystarczy etykieta, czy osobne dłuższe pole; co z istniejącymi nagraniami; ostrzeżenie w panelu, gdy brak polskiego syntezatora._
 3. **Cienie:** na planszy sylwetki (cienie) ilustracji wbudowanych — budynki, zwierzęta, pojazdy; dziecko przeciąga obrazek na pasujący cień (drag & drop jak w Koszyczkach).
 4. **Kulki:** spokojny „marble shooter” — łańcuch kolorowych kulek sunie wolno po torze, stuknięcie strzela kulką z działka, 3 tego samego koloru pękają. Odpowiedzi: zwykłe kolorowe kulki (nie zdjęcia); kolejna kulka tylko w kolorach obecnych w łańcuchu; zamiana kulki stuknięciem w działko. Nie da się przegrać (łańcuch zatrzymuje się przed metą). Własny wygląd, bez motywów z istniejących gier. Wymaga ADR na stonowaną paletę kulek (docs/08). Tor wspólny z Labiryntem (`Track`).

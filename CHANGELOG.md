@@ -4,6 +4,7 @@ Format: one `## [x.y.z]` section per release; lines starting with `- ` become th
 `changelog` array in `update.json` (see `.github/workflows/release.yml`).
 
 ## [Unreleased]
+- Zdrapka: nazwa zdjęcia pada dopiero po zdrapaniu całej mgiełki, a mgiełka jest wyraźnie odróżniona od tła.
 - Nowa gra Labirynt: prowadzenie piłeczki paluszkiem po ścieżce do zdjęcia z rodziny — 4 poziomy, od prostej drogi po prawdziwy labirynt.
 
 ## [0.1.0] - 2026-11-11
