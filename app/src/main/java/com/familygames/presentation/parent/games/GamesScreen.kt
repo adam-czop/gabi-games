@@ -1,9 +1,5 @@
 package com.familygames.presentation.parent.games
 
-import android.Manifest
-import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -25,26 +21,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import com.familygames.R
 import com.familygames.domain.model.AgeBand
-import com.familygames.domain.voice.PromptPrefix
 import com.familygames.presentation.games.GameRegistry
 import com.familygames.presentation.parent.common.ParentHeader
-import com.familygames.presentation.parent.common.ParentPrimaryButton
 import com.familygames.presentation.parent.common.ParentSecondaryButton
 import com.familygames.presentation.parent.common.SegmentedTabs
 import com.familygames.presentation.theme.Palette
@@ -59,20 +48,6 @@ private val CardShape = RoundedCornerShape(22.dp)
 /** S17 · Gry. */
 @Composable
 fun GamesScreen(state: GamesUiState, onEvent: (GamesEvent) -> Unit) {
-    val context = LocalContext.current
-    var pending by remember { mutableStateOf<PromptPrefix?>(null) }
-    val mic = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        pending?.let { if (granted) onEvent(GamesEvent.RecordPrefix(it)) }
-        pending = null
-    }
-    val record: (PromptPrefix) -> Unit = { prefix ->
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            onEvent(GamesEvent.RecordPrefix(prefix))
-        } else {
-            pending = prefix
-            mic.launch(Manifest.permission.RECORD_AUDIO)
-        }
-    }
     Column(
         Modifier
             .fillMaxSize()
@@ -106,7 +81,7 @@ fun GamesScreen(state: GamesUiState, onEvent: (GamesEvent) -> Unit) {
                 if (pair.size == 1) Spacer(Modifier.weight(1f))
             }
         }
-        VoiceCard(state, record, onEvent)
+        VoiceCard(state, onEvent)
     }
 }
 
@@ -143,8 +118,9 @@ private fun GameRow(row: GameRowUi, modifier: Modifier, onToggle: (Boolean) -> U
     }
 }
 
+/** The synthesizer reads every text in the games (ADR-030); without a Polish voice the games are silent. */
 @Composable
-private fun VoiceCard(state: GamesUiState, onRecord: (PromptPrefix) -> Unit, onEvent: (GamesEvent) -> Unit) {
+private fun VoiceCard(state: GamesUiState, onEvent: (GamesEvent) -> Unit) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -154,28 +130,16 @@ private fun VoiceCard(state: GamesUiState, onRecord: (PromptPrefix) -> Unit, onE
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Icon(painterResource(R.drawable.ic_mic), null, tint = Palette.AccentInk, modifier = Modifier.size(28.dp))
-            Text(stringResource(R.string.games_voice_title), style = ParentType.H2.copy(fontSize = 22.sp))
+            Icon(painterResource(R.drawable.ic_volume_on), null, tint = Palette.AccentInk, modifier = Modifier.size(28.dp))
+            Text(stringResource(R.string.games_voice_title), style = ParentType.H2.copy(fontSize = 22.sp), modifier = Modifier.weight(1f))
+            val sample = stringResource(R.string.games_voice_sample)
+            ParentSecondaryButton(stringResource(R.string.games_voice_listen), onClick = { onEvent(GamesEvent.Listen(sample)) }, icon = R.drawable.ic_play)
         }
         Text(stringResource(R.string.games_voice_text), style = ParentType.Body.copy(color = Palette.ParentInk2, fontSize = 16.sp))
         Text(
             stringResource(if (state.ttsAvailable) R.string.games_voice_tts_on else R.string.games_voice_tts_off),
-            style = ParentType.Body.copy(color = Palette.AccentInk, fontSize = 16.sp),
+            style = ParentType.Body.copy(color = if (state.ttsAvailable) Palette.AccentInk else Palette.Danger, fontSize = 16.sp),
         )
-        state.prefixes.forEach { p ->
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text(stringResource(p.label), style = ParentType.Body.copy(fontSize = 18.sp), modifier = Modifier.weight(1f))
-                if (p.recording) {
-                    ParentPrimaryButton(stringResource(R.string.games_voice_stop), onClick = { onRecord(p.prefix) }, color = Palette.Danger)
-                } else {
-                    ParentSecondaryButton(stringResource(R.string.games_voice_record), onClick = { onRecord(p.prefix) }, icon = R.drawable.ic_mic)
-                }
-                if (p.recorded && !p.recording) {
-                    ParentSecondaryButton(stringResource(R.string.games_voice_play), onClick = { onEvent(GamesEvent.PlayPrefix(p.prefix)) }, icon = R.drawable.ic_play)
-                    ParentSecondaryButton(stringResource(R.string.games_voice_delete), onClick = { onEvent(GamesEvent.DeletePrefix(p.prefix)) }, textColor = Palette.Danger)
-                }
-            }
-        }
     }
 }
 
@@ -186,7 +150,7 @@ private fun GamesScreenPreview() {
         GamesScreen(
             GamesUiState(
                 games = GameRegistry.games.mapIndexed { i, g -> GameRowUi(g, on = i % 4 != 3, needsSequence = false) },
-                prefixes = listOf(PrefixUi(PromptPrefix.WHERE_IS, R.string.prefix_where_is_label, recorded = true, recording = false)),
+                ttsAvailable = true,
             ),
         ) {}
     }

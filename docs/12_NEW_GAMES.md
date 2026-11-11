@@ -48,6 +48,8 @@ Obecne menu mieści 3 kafle. Nowy układ:
 - Panel rodzica → nowa pozycja nawigacji **„Gry”** (S17): wybór przedziału wieku (2 przyciski segmentowe) + lista gier z przełącznikami widoczności, nazwą, przedziałem wieku i jednym zdaniem opisu.
 
 ### M10.3 Podpowiedzi głosowe (`VoicePromptPlayer`)
+> **Zastąpione przez ADR-030 (2026-11-11):** bez nagrań — syntezator czyta 1) własne pytanie zdjęcia (`promptText`), 2) początek zdania z gry + nazwę zdjęcia, 3) brak polskiego głosu → gra bez głosu (wzorzec na górze ekranu). Poniżej pierwotna wersja.
+
 Kilka gier wymaga zdania „Gdzie jest **babcia**?” / „Ile jest **jabłek**?”. Źródła w kolejności priorytetu:
 1. **Nagranie pytania** zrobione przez rodzica dla zdjęcia (nowe pole `promptAudioPath`, patrz M10.4).
 2. **Nagrany przez rodzica prefiks** („Gdzie jest…”) + **nagranie etykiety** zdjęcia (`audioPath`), odtworzone jedno po drugim z przerwą 150 ms. Prefiksy nagrywane raz w S11 → karta „Głos” (lista zdań-prefiksów, patrz niżej).
@@ -260,7 +262,7 @@ S10 Edycja zdjęcia: nowa sekcja „Pytanie głosowe (opcjonalne)” pod nagrani
 Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę przed implementacją.
 
 1. ~~**Zdrapka — poprawka**~~ — zrobione (ADR-029).
-2. **Nagrania → tekst:** usunąć nagrywanie głosu przy zdjęciach (i prawdopodobnie prefiksy w S17); syntezator czyta tekst wpisany przez rodzica. _Otwarte: czy wystarczy etykieta, czy osobne dłuższe pole; co z istniejącymi nagraniami; ostrzeżenie w panelu, gdy brak polskiego syntezatora._
+2. ~~**Nagrania → tekst**~~ — zrobione (ADR-030).
 3. **Cienie:** na planszy sylwetki (cienie) ilustracji wbudowanych — budynki, zwierzęta, pojazdy; dziecko przeciąga obrazek na pasujący cień (drag & drop jak w Koszyczkach).
 4. **Kulki:** spokojny „marble shooter” — łańcuch kolorowych kulek sunie wolno po torze, stuknięcie strzela kulką z działka, 3 tego samego koloru pękają. Odpowiedzi: zwykłe kolorowe kulki (nie zdjęcia); kolejna kulka tylko w kolorach obecnych w łańcuchu; zamiana kulki stuknięciem w działko. Nie da się przegrać (łańcuch zatrzymuje się przed metą). Własny wygląd, bez motywów z istniejących gier. Wymaga ADR na stonowaną paletę kulek (docs/08). Tor wspólny z Labiryntem (`Track`).
 5. **Znajdź na zdjęciu:** scena (wieś, miasto, kuchnia…) i polecenie lektora „Pokaż krowę”; tryb zadaniowy i tryb odkrywania. _Otwarte: sceny wbudowane czy zdjęcia rodzica z zaznaczanymi obszarami; lista scen; tryb odkrywania jako osobny kafel czy przełącznik._

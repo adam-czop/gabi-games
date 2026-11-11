@@ -7,7 +7,7 @@ import com.familygames.domain.model.PhotoSource
 
 /**
  * Sounds of the built-in illustrations for "Memo dźwiękowe" (docs/12 M14). ADR-023: no bundled animal recordings –
- * the synthesizer says the onomatopoeia ("miau miau"); the parent's own recording always wins.
+ * the synthesizer says the onomatopoeia ("miau miau"); the parent's photos say their name (ADR-030).
  */
 object BuiltinSounds {
     private val sounds = mapOf(
@@ -36,5 +36,5 @@ object BuiltinSounds {
         return sounds[asset.substringAfterLast('/').substringBeforeLast('.')]
     }
 
-    fun hasSound(photo: Photo, ttsAvailable: Boolean): Boolean = photo.audioPath != null || (ttsAvailable && soundFor(photo) != null)
+    fun hasSound(photo: Photo, ttsAvailable: Boolean): Boolean = ttsAvailable && (soundFor(photo) != null || !photo.label.isNullOrBlank())
 }

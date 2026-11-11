@@ -30,11 +30,10 @@ import com.familygames.domain.game.board.FreshPicker
 import com.familygames.domain.model.GameKind
 import com.familygames.domain.model.Photo
 import com.familygames.domain.model.PhotoSource
-import com.familygames.domain.voice.PromptPrefix
-import com.familygames.domain.voice.VoiceStep
 import com.familygames.presentation.common.PhotoImage
 import com.familygames.presentation.common.Sfx
 import com.familygames.presentation.common.VoicePrompts
+import com.familygames.presentation.common.phrase
 import com.familygames.presentation.common.kidPressable
 import com.familygames.presentation.common.label
 import com.familygames.presentation.common.softShadow
@@ -108,11 +107,9 @@ class PeekabooViewModel(
         closing?.cancel()
         closing = viewModelScope.launch {
             delay(OPEN_ANIM_MS)
-            val prefix = prompts.prefixClip(PromptPrefix.PEEKABOO)?.let { VoiceStep.Clip(it) }
-                ?: VoiceStep.Speech(resources.getString(R.string.prefix_peekaboo)).takeIf { prompts.ttsAvailable.value }
             val name = prompts.label(photo)
             if (name.isEmpty()) effects.send(GameEffect.Sound(Sfx.MATCH))
-            prompts.play(listOfNotNull(prefix) + name)
+            prompts.play(prompts.phrase(resources.getString(R.string.prefix_peekaboo)) + name)
             delay(AUTO_CLOSE_MS)
             close()
         }

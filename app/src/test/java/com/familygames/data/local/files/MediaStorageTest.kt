@@ -63,14 +63,13 @@ class MediaStorageTest {
     }
 
     @Test
-    fun `recording is moved into private audio storage`() = runTest {
-        val recording = storage.newRecordingFile().apply { writeText("m4a") }
+    fun `legacy recordings are removed once`() = runTest {
+        val old = storage.resolve("${MediaStorage.AUDIO_DIR}/a.m4a").apply { parentFile?.mkdirs(); writeText("m4a") }
 
-        val relative = storage.commitAudio(recording)
-
-        assertTrue(relative.startsWith("audio/") && relative.endsWith(".m4a"))
-        assertEquals("m4a", storage.resolve(relative).readText())
-        assertFalse(recording.exists())
+        assertTrue(storage.deleteLegacyAudio())
+        assertFalse(old.exists())
+        assertFalse(storage.resolve(MediaStorage.AUDIO_DIR).exists())
+        assertFalse(storage.deleteLegacyAudio())
     }
 
     @Test

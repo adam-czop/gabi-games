@@ -43,24 +43,18 @@
     <string name="games_age_preschool">2,5–5 lat</string>
     <string name="games_age_badge">%1$s–%2$s l.</string>
     <string name="games_needs_sequence">Pojawi się w menu po dodaniu sekwencji.</string>
-    <string name="games_voice_title">Głos w grach</string>
-    <string name="games_voice_text">Gry pytają głosem („Gdzie jest babcia?”). Najlepiej brzmi Twój głos: nagraj początki pytań, a etykiety zdjęć nagrasz przy zdjęciach.</string>
-    <string name="games_voice_tts_on">Syntezator mowy po polsku jest dostępny – zastąpi brakujące nagrania.</string>
-    <string name="games_voice_tts_off">Brak polskiego syntezatora mowy. Nagraj pytania głosowe, aby gry mówiły.</string>
-    <string name="games_voice_record">Nagraj</string>
-    <string name="games_voice_stop">Zakończ</string>
-    <string name="games_voice_play">Odsłuchaj</string>
-    <string name="games_voice_delete">Usuń</string>
+    <string name="games_voice_title">Lektor</string>
+    <string name="games_voice_text">Gry mówią syntezatorem mowy: czytają nazwy zdjęć („babcia”) i składają z nich pytania („Gdzie jest babcia?”). Nazwę i własne pytanie wpiszesz przy zdjęciu.</string>
+    <string name="games_voice_tts_on">Polski syntezator mowy jest gotowy.</string>
+    <string name="games_voice_tts_off">Brak polskiego głosu – gry będą ciche. W ustawieniach tabletu (Zamiana tekstu na mowę) wybierz silnik Google i pobierz język polski.</string>
+    <string name="games_voice_listen">Posłuchaj</string>
+    <string name="games_voice_sample">Gdzie jest babcia?</string>
 
     <!-- Spoken prefixes (docs/12 M10.3): text for the synthesizer and the label in S17 -->
     <string name="prefix_where_is">Gdzie jest</string>
     <string name="prefix_how_many">Ile jest</string>
     <string name="prefix_odd_one">Co tu nie pasuje?</string>
     <string name="prefix_peekaboo">A kuku!</string>
-    <string name="prefix_where_is_label">„Gdzie jest…”</string>
-    <string name="prefix_how_many_label">„Ile jest…”</string>
-    <string name="prefix_odd_one_label">„Co tu nie pasuje?”</string>
-    <string name="prefix_peekaboo_label">„A kuku!”</string>
     <string name="tts_numbers">jeden,dwa,trzy,cztery,pięć</string>
 
     <!-- Level pickers -->
@@ -134,8 +128,8 @@
     <string name="sound_rocket">trzy, dwa, jeden, start!</string>
 
     <!-- S10 additions -->
-    <string name="photo_prompt_title">Pytanie głosowe (opcjonalne)</string>
-    <string name="photo_prompt_hint">np. „Gdzie jest babcia?”</string>
+    <string name="photo_prompt_title">Własne pytanie (opcjonalne)</string>
+    <string name="photo_prompt_hint">Lektor przeczyta je zamiast złożonego pytania – przydaje się, gdy trzeba odmienić słowo, np. „Ile jest jabłek?”.</string>
     <string name="photo_countable">Nadaje się do liczenia</string>
     <string name="photo_countable_hint">Przedmioty, nie osoby – do gry „Ile jest?”.</string>
 

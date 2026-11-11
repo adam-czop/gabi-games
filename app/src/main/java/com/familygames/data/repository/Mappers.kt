@@ -26,12 +26,11 @@ internal fun PhotoEntity.toDomain(storage: MediaStorage) = Photo(
     thumb = storage.toSource(thumbPath),
     aspect = aspect,
     label = label,
-    audioPath = audioPath?.let { storage.resolve(it).absolutePath },
     useInMemory = useInMemory,
     useInPuzzle = useInPuzzle,
     sortOrder = sortOrder,
     createdAt = createdAt,
-    promptAudioPath = promptAudioPath?.let { storage.resolve(it).absolutePath },
+    promptText = promptText,
     countable = countable,
 )
 

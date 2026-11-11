@@ -279,8 +279,8 @@ private fun PhotoCard(photo: Photo, isCover: Boolean, selected: Boolean, onClick
                     style = ParentType.Body.copy(fontSize = 13.sp, color = Palette.ParentInk2),
                     modifier = Modifier.background(Palette.Bg2, CircleShape).padding(horizontal = 10.dp, vertical = 3.dp),
                 )
-            } else if (photo.audioPath != null) {
-                Icon(painterResource(R.drawable.ic_mic), stringResource(R.string.cd_has_voice), tint = Palette.ParentInk2, modifier = Modifier.size(20.dp))
+            } else if (!photo.promptText.isNullOrBlank()) {
+                Icon(painterResource(R.drawable.ic_volume_on), stringResource(R.string.cd_has_question), tint = Palette.ParentInk2, modifier = Modifier.size(20.dp))
             }
         }
     }

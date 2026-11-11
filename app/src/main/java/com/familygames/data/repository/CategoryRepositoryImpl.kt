@@ -88,7 +88,7 @@ class CategoryRepositoryImpl(
         require(!category.isBuiltIn) { "Built-in categories can only be hidden" }
         val photos = photoDao.getByCategory(id)
         categoryDao.delete(id) // photos go with it (ON DELETE CASCADE); DB first, then files (docs/02 §3)
-        storage.delete(*photos.flatMap { listOf(it.filePath, it.thumbPath, it.audioPath) }.toTypedArray())
+        storage.delete(*photos.flatMap { listOf(it.filePath, it.thumbPath) }.toTypedArray())
     }
 
     private fun validName(name: String): String {

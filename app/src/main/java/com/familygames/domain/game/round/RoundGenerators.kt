@@ -39,8 +39,8 @@ enum class WhereIsLevel(val key: String, val options: Int, val rounds: Int) {
     }
 }
 
-/** A photo can be asked about when it has a label or a recorded question (docs/12 M11). */
-fun Photo.isAskable(): Boolean = !label.isNullOrBlank() || promptAudioPath != null
+/** A photo can be asked about when it has a name or its own question text (docs/12 M11, ADR-030). */
+fun Photo.isAskable(): Boolean = !label.isNullOrBlank() || !promptText.isNullOrBlank()
 
 /** M11 round generator: every target at most once per game, distractors from the same category. */
 class WhereIsRoundGenerator(private val random: Random) {

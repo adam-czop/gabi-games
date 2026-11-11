@@ -42,7 +42,6 @@ import com.familygames.domain.game.round.ScatterLayout
 import com.familygames.domain.model.GameKind
 import com.familygames.domain.model.PhotoSource
 import com.familygames.domain.repository.GameResultRepository
-import com.familygames.domain.voice.PromptPrefix
 import com.familygames.domain.voice.VoiceStep
 import com.familygames.presentation.common.Sfx
 import com.familygames.presentation.common.VoicePrompts
@@ -99,7 +98,7 @@ class CountingViewModel(
 
     override suspend fun ask(round: Round<Int>) {
         val task = tasks.getOrNull(state.value.round) ?: return
-        prompts.play(prompts.question(task.photo, PromptPrefix.HOW_MANY, resources.getString(R.string.prefix_how_many)))
+        prompts.play(prompts.question(task.photo, resources.getString(R.string.prefix_how_many)))
     }
 
     /** The tiles hop one by one while the numbers are said (docs/12 M17). */

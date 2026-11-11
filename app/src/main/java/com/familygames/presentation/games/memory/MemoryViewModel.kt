@@ -18,8 +18,9 @@ import com.familygames.domain.repository.GameResultRepository
 import com.familygames.domain.repository.PhotoRepository
 import com.familygames.domain.repository.SettingsRepository
 import com.familygames.presentation.common.Sfx
-import com.familygames.presentation.common.VoicePlayer
 import com.familygames.presentation.common.VoicePrompts
+import com.familygames.presentation.common.label
+import com.familygames.presentation.common.phrase
 import com.familygames.presentation.games.common.BuiltinSounds
 import com.familygames.presentation.games.common.GamePhotos
 import com.familygames.domain.voice.VoiceStep
@@ -98,10 +99,9 @@ class MemoryViewModel(
     private val deal: DealMemoryCardsUseCase,
     private val history: MemoryHistory,
     private val clock: Clock,
-    private val voice: VoicePlayer,
+    private val prompts: VoicePrompts,
     private val soundMode: Boolean = false,
     private val gamePhotos: GamePhotos? = null,
-    private val prompts: VoicePrompts? = null,
     private val resources: Resources? = null,
 ) : ViewModel() {
 
@@ -124,7 +124,7 @@ class MemoryViewModel(
     init {
         viewModelScope.launch {
             // Snapshot of the category: changes in the parent zone do not affect a running game (docs/04 §7).
-            pool = if (soundMode && gamePhotos != null && prompts != null) {
+            pool = if (soundMode && gamePhotos != null) {
                 prompts.awaitReady()
                 gamePhotos.all().filter { BuiltinSounds.hasSound(it, prompts.ttsAvailable.value) }
             } else {
@@ -201,12 +201,14 @@ class MemoryViewModel(
                 if (soundMode) {
                     delay(MemoryTimings.MATCH_TO_VOICE_MS)
                     soundJob?.join()
-                    soundSteps(faceUp.first().card.photo).let { prompts?.play(it) }
+                    prompts.play(soundSteps(faceUp.first().card.photo))
                 } else {
-                    faceUp.first().card.photo.audioPath?.let { path ->
+                    // ADR-030: the synthesizer says the photo's name; play() returns when it has finished, so it never
+                    // overlaps the win melody (docs/10 §3).
+                    val name = prompts.label(faceUp.first().card.photo)
+                    if (name.isNotEmpty()) {
                         delay(MemoryTimings.MATCH_TO_VOICE_MS)
-                        // Suspends until the recording ends, so it never overlaps the win melody (docs/10 §3).
-                        voice.playAndAwait(path)
+                        prompts.play(name)
                     }
                 }
                 if (outcome.won) {
@@ -226,15 +228,13 @@ class MemoryViewModel(
         }
     }
 
-    private fun soundSteps(photo: Photo): List<VoiceStep> = when {
-        photo.audioPath != null -> listOf(VoiceStep.Clip(photo.audioPath))
-        else -> BuiltinSounds.soundFor(photo)?.let { res -> resources?.let { listOf(VoiceStep.Speech(it.getString(res))) } }.orEmpty()
-    }
+    /** Built-in illustrations say their onomatopoeia ("miau miau"), the parent's photos their name (ADR-030). */
+    private fun soundSteps(photo: Photo): List<VoiceStep> =
+        BuiltinSounds.soundFor(photo)?.let { res -> resources?.let { prompts.phrase(it.getString(res)) } } ?: prompts.label(photo)
 
     private fun playSound(photo: Photo) {
-        val p = prompts ?: return
         soundJob?.cancel()
-        soundJob = viewModelScope.launch { p.play(soundSteps(photo)) }
+        soundJob = viewModelScope.launch { prompts.play(soundSteps(photo)) }
     }
 
     private suspend fun finish(engine: MemoryEngine) {

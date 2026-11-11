@@ -17,7 +17,8 @@
 
 - **Zdjęcia → Z galerii** (do 20 naraz) albo **Zrób zdjęcie**.
 - Dla każdego zdjęcia: wybierz kadr **1:1** lub **4:3**, przesuń i przybliż zdjęcie dwoma palcami, w razie potrzeby **Obróć**.
-- Dodaj **podpis** (pokazuje się na karcie Memorków) i opcjonalnie **nagraj swój głos** (do 8 s) — dziecko usłyszy go po znalezieniu pary.
+- Wpisz **nazwę** (np. „babcia”) — pokazuje się na karcie Memorków, a lektor (syntezator mowy) mówi ją po znalezieniu pary i w pytaniach („Gdzie jest babcia?”). Przycisk **Posłuchaj** pozwala sprawdzić, jak to zabrzmi.
+- Opcjonalnie wpisz **własne pytanie** — lektor przeczyta je zamiast złożonego, np. „Ile jest jabłek?” (syntezator sam nie odmieni „jabłko”).
 - Przełączniki „Memorki” / „Puzzle” decydują, w których grach zdjęcie się pojawia.
 - **Przytrzymaj zdjęcie**, aby je zaznaczyć: przenieś do innej kategorii, ustaw jako okładkę albo usuń.
 - Pasek nad zdjęciami podpowiada, ile zdjęć brakuje do kolejnego poziomu Memorków (najtrudniejszy potrzebuje 6).
@@ -29,7 +30,7 @@
 
 ## Ustawienia
 
-- **Gra i dźwięk:** dźwięki (też nagrania głosu), podpisy na kartach, blokady poziomów (kolejny poziom Memorków dopiero po zdobyciu gwiazdki na poprzednim).
+- **Gra i dźwięk:** dźwięki (też lektor), podpisy na kartach, blokady poziomów (kolejny poziom Memorków dopiero po zdobyciu gwiazdki na poprzednim).
 - **Bezpieczeństwo:** „Zawsze wymagaj PIN” (zamiast mnożenia), **Zmień PIN** (stary PIN → nowy dwa razy → nowy kod odzyskiwania).
 - **Tryb kiosku:** stan blokady, ukrywanie pasków systemowych, ekran zawsze włączony, **Wyjdź z kiosku (PIN)** (otwiera ustawienia Androida; ponowne uruchomienie aplikacji przywraca kiosk).
 - **Aktualizacje:** wersja, „Sprawdź teraz”, „Zainstaluj”. Aktualizacje instalują się same tylko wtedy, gdy dziecko nie gra.
@@ -39,9 +40,9 @@
 
 **Gry** w strefie rodzica pokazują wszystkie gry z przedziałem wieku. Wybierz wiek dziecka (1–2,5 roku albo 2,5–5 lat) — gry za trudne lub za łatwe znikną z menu. Każdą grę możesz też włączyć lub wyłączyć ręcznie przełącznikiem.
 
-W karcie **Głos w grach** nagraj początki pytań („Gdzie jest…”, „Ile jest…”, „Co tu nie pasuje?”, „A kuku!”). Gra składa je z nagraniem podpisu zdjęcia („…babcia”). Gdy nagrań brakuje, gra mówi syntezatorem mowy, a bez niego pokazuje obrazek do odszukania.
+Karta **Lektor** pokazuje, czy tablet ma polski głos syntezatora; **Posłuchaj** odtwarza próbne zdanie. Bez polskiego głosu gry są ciche — w ustawieniach tabletu (Zamiana tekstu na mowę) wybierz silnik Google i pobierz język polski.
 
-Przy zdjęciu (edycja) możesz też nagrać całe **pytanie głosowe** („Gdzie jest babcia?”) i zaznaczyć **Nadaje się do liczenia** — takie zdjęcia (przedmioty, nie osoby) pojawią się w grze „Ile jest?”.
+Przy zdjęciu (edycja) możesz zaznaczyć **Nadaje się do liczenia** — takie zdjęcia (przedmioty, nie osoby) pojawią się w grze „Ile jest?”.
 
 ## Sekwencje
 

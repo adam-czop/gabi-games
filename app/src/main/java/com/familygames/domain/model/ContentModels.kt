@@ -18,15 +18,14 @@ data class Photo(
     val image: PhotoSource,
     val thumb: PhotoSource,
     val aspect: Aspect,
+    /** Name read aloud by the speech synthesizer ("babcia"), ADR-030. */
     val label: String?,
-    /** Absolute path of the parent's voice recording, if any. */
-    val audioPath: String?,
     val useInMemory: Boolean,
     val useInPuzzle: Boolean,
     val sortOrder: Int,
     val createdAt: Long,
-    /** Absolute path of the recorded question for this photo (docs/12 M10.3). */
-    val promptAudioPath: String? = null,
+    /** Optional whole question the synthesizer reads instead of a composed one ("Ile jest jabłek?"), ADR-030. */
+    val promptText: String? = null,
     val countable: Boolean = false,
 ) {
     /** Built-in illustrations cannot be deleted, only hidden from games (docs/03 S09). */
@@ -40,10 +39,9 @@ data class NewPhoto(
     val thumbPath: String,
     val aspect: Aspect,
     val label: String? = null,
-    val audioPath: String? = null,
     val useInMemory: Boolean = true,
     val useInPuzzle: Boolean = true,
-    val promptAudioPath: String? = null,
+    val promptText: String? = null,
     val countable: Boolean = false,
 )
 

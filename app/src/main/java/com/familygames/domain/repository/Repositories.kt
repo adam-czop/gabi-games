@@ -51,15 +51,9 @@ interface PhotoRepository {
 
     suspend fun add(photo: NewPhoto): Long
 
-    suspend fun updateDetails(id: Long, label: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean)
-
-    /** Replaces the voice recording; [relativeAudioPath] null removes it. The old file is deleted. */
-    suspend fun setAudio(id: Long, relativeAudioPath: String?)
+    suspend fun updateDetails(id: Long, label: String?, promptText: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean)
 
     suspend fun moveTo(ids: Collection<Long>, categoryId: Long)
-
-    /** Replaces the recorded question (docs/12 M10.4); null removes it. The old file is deleted. */
-    suspend fun setPromptAudio(id: Long, relativeAudioPath: String?)
 
     suspend fun setCountable(id: Long, countable: Boolean)
 

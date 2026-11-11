@@ -4,9 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.graphics.Matrix
-import android.media.MediaRecorder
 import android.net.Uri
-import android.os.Build
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.familygames.util.DispatcherProvider
@@ -67,79 +65,5 @@ class PhotoImporter(
 
     companion object {
         const val EDIT_MAX_SIDE = 2048
-    }
-}
-
-/** Parent's voice note for a photo (S10): AAC 64 kbps mono, at most 8 s (docs/02 §3). */
-interface VoiceRecorder {
-    fun start(): Boolean
-    /** Stops and returns the recording, or null if nothing usable was recorded. */
-    fun stop(): File?
-    fun cancel()
-    /** 0..32767, for the level bars. */
-    fun amplitude(): Int
-}
-
-class MediaVoiceRecorder(private val context: Context, private val storage: MediaStorage) : VoiceRecorder {
-    private var recorder: MediaRecorder? = null
-    private var file: File? = null
-
-    override fun start(): Boolean {
-        cancel()
-        val target = storage.newRecordingFile()
-        val r = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) MediaRecorder(context) else @Suppress("DEPRECATION") MediaRecorder()
-        return try {
-            r.setAudioSource(MediaRecorder.AudioSource.MIC)
-            r.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            r.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-            r.setAudioChannels(1)
-            r.setAudioSamplingRate(44_100)
-            r.setAudioEncodingBitRate(64_000)
-            r.setMaxDuration(MAX_MS)
-            r.setOutputFile(target)
-            r.prepare()
-            r.start()
-            recorder = r
-            file = target
-            true
-        } catch (e: Exception) {
-            Timber.w(e, "Recording failed to start")
-            r.release()
-            target.delete()
-            false
-        }
-    }
-
-    override fun stop(): File? {
-        val r = recorder ?: return null
-        recorder = null
-        val result = try {
-            r.stop()
-            file
-        } catch (e: RuntimeException) {
-            // stop() right after start() throws: nothing was recorded.
-            file?.delete()
-            null
-        } finally {
-            r.release()
-        }
-        file = null
-        return result
-    }
-
-    override fun cancel() {
-        recorder?.let {
-            runCatching { it.stop() }
-            it.release()
-        }
-        recorder = null
-        file?.delete()
-        file = null
-    }
-
-    override fun amplitude(): Int = runCatching { recorder?.maxAmplitude ?: 0 }.getOrDefault(0)
-
-    companion object {
-        const val MAX_MS = 8_000
     }
 }

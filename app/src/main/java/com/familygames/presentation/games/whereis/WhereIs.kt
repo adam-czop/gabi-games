@@ -39,7 +39,6 @@ import com.familygames.domain.model.GameKind
 import com.familygames.domain.model.Photo
 import com.familygames.domain.model.PhotoSource
 import com.familygames.domain.repository.GameResultRepository
-import com.familygames.domain.voice.PromptPrefix
 import com.familygames.presentation.common.VoicePrompts
 import com.familygames.presentation.common.kidPressable
 import com.familygames.presentation.common.label
@@ -80,7 +79,7 @@ class WhereIsViewModel(
     override suspend fun makeRounds(): List<Round<Photo>> {
         prompts.awaitReady()
         val rounds = generator.generate(gamePhotos.byCategory()[categoryId].orEmpty(), level)
-        withVoice = rounds.map { it.correct }.filter { prompts.question(it, PromptPrefix.WHERE_IS, prefix()).isNotEmpty() }.map { it.id }.toSet()
+        withVoice = rounds.map { it.correct }.filter { prompts.question(it, prefix()).isNotEmpty() }.map { it.id }.toSet()
         return rounds
     }
 
@@ -93,7 +92,7 @@ class WhereIsViewModel(
         return base.copy(subject = target.thumb, subjectLabel = target.label, voiceless = target.id !in withVoice)
     }
 
-    override suspend fun ask(round: Round<Photo>) = prompts.play(prompts.question(round.correct, PromptPrefix.WHERE_IS, prefix()))
+    override suspend fun ask(round: Round<Photo>) = prompts.play(prompts.question(round.correct, prefix()))
 
     override suspend fun praise(round: Round<Photo>) = prompts.play(prompts.label(round.correct))
 }

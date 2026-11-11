@@ -40,15 +40,18 @@ data class PhotoEntity(
     val thumbPath: String,
     val aspect: Aspect,
     val label: String? = null,
+    /** v1–v2 voice recording; unused and emptied since v3 (ADR-030: the synthesizer reads the text instead). */
     val audioPath: String? = null,
     @ColumnInfo(defaultValue = "1") val useInMemory: Boolean = true,
     @ColumnInfo(defaultValue = "1") val useInPuzzle: Boolean = true,
     val sortOrder: Int,
     val createdAt: Long,
-    /** v2: the parent's recording of the whole question ("Gdzie jest babcia?"), docs/12 M10.4. */
+    /** v2 recorded question; unused and emptied since v3 (ADR-030). */
     val promptAudioPath: String? = null,
     /** v2: things that can be counted in "Ile jest?" (docs/12 M17). */
     @ColumnInfo(defaultValue = "0") val countable: Boolean = false,
+    /** v3: the whole question as text for the synthesizer ("Ile jest jabłek?"), ADR-030. */
+    val promptText: String? = null,
 )
 
 /** v2 · "Po kolei" sequences (docs/12 M16). */

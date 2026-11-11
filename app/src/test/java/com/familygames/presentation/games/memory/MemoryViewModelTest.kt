@@ -15,6 +15,8 @@ import com.familygames.domain.repository.GameResultRepository
 import com.familygames.domain.repository.PhotoRepository
 import com.familygames.domain.repository.SettingsRepository
 import com.familygames.presentation.common.Sfx
+import com.familygames.presentation.common.VoicePrompts
+import com.familygames.domain.voice.VoiceStep
 import com.familygames.util.Clock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -44,7 +46,7 @@ class MemoryViewModelTest {
     private val played = mutableListOf<String>()
 
     private val photos = object : PhotoRepository {
-        val pool = listOf(testPhoto(1), testPhoto(2).copy(audioPath = "/audio/2.m4a"))
+        val pool = listOf(testPhoto(1).copy(label = null), testPhoto(2).copy(label = "babcia"))
         override fun observeAll(): Flow<List<Photo>> = emptyFlow()
         override fun observeByCategory(categoryId: Long): Flow<List<Photo>> = emptyFlow()
         override fun observeForPuzzle(): Flow<List<Photo>> = emptyFlow()
@@ -52,10 +54,8 @@ class MemoryViewModelTest {
         override suspend fun getForMemory(categoryId: Long) = pool
         override suspend fun get(id: Long): Photo? = pool.firstOrNull { it.id == id }
         override suspend fun add(photo: NewPhoto) = 0L
-        override suspend fun updateDetails(id: Long, label: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean) = Unit
-        override suspend fun setAudio(id: Long, relativeAudioPath: String?) = Unit
+        override suspend fun updateDetails(id: Long, label: String?, promptText: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean) = Unit
         override suspend fun moveTo(ids: Collection<Long>, categoryId: Long) = Unit
-        override suspend fun setPromptAudio(id: Long, relativeAudioPath: String?) = Unit
         override suspend fun setCountable(id: Long, countable: Boolean) = Unit
         override suspend fun delete(ids: Collection<Long>) = 0
     }
@@ -67,6 +67,15 @@ class MemoryViewModelTest {
         override fun observeSince(fromEpochMs: Long): Flow<List<GameResult>> = emptyFlow()
         override suspend fun purgeOlderThan(cutoffEpochMs: Long) = 0
         override suspend fun clear() = Unit
+    }
+    /** Synthesizer stand-in: records what would be said, each sentence takes 3 s. */
+    private val voice = object : VoicePrompts {
+        override val ttsAvailable = MutableStateFlow(true)
+        override suspend fun awaitReady() = Unit
+        override suspend fun play(steps: List<VoiceStep>) {
+            steps.forEach { played += (it as VoiceStep.Speech).text }
+            if (steps.isNotEmpty()) kotlinx.coroutines.delay(3_000)
+        }
     }
     private val settings = object : SettingsRepository {
         override val settings = MutableStateFlow(AppSettings())
@@ -83,7 +92,7 @@ class MemoryViewModelTest {
         val vm = MemoryViewModel(
             MemoryLevel.L1, categoryId = 1, photos, results, settings,
             DealMemoryCardsUseCase(Random(1)), MemoryHistory(), Clock { testScheduler.currentTime },
-            voice = { path -> played += path; kotlinx.coroutines.delay(3_000) },
+            prompts = voice,
         )
         runCurrent()
         return vm
@@ -123,7 +132,7 @@ class MemoryViewModelTest {
     }
 
     @Test
-    fun `winning saves the result before showing stars and plays the parent's voice`() = runTest(dispatcher) {
+    fun `winning saves the result before showing stars and says the photo's name`() = runTest(dispatcher) {
         val vm = viewModel()
         vm.effect.test {
             vm.pair(1).forEach { vm.onEvent(MemoryEvent.CardTapped(it)) }
@@ -140,7 +149,7 @@ class MemoryViewModelTest {
         assertEquals(1, saved.size)
         assertEquals("memory_2x2", saved.single().levelKey)
         assertEquals(0, saved.single().mistakes)
-        assertEquals(listOf("/audio/2.m4a"), played)
+        assertEquals(listOf("babcia"), played)
     }
 
     @Test

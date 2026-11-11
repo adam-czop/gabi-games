@@ -30,9 +30,8 @@ import com.familygames.domain.model.GameKind
 import com.familygames.domain.model.Photo
 import com.familygames.domain.model.PhotoSource
 import com.familygames.domain.repository.GameResultRepository
-import com.familygames.domain.voice.PromptPrefix
-import com.familygames.domain.voice.VoiceStep
 import com.familygames.presentation.common.VoicePrompts
+import com.familygames.presentation.common.phrase
 import com.familygames.presentation.common.kidPressable
 import com.familygames.presentation.games.common.EmptyGameNote
 import com.familygames.presentation.games.common.GamePhotos
@@ -73,13 +72,7 @@ class OddOneOutViewModel(
     override fun optionUi(item: Photo, index: Int) = OptionUi(item.id, item.thumb, item.label)
 
     override suspend fun ask(round: Round<Photo>) {
-        val clip = prompts.prefixClip(PromptPrefix.ODD_ONE)
-        val steps = when {
-            clip != null -> listOf(VoiceStep.Clip(clip))
-            prompts.ttsAvailable.value -> listOf(VoiceStep.Speech(resources.getString(R.string.prefix_odd_one)))
-            else -> emptyList()
-        }
-        prompts.play(steps)
+        prompts.play(prompts.phrase(resources.getString(R.string.prefix_odd_one)))
     }
 
     override val feedbackMs: Long = 1_400L

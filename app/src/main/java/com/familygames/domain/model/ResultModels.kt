@@ -52,8 +52,6 @@ data class AppSettings(
     val childAgeBand: AgeBand = AgeBand.PRESCHOOL,
     val hiddenGames: Set<String> = emptySet(),
     val forcedGames: Set<String> = emptySet(),
-    /** Parent's recorded prompt prefixes (docs/12 M10.3): prefix key → relative audio path. */
-    val prefixClips: Map<String, String> = emptyMap(),
 )
 
 /** Free play is stored with 0 stars and this level key so S14 can show the play time (docs/12 §0). */

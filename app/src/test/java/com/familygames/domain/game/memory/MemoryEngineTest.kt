@@ -13,7 +13,7 @@ import kotlin.random.Random
 
 fun testPhoto(id: Long) = Photo(
     id = id, categoryId = 1, image = PhotoSource.Asset("p$id"), thumb = PhotoSource.Asset("t$id"), aspect = Aspect.SQUARE,
-    label = "P$id", audioPath = null, useInMemory = true, useInPuzzle = true, sortOrder = 0, createdAt = 0,
+    label = "P$id", useInMemory = true, useInPuzzle = true, sortOrder = 0, createdAt = 0,
 )
 
 class DealMemoryCardsUseCaseTest {

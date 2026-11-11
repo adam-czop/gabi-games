@@ -478,7 +478,7 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 <div class="notes"><ul>
 <li><b>Licznik par</b> (góra, środek): kropki wypełniają się kolorem akcentu po każdej parze.</li>
 <li><b>Karta</b>: tył = jasny, neutralny wzór kropek + konturowa gwiazdka; przód = zdjęcie + podpis (podpis opcjonalny, ustawienie rodzica). Obrót <code>graphicsLayer { rotationY }</code>, 350 ms; karta 4 (Kanapa) pokazana w trakcie obrotu.</li>
-<li><b>Para trafiona</b>: obwódka w kolorze akcentu + ✓, delikatny dźwięk, subtelne konfetti, odtworzenie nagrania głosowego rodzica (jeśli istnieje). Karty zostają odkryte.</li>
+<li><b>Para trafiona</b>: obwódka w kolorze akcentu + ✓, delikatny dźwięk, subtelne konfetti, lektor (syntezator) mówi nazwę zdjęcia, jeśli ją ma (ADR-030). Karty zostają odkryte.</li>
 <li><b>Para chybiona</b>: obie karty z miodową (nie czerwoną!) obwódką na 1000 ms, potem zakrycie. Brak „negatywnych” dźwięków. Wejście zablokowane w tym czasie.</li>
 <li><b>Dom</b> → wraca do S01 bez pytania (gra się nie zapisuje). <b>Restart</b> → nowe tasowanie.</li>
 </ul></div>
@@ -653,9 +653,9 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 <div class="notes"><ul>
 <li>Strefa rodzica: <b>inny styl wizualny</b> (Nunito, neutralne kolory) – rodzic od razu widzi, że jest „poza grą”.</li>
 <li><b>Z galerii</b> → systemowy Photo Picker (<code>PickMultipleVisualMedia</code>, bez uprawnień do pamięci). <b>Zrób zdjęcie</b> → <code>TakePicture</code> + FileProvider. Oba prowadzą do S10.</li>
-<li>Tap w kartę zdjęcia → S10 w trybie edycji (zmiana etykiety, nagrania, kategorii, usunięcie). Długie przytrzymanie → zaznaczanie wielu (przenieś / usuń).</li>
+<li>Tap w kartę zdjęcia → S10 w trybie edycji (zmiana nazwy, pytania, kategorii, usunięcie). Długie przytrzymanie → zaznaczanie wielu (przenieś / usuń).</li>
 <li>Pasek informacyjny liczy, czy kategoria wystarcza na poziomy (6 par dla 3×4). Gdy nie – komunikat w kolorze miodowym.</li>
-<li>Ikona mikrofonu = zdjęcie ma nagranie głosu.</li>
+<li>Ikona głośnika = zdjęcie ma własne pytanie dla lektora.</li>
 </ul></div>
 </section>
 
@@ -673,17 +673,12 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
   </div></div>
   <div style="position:absolute;top:676px;left:36px;width:560px;text-align:center;color:var(--p-ink-2);font-size:14px">Przesuń i przybliż dwoma palcami</div>
   <div class="form">
-    <div class="lbl">Etykieta (podpis karty)</div>
-    <div class="inp focus">Nasz dom<span style="color:var(--p-ink-2);font-size:14px">8/24</span></div>
+    <div class="lbl">Nazwa (podpis karty, czyta lektor)</div>
+    <div style="display:flex;gap:10px;align-items:center"><div class="inp focus" style="flex:1">Nasz dom<span style="color:var(--p-ink-2);font-size:14px">8/24</span></div><span class="pbtn"><svg class="i"><use href="#i-play"/></svg>Posłuchaj</span></div>
     <div class="lbl" style="margin-top:22px">Kategoria</div>
     <div class="inp">Nasz dom<span style="color:var(--p-ink-2)">▾</span></div>
-    <div class="lbl" style="margin-top:22px">Nagranie głosu (opcjonalne)</div>
-    <div class="rec">
-      <div class="recbtn"><i></i></div>
-      <div class="wave" id="wave"></div>
-      <b style="font-size:18px">0:03</b>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:12px"><span class="pbtn"><svg class="i"><use href="#i-play"/></svg>Odsłuchaj</span><span class="pbtn">Nagraj ponownie</span></div>
+    <div class="lbl" style="margin-top:22px">Własne pytanie (opcjonalne)</div>
+    <div style="display:flex;gap:10px;align-items:center"><div class="inp" style="flex:1;color:var(--p-ink-2)">np. Gdzie jest nasz dom?<span style="font-size:14px">0/80</span></div><span class="pbtn" style="opacity:.5"><svg class="i"><use href="#i-play"/></svg>Posłuchaj</span></div>
     <div class="lbl" style="margin-top:22px">Używaj w grach</div>
     <div style="display:flex;gap:18px;font-weight:700;font-size:15px"><span style="display:flex;gap:8px;align-items:center"><span class="tog"></span>Memorki</span><span style="display:flex;gap:8px;align-items:center"><span class="tog"></span>Puzzle</span></div>
     <div style="position:absolute;left:26px;right:26px;bottom:26px;display:flex;gap:12px;justify-content:flex-end"><span class="pbtn">Anuluj</span><span class="pbtn pri"><svg class="i"><use href="#i-check"/></svg>Zapisz zdjęcie</span></div>
@@ -691,8 +686,8 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 </div></div>
 <div class="notes"><ul>
 <li><b>Kadrowanie</b> własnym komponentem Compose (pan + pinch-zoom pod stałą ramką), proporcje 1:1 lub 4:3, obrót o 90°. Wynik: JPEG q=85, dłuższy bok max 1600 px, zapis do <code>filesDir/photos/{uuid}.jpg</code> + miniatura 400 px.</li>
-<li><b>Etykieta</b> max 24 znaki. Pole wymagane? Nie – pusta etykieta = brak podpisu na karcie.</li>
-<li><b>Nagranie</b>: przycisk nagrywania (tap start / tap stop, limit 8 s), <code>MediaRecorder</code> AAC → <code>filesDir/audio/{uuid}.m4a</code>. Uprawnienie <code>RECORD_AUDIO</code> pytane dopiero przy pierwszym użyciu.</li>
+<li><b>Nazwa</b> max 24 znaki. Pole wymagane? Nie – pusta nazwa = brak podpisu na karcie i lektor nic nie mówi. Lektor (syntezator mowy) czyta ją po parze i w pytaniach (ADR-030).</li>
+<li><b>Własne pytanie</b> max 80 znaków, czytane zamiast złożonego „Gdzie jest…/Ile jest…” — gdy trzeba odmienić słowo („Ile jest jabłek?”). „Posłuchaj” = podgląd głosu. Bez nagrywania i bez uprawnienia do mikrofonu.</li>
 <li>Przy wyborze wielu zdjęć z galerii ekran działa jak „kreator” (1/5, 2/5…) z przyciskiem „Pomiń”.</li>
 </ul></div>
 </section>
@@ -774,7 +769,7 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 <div class="scaler"><div class="screen pp" id="s17">
 <aside class="side"><div class="brand"><span class="dot"></span>FamilyGames <small>RODZIC</small></div><nav class="nav"><a><svg class="i"><use href="#i-img"/></svg>Zdjęcia</a><a><svg class="i"><use href="#i-folder"/></svg>Kategorie</a><a><svg class="i"><use href="#i-seq"/></svg>Sekwencje</a><a><svg class="i"><use href="#i-chart"/></svg>Postępy</a><a class="on"><svg class="i"><use href="#i-game"/></svg>Gry</a><a><svg class="i"><use href="#i-gear"/></svg>Ustawienia</a><div class="sep"></div><a><svg class="i"><use href="#i-back"/></svg>Wróć do gier</a><a class="danger"><svg class="i"><use href="#i-exit"/></svg>Wyjdź z kiosku</a></nav><div class="ver">Wersja 1.4.0 (10400)</div></aside><main class="main"><div class="mh"><div><h3>Gry</h3><div class="sub">Wybierz, w co dziecko może grać</div></div></div><div class="agecard"><div><b style="font-size:17px">Wiek dziecka</b><div style="color:var(--p-ink-2);font-size:14px;margin-top:2px">Ukrywa gry za trudne lub za łatwe. Każdą grę możesz też włączyć ręcznie.</div></div><span class="seg"><span class="on">1–2,5 roku</span><span>2,5–5 lat</span></span></div><div class="glist"><div class="grow"><div class="gi"><svg><use href="#g-mem"/></svg></div><div class="tx"><b>Memorki</b><span>Odkrywanie par zdjęć</span></div><span class="age">2–5 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-puz"/></svg></div><div class="tx"><b>Puzzle</b><span>Układanie zdjęcia z części</span></div><span class="age">2–5 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-where"/></svg></div><div class="tx"><b>Gdzie jest…?</b><span>Wskaż osobę lub rzecz z pytania</span></div><span class="age">1,5–3 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-peek"/></svg></div><div class="tx"><b>A kuku</b><span>Otwieranie drzwiczek ze zdjęciem</span></div><span class="age">1–2 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-scratch"/></svg></div><div class="tx"><b>Zdrapka</b><span>Ścieranie mgiełki palcem</span></div><span class="age">1,5–3 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-sort"/></svg></div><div class="tx"><b>Do koszyczków</b><span>Sortowanie zdjęć do kategorii</span></div><span class="age">2,5–4 l.</span><span class="tog"></span></div><div class="grow off"><div class="gi"><svg><use href="#g-odd"/></svg></div><div class="tx"><b>Co nie pasuje?</b><span>Znajdź zdjęcie z innej grupy</span></div><span class="age">3–5 l.</span><span class="tog off"></span></div><div class="grow"><div class="gi"><svg><use href="#g-smemo"/></svg></div><div class="tx"><b>Memo dźwiękowe</b><span>Pary dźwięk – zdjęcie</span></div><span class="age">2–4 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-bubble"/></svg></div><div class="tx"><b>Bańki</b><span>Przebijanie baniek ze zdjęciami</span></div><span class="age">1–3 l.</span><span class="tog"></span></div><div class="grow"><div class="gi"><svg><use href="#g-xylo"/></svg></div><div class="tx"><b>Cymbałki</b><span>Granie na zdjęciach rodziny</span></div><span class="age">1,5–4 l.</span><span class="tog"></span></div><div class="grow off"><div class="gi"><svg><use href="#g-seq"/></svg></div><div class="tx"><b>Po kolei</b><span>Układanie sekwencji dnia</span></div><span class="age">3–5 l.</span><span class="tog off"></span></div><div class="grow off"><div class="gi"><svg><use href="#g-count"/></svg></div><div class="tx"><b>Ile jest?</b><span>Liczenie do 3 / do 5</span></div><span class="age">3–5 l.</span><span class="tog off"></span></div></div></main>
 </div></div>
-<div class="notes"><ul><li>Nowa pozycja w nawigacji „Gry”. Przedział wieku: <code>child_age_band</code>; przełącznik przy grze: <code>hidden_games</code> / <code>forced_games</code>.</li><li>Gry niepasujące do wieku są wyszarzone, ale można je włączyć (wtedy trafiają do <code>forced_games</code>).</li><li>Lista przewija się pionowo, gdy gier jest więcej niż mieści ekran.</li></ul></div>
+<div class="notes"><ul><li>Nowa pozycja w nawigacji „Gry”. Przedział wieku: <code>child_age_band</code>; przełącznik przy grze: <code>hidden_games</code> / <code>forced_games</code>.</li><li>Gry niepasujące do wieku są wyszarzone, ale można je włączyć (wtedy trafiają do <code>forced_games</code>).</li><li>Lista przewija się pionowo, gdy gier jest więcej niż mieści ekran.</li><li>Pod listą karta <b>Lektor</b> (ADR-030): czy tablet ma polski głos syntezatora, przycisk „Posłuchaj” z próbnym zdaniem; bez polskiego głosu ostrzeżenie (kolor <code>Danger</code> — tylko strefa rodzica) i wskazówka, jak pobrać głos.</li></ul></div>
 </section>
 
 <section class="spec" id="s15-wrap">
@@ -790,7 +785,7 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 <div class="scaler"><div class="screen kidbg" id="s18">
 <div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="pairs"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div><div class="ask"><div class="spk"><svg class="i"><use href="#i-vol"/></svg></div><div class="say">„Gdzie jest babcia?”</div></div><div class="rowc" style="top:330px"><div class="kc" style="width:280px;height:330px"><div class="photo g4 emoji">👴</div></div><div class="kc ok" style="width:280px;height:330px"><div class="photo g1 emoji">👵</div></div><div class="kc" style="width:280px;height:330px"><div class="photo g2 emoji">👩</div></div></div>
 </div></div>
-<div class="notes"><ul><li>Pytanie odtwarza się automatycznie; duży głośnik powtarza je. Źródło głosu: nagranie pytania → prefiks + etykieta → TTS (docs/12 M10.3).</li><li>Trafienie: ramka akcentu, karta lekko się unosi, odtwarza się „To jest babcia”. Pudło: karta kiwa się, pytanie wraca; po 2 pudłach poprawna karta pulsuje.</li><li>Poziomy: 2 / 3 / 4 zdjęcia. Kropki u góry = rundy.</li></ul></div>
+<div class="notes"><ul><li>Pytanie odtwarza się automatycznie; duży głośnik powtarza je. Źródło głosu (ADR-030): własne pytanie zdjęcia → „Gdzie jest” + nazwa, czytane syntezatorem.</li><li>Trafienie: ramka akcentu, karta lekko się unosi, odtwarza się „To jest babcia”. Pudło: karta kiwa się, pytanie wraca; po 2 pudłach poprawna karta pulsuje.</li><li>Poziomy: 2 / 3 / 4 zdjęcia. Kropki u góry = rundy.</li></ul></div>
 </section>
 
 <section class="spec" id="s19-wrap">

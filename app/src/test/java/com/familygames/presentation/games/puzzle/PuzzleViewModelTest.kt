@@ -47,10 +47,8 @@ class PuzzleViewModelTest {
         override suspend fun getForMemory(categoryId: Long) = emptyList<Photo>()
         override suspend fun get(id: Long): Photo? = if (id == 1L) testPhoto(1) else null
         override suspend fun add(photo: NewPhoto) = 0L
-        override suspend fun updateDetails(id: Long, label: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean) = Unit
-        override suspend fun setAudio(id: Long, relativeAudioPath: String?) = Unit
+        override suspend fun updateDetails(id: Long, label: String?, promptText: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean) = Unit
         override suspend fun moveTo(ids: Collection<Long>, categoryId: Long) = Unit
-        override suspend fun setPromptAudio(id: Long, relativeAudioPath: String?) = Unit
         override suspend fun setCountable(id: Long, countable: Boolean) = Unit
         override suspend fun delete(ids: Collection<Long>) = 0
     }

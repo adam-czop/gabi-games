@@ -62,7 +62,6 @@ class SettingsDataStore(private val store: DataStore<Preferences>) {
             childAgeBand = this[CHILD_AGE_BAND]?.let(AgeBand::fromKey) ?: d.childAgeBand,
             hiddenGames = this[HIDDEN_GAMES] ?: d.hiddenGames,
             forcedGames = this[FORCED_GAMES] ?: d.forcedGames,
-            prefixClips = this[PREFIX_CLIPS].orEmpty().mapNotNull { e -> e.split('|', limit = 2).takeIf { it.size == 2 }?.let { it[0] to it[1] } }.toMap(),
         )
     }
 
@@ -91,7 +90,8 @@ class SettingsDataStore(private val store: DataStore<Preferences>) {
         this[CHILD_AGE_BAND] = s.childAgeBand.name
         this[HIDDEN_GAMES] = s.hiddenGames
         this[FORCED_GAMES] = s.forcedGames
-        this[PREFIX_CLIPS] = s.prefixClips.map { (k, v) -> "$k|$v" }.toSet()
+        // ADR-030: recorded prompt prefixes are gone; the old key is dropped on the next write.
+        remove(PREFIX_CLIPS)
     }
 
     private fun <T> MutablePreferences.setOrRemove(key: Preferences.Key<T>, value: T?) {
@@ -126,6 +126,7 @@ class SettingsDataStore(private val store: DataStore<Preferences>) {
         private val CHILD_AGE_BAND = stringPreferencesKey("child_age_band")
         private val HIDDEN_GAMES = stringSetPreferencesKey("hidden_games")
         private val FORCED_GAMES = stringSetPreferencesKey("forced_games")
+        /** v1–v2 recorded prompt prefixes, only removed (ADR-030). */
         private val PREFIX_CLIPS = stringSetPreferencesKey("prefix_clips")
     }
 }

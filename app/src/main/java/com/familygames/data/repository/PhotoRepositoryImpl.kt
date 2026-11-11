@@ -34,39 +34,27 @@ class PhotoRepositoryImpl(
             filePath = photo.filePath,
             thumbPath = photo.thumbPath,
             aspect = photo.aspect,
-            label = photo.label?.trim()?.take(LABEL_MAX)?.ifEmpty { null },
-            audioPath = photo.audioPath,
+            label = photo.label.clean(LABEL_MAX),
             useInMemory = photo.useInMemory,
             useInPuzzle = photo.useInPuzzle,
             sortOrder = photoDao.nextSortOrder(photo.categoryId),
             createdAt = clock.now(),
-            promptAudioPath = photo.promptAudioPath,
+            promptText = photo.promptText.clean(PROMPT_MAX),
             countable = photo.countable,
         ),
     )
 
-    override suspend fun updateDetails(id: Long, label: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean) {
+    override suspend fun updateDetails(id: Long, label: String?, promptText: String?, categoryId: Long, useInMemory: Boolean, useInPuzzle: Boolean) {
         val current = photoDao.get(id) ?: return
         photoDao.update(
             current.copy(
-                label = label?.trim()?.take(LABEL_MAX)?.ifEmpty { null },
+                label = label.clean(LABEL_MAX),
+                promptText = promptText.clean(PROMPT_MAX),
                 categoryId = categoryId,
                 useInMemory = useInMemory,
                 useInPuzzle = useInPuzzle,
             ),
         )
-    }
-
-    override suspend fun setAudio(id: Long, relativeAudioPath: String?) {
-        val current = photoDao.get(id) ?: return
-        photoDao.update(current.copy(audioPath = relativeAudioPath))
-        if (current.audioPath != relativeAudioPath) storage.delete(current.audioPath)
-    }
-
-    override suspend fun setPromptAudio(id: Long, relativeAudioPath: String?) {
-        val current = photoDao.get(id) ?: return
-        photoDao.update(current.copy(promptAudioPath = relativeAudioPath))
-        if (current.promptAudioPath != relativeAudioPath) storage.delete(current.promptAudioPath)
     }
 
     override suspend fun setCountable(id: Long, countable: Boolean) {
@@ -83,13 +71,16 @@ class PhotoRepositoryImpl(
         val deletable = photoDao.getByIds(ids).filterNot { it.filePath.startsWith(MediaStorage.ASSET_PREFIX) }
         if (deletable.isEmpty()) return 0
         photoDao.deleteByIds(deletable.map { it.id }) // DB first, then files (docs/02 §3)
-        storage.delete(*deletable.flatMap { listOf(it.filePath, it.thumbPath, it.audioPath, it.promptAudioPath) }.toTypedArray())
+        storage.delete(*deletable.flatMap { listOf(it.filePath, it.thumbPath) }.toTypedArray())
         return deletable.size
     }
+
+    private fun String?.clean(max: Int): String? = this?.trim()?.take(max)?.ifEmpty { null }
 
     private fun Flow<List<PhotoEntity>>.mapDomain(): Flow<List<Photo>> = map { list -> list.map { it.toDomain(storage) } }
 
     companion object {
         const val LABEL_MAX = 24
+        const val PROMPT_MAX = 80
     }
 }

@@ -1,9 +1,5 @@
 package com.familygames.presentation.parent.photos
 
-import android.Manifest
-import android.content.pm.PackageManager
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,13 +17,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,7 +31,6 @@ import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,15 +39,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import com.familygames.R
 import com.familygames.data.local.files.CropFraction
 import com.familygames.domain.model.Aspect
@@ -67,25 +55,10 @@ import com.familygames.presentation.theme.Palette
 import com.familygames.presentation.theme.ParentTheme
 import com.familygames.presentation.theme.ParentType
 
-/** S10 · crop + label + category + voice + games. */
+/** S10 · crop + name + category + question for the synthesizer + games (ADR-030). */
 @Composable
 fun PhotoEditScreen(state: PhotoEditUiState, onEvent: (PhotoEditEvent) -> Unit, onBack: () -> Unit, onInteraction: () -> Unit) {
     var crop by remember { mutableStateOf<CropFraction?>(null) }
-    var askMic by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-    var askTarget by remember { mutableStateOf(RecordTarget.Label) }
-    val micPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) onEvent(PhotoEditEvent.RecordToggle(askTarget))
-    }
-    val onRecord: (RecordTarget) -> Unit = { target ->
-        val granted = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
-        if (granted || state.recordingOf(target) is RecordingState.Recording) {
-            onEvent(PhotoEditEvent.RecordToggle(target))
-        } else {
-            askTarget = target
-            askMic = true
-        }
-    }
 
     ParentTheme {
         Column(
@@ -129,23 +102,11 @@ fun PhotoEditScreen(state: PhotoEditUiState, onEvent: (PhotoEditEvent) -> Unit, 
                 DetailsCard(
                     state = state,
                     onEvent = onEvent,
-                    onRecord = onRecord,
                     onSave = { onInteraction(); onEvent(PhotoEditEvent.Save(crop)) },
                     onCancel = onBack,
                     modifier = Modifier.weight(0.53f).fillMaxHeight(),
                 )
             }
-        }
-        if (askMic) {
-            AlertDialog(
-                onDismissRequest = { askMic = false },
-                title = { Text(stringResource(R.string.mic_rationale_title)) },
-                text = { Text(stringResource(R.string.mic_rationale_text)) },
-                confirmButton = {
-                    TextButton(onClick = { askMic = false; micPermission.launch(Manifest.permission.RECORD_AUDIO) }) { Text(stringResource(R.string.action_continue)) }
-                },
-                dismissButton = { TextButton(onClick = { askMic = false }) { Text(stringResource(R.string.action_cancel)) } },
-            )
         }
     }
 }
@@ -186,7 +147,6 @@ private fun TopBar(state: PhotoEditUiState, onEvent: (PhotoEditEvent) -> Unit, o
 private fun DetailsCard(
     state: PhotoEditUiState,
     onEvent: (PhotoEditEvent) -> Unit,
-    onRecord: (RecordTarget) -> Unit,
     onSave: () -> Unit,
     onCancel: () -> Unit,
     modifier: Modifier,
@@ -200,14 +160,10 @@ private fun DetailsCard(
     ) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
             FieldLabel(stringResource(R.string.photo_label_title))
-            OutlinedTextField(
-                value = state.label,
-                onValueChange = { onEvent(PhotoEditEvent.LabelChanged(it)) },
-                singleLine = true,
-                textStyle = ParentType.Body.copy(fontSize = 20.sp),
-                suffix = { Text("${state.label.length}/$LABEL_MAX", style = ParentType.Body.copy(color = Palette.ParentInk2)) },
-                modifier = Modifier.fillMaxWidth(),
-            )
+            SpokenField(state.label, LABEL_MAX, state.ttsAvailable, onChange = { onEvent(PhotoEditEvent.LabelChanged(it)) }) {
+                onEvent(PhotoEditEvent.Listen(SpeakTarget.Label))
+            }
+            Text(stringResource(R.string.photo_label_hint), style = ParentType.Body.copy(color = Palette.ParentInk2, fontSize = 15.sp))
             Spacer(Modifier.height(10.dp))
             FieldLabel(stringResource(R.string.photo_category_title))
             var expanded by remember { mutableStateOf(false) }
@@ -230,12 +186,11 @@ private fun DetailsCard(
                 }
             }
             Spacer(Modifier.height(10.dp))
-            FieldLabel(stringResource(R.string.photo_voice_title))
-            VoiceSection(state.recording, { onRecord(RecordTarget.Label) }, RecordTarget.Label, onEvent)
-            Spacer(Modifier.height(10.dp))
             FieldLabel(stringResource(R.string.photo_prompt_title))
+            SpokenField(state.promptText, PROMPT_MAX, state.ttsAvailable, onChange = { onEvent(PhotoEditEvent.PromptChanged(it)) }) {
+                onEvent(PhotoEditEvent.Listen(SpeakTarget.Prompt))
+            }
             Text(stringResource(R.string.photo_prompt_hint), style = ParentType.Body.copy(color = Palette.ParentInk2, fontSize = 15.sp))
-            VoiceSection(state.promptRecording, { onRecord(RecordTarget.Prompt) }, RecordTarget.Prompt, onEvent)
             Spacer(Modifier.height(10.dp))
             FieldLabel(stringResource(R.string.photo_games_title))
             Row(horizontalArrangement = Arrangement.spacedBy(28.dp)) {
@@ -253,7 +208,7 @@ private fun DetailsCard(
                 onClick = onSave,
                 icon = R.drawable.ic_check,
                 busy = state.saving,
-                enabled = state.categoryId != null && (state.image != null || state.editing) && !state.anyRecording,
+                enabled = state.categoryId != null && (state.image != null || state.editing),
             )
         }
     }
@@ -270,58 +225,26 @@ private fun ToggleWithLabel(label: String, checked: Boolean, onChange: (Boolean)
     }
 }
 
+/** A text the synthesizer reads in the games, with a "Posłuchaj" button (ADR-030). */
 @Composable
-private fun VoiceSection(recording: RecordingState, onRecord: () -> Unit, target: RecordTarget, onEvent: (PhotoEditEvent) -> Unit) {
-    val shape = RoundedCornerShape(18.dp)
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .border(1.dp, Palette.ParentLine, shape)
-            .padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        val isRecording = recording is RecordingState.Recording
-        Box(
-            Modifier
-                .size(80.dp)
-                .background(if (isRecording) Palette.Danger.copy(alpha = 0.15f) else Palette.Bg, CircleShape)
-                .padding(8.dp)
-                .background(Palette.Danger, CircleShape)
-                .clickable(role = Role.Button, onClick = onRecord),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (isRecording) {
-                Box(Modifier.size(22.dp).background(Palette.Surface, RoundedCornerShape(4.dp)))
-            } else {
-                Icon(painterResource(R.drawable.ic_mic), stringResource(R.string.cd_record), tint = Palette.Surface, modifier = Modifier.size(30.dp))
-            }
-        }
-        val levels = (recording as? RecordingState.Recording)?.levels.orEmpty()
-        Row(Modifier.weight(1f).height(56.dp), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            repeat(40) { i ->
-                val level = levels.getOrNull(i)
-                Box(
-                    Modifier
-                        .width(5.dp)
-                        .fillMaxHeight(level ?: if (recording is RecordingState.Ready) 0.4f else 0.15f)
-                        .background(if (level != null || recording is RecordingState.Ready) Palette.AccentInk else Palette.Line, RoundedCornerShape(3.dp)),
-                )
-            }
-        }
-        val seconds = when (recording) {
-            is RecordingState.Recording -> recording.elapsedMs / 1000
-            is RecordingState.Ready -> recording.durationMs / 1000
-            RecordingState.None -> 0
-        }
-        Text(stringResource(R.string.voice_timer, seconds), style = ParentType.H2.copy(fontSize = 22.sp))
+private fun SpokenField(value: String, max: Int, ttsAvailable: Boolean, onChange: (String) -> Unit, onListen: () -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        OutlinedTextField(
+            value = value,
+            onValueChange = onChange,
+            singleLine = true,
+            textStyle = ParentType.Body.copy(fontSize = 20.sp),
+            suffix = { Text("${value.length}/$max", style = ParentType.Body.copy(color = Palette.ParentInk2)) },
+            modifier = Modifier.weight(1f),
+        )
+        ParentSecondaryButton(
+            stringResource(R.string.voice_play),
+            onClick = onListen,
+            icon = R.drawable.ic_play,
+            enabled = ttsAvailable && value.isNotBlank(),
+        )
     }
-    if (recording is RecordingState.Ready) {
-        Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            ParentSecondaryButton(stringResource(R.string.voice_play), onClick = { onEvent(PhotoEditEvent.Play(target)) }, icon = R.drawable.ic_play)
-            ParentSecondaryButton(stringResource(R.string.voice_rerecord), onClick = onRecord)
-            ParentSecondaryButton(stringResource(R.string.voice_delete), onClick = { onEvent(PhotoEditEvent.DeleteRecording(target)) }, textColor = Palette.Danger)
-        }
+    if (!ttsAvailable) {
+        Text(stringResource(R.string.photo_no_tts), style = ParentType.Body.copy(color = Palette.Danger, fontSize = 15.sp))
     }
 }

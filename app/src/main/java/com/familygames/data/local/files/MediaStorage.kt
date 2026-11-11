@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 data class StoredPhoto(val filePath: String, val thumbPath: String)
 
 /**
- * Private media storage (docs/02 §3): photos and thumbnails as JPEG, voice recordings as m4a.
+ * Private media storage (docs/02 §3): photos and thumbnails as JPEG (voice recordings were dropped in v3, ADR-030).
  * Nothing is written to the gallery or external storage. Writes are atomic (`.tmp` + rename), so a
  * crash never leaves a half-written photo behind.
  */
@@ -41,20 +41,11 @@ class MediaStorage(
         StoredPhoto(photo, thumb)
     }
 
-    /** Temporary file for the voice recorder (S10); moved into storage by [commitAudio]. */
-    fun newRecordingFile(): File =
-        File(cacheDir, RECORDINGS_DIR).apply { mkdirs() }.resolve("${UUID.randomUUID()}.m4a")
-
-    /** Moves a finished recording into private storage and returns its relative path. */
-    suspend fun commitAudio(recording: File): String = withContext(dispatchers.io) {
-        val relative = "$AUDIO_DIR/${UUID.randomUUID()}.m4a"
-        val target = resolve(relative)
-        target.parentFile?.mkdirs()
-        if (!recording.renameTo(target)) {
-            recording.copyTo(target, overwrite = true)
-            recording.delete()
-        }
-        relative
+    /** ADR-030: removes the voice recordings of v1–v2 (the database forgot them in migration 2→3). Idempotent. */
+    suspend fun deleteLegacyAudio(): Boolean = withContext(dispatchers.io) {
+        val dirs = listOf(resolve(AUDIO_DIR), File(cacheDir, RECORDINGS_DIR)).filter { it.exists() }
+        dirs.forEach { it.deleteRecursively() }
+        dirs.isNotEmpty()
     }
 
     fun resolve(relativePath: String): File = File(filesDir, relativePath)
@@ -102,6 +93,7 @@ class MediaStorage(
         const val ASSET_PREFIX = "asset://"
         const val PHOTOS_DIR = "photos"
         const val THUMBS_DIR = "photos/thumbs"
+        /** Legacy (v1–v2) recordings, only deleted. */
         const val AUDIO_DIR = "audio"
         const val RECORDINGS_DIR = "recordings"
         const val PHOTO_MAX_SIDE = 1600

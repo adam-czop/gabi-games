@@ -36,10 +36,10 @@ Pokrycie: `domain/` ≥ 85% linii (Kover lub JaCoCo — raport w CI, bez twardeg
 - [ ] Wszystkie 4 poziomy Memorków na kategorii wbudowanej i własnej.
 - [ ] Szybkie tapanie wielu kart naraz / całą dłonią — nigdy 3 odkryte karty.
 - [ ] Kategoria z 3 zdjęciami: poziomy 2×4 i 3×4 wyszarzone z ikoną aparatu.
-- [ ] Nagranie rodzica odtwarzane po parze, nie nakłada się z melodyjką wygranej.
+- [ ] Lektor mówi nazwę zdjęcia po parze, nie nakłada się z melodyjką wygranej (ADR-030).
 - [ ] Puzzle Snap 2×2/2×3: upuszczenie poza planszą wraca na tackę; przeciąganie dwoma palcami nie duplikuje fragmentu.
 - [ ] Puzzle Swap 3×3: rozwiązanie → scalenie → S04.
-- [ ] Wyłączony dźwięk w S01 wycisza wszystkie efekty (nagrania rodzica też — decyzja Q6).
+- [ ] Wyłączony dźwięk w S01 wycisza wszystkie efekty (lektor też — decyzja Q6).
 
 ### Zdjęcia
 - [ ] Wybór 10 zdjęć z galerii → kreator 1/10…10/10, „Pomiń” działa.

@@ -101,7 +101,6 @@
 
     <!-- Common actions -->
     <string name="action_next">Dalej</string>
-    <string name="action_continue">Kontynuuj</string>
     <string name="action_cancel">Anuluj</string>
     <string name="action_skip">Pomiń</string>
     <string name="action_rotate">Obróć</string>
@@ -193,7 +192,7 @@
     <string name="photos_set_cover">Ustaw jako okładkę</string>
     <string name="photos_cover_badge">okładka</string>
     <string name="photo_no_label">bez podpisu</string>
-    <string name="cd_has_voice">Ma nagranie głosu</string>
+    <string name="cd_has_question">Ma własne pytanie dla lektora</string>
 
     <!-- S10 · Zdjęcie -->
     <string name="photo_new_title">Nowe zdjęcie</string>
@@ -203,18 +202,13 @@
     <string name="aspect_four_three">4:3</string>
     <string name="photo_crop_hint">Przesuń i przybliż dwoma palcami</string>
     <string name="photo_decode_failed">Nie udało się otworzyć tego zdjęcia.</string>
-    <string name="photo_label_title">Etykieta (podpis karty)</string>
+    <string name="photo_label_title">Nazwa (podpis karty, czyta lektor)</string>
+    <string name="photo_label_hint">Lektor mówi ją po znalezieniu pary i w pytaniach, np. „Gdzie jest babcia?”.</string>
     <string name="photo_category_title">Kategoria</string>
-    <string name="photo_voice_title">Nagranie głosu (opcjonalne)</string>
     <string name="photo_games_title">Używaj w grach</string>
     <string name="photo_save">Zapisz zdjęcie</string>
-    <string name="cd_record">Nagraj głos</string>
-    <string name="voice_timer">0:%1$02d</string>
-    <string name="voice_play">Odsłuchaj</string>
-    <string name="voice_rerecord">Nagraj ponownie</string>
-    <string name="voice_delete">Usuń nagranie</string>
-    <string name="mic_rationale_title">Mikrofon</string>
-    <string name="mic_rationale_text">Aplikacja nagra krótki podpis Twoim głosem (do 8 sekund). Dziecko usłyszy go po znalezieniu pary. Nagranie zostaje tylko na tym tablecie.</string>
+    <string name="voice_play">Posłuchaj</string>
+    <string name="photo_no_tts">Brak polskiego głosu na tablecie – gry będą ciche (szczegóły w panelu Gry → Lektor).</string>
 
     <!-- S13 · Kategorie -->
     <string name="categories_subtitle">Kolejność i widoczność kategorii dla dziecka</string>

@@ -4,11 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
-import com.familygames.data.local.files.MediaStorage
 import com.familygames.domain.model.Photo
 import com.familygames.domain.repository.SettingsRepository
-import com.familygames.domain.voice.PromptPrefix
-import com.familygames.domain.voice.PromptSources
 import com.familygames.domain.voice.VoicePlan
 import com.familygames.domain.voice.VoiceStep
 import kotlinx.coroutines.CompletableDeferred
@@ -25,7 +22,7 @@ import java.util.Locale
 import java.util.UUID
 import kotlin.coroutines.resume
 
-/** Spoken prompts of the games (docs/12 M10.3): parent recordings first, the Polish speech synthesizer as a fallback. */
+/** Spoken prompts of the games: the Polish speech synthesizer reads the texts the parent typed (ADR-030). */
 interface VoicePrompts {
     /** True once a Polish synthesizer voice is ready. */
     val ttsAvailable: StateFlow<Boolean>
@@ -33,32 +30,23 @@ interface VoicePrompts {
     /** Waits a moment for the synthesizer at game start, so the first question is not lost. */
     suspend fun awaitReady()
 
-    suspend fun prefixClip(prefix: PromptPrefix): String?
-
     /** Plays the steps one after another (150 ms apart); cancelling the caller stops playback. */
     suspend fun play(steps: List<VoiceStep>)
 }
 
-/** The question about [photo]: recorded question, recorded prefix + label, or synthesized "prefix label?". */
-suspend fun VoicePrompts.question(photo: Photo, prefix: PromptPrefix?, prefixText: String?): List<VoiceStep> = VoicePlan.build(
-    PromptSources(
-        questionClip = photo.promptAudioPath,
-        prefixClip = prefix?.let { prefixClip(it) },
-        labelClip = photo.audioPath,
-        label = photo.label,
-        prefixText = prefixText,
-        ttsAvailable = ttsAvailable.value,
-    ),
-)
+/** The question about [photo]: its own question text, or "[prefixText] name?". */
+fun VoicePrompts.question(photo: Photo, prefixText: String?): List<VoiceStep> =
+    VoicePlan.question(photo.promptText, photo.label, prefixText, ttsAvailable.value)
 
-/** Just the name of the photo: the parent's recording or the synthesizer. */
-fun VoicePrompts.label(photo: Photo): List<VoiceStep> = VoicePlan.label(photo.audioPath, photo.label, ttsAvailable.value)
+/** Just the name of the photo. */
+fun VoicePrompts.label(photo: Photo): List<VoiceStep> = VoicePlan.label(photo.label, ttsAvailable.value)
+
+/** A fixed sentence ("A kuku!"). */
+fun VoicePrompts.phrase(text: String): List<VoiceStep> = VoicePlan.phrase(text, ttsAvailable.value)
 
 class AndroidVoicePrompts(
     context: Context,
     private val settings: SettingsRepository,
-    private val storage: MediaStorage,
-    private val voice: VoicePlayer,
 ) : VoicePrompts {
     private val ready = MutableStateFlow(false)
     override val ttsAvailable: StateFlow<Boolean> = ready.asStateFlow()
@@ -103,15 +91,11 @@ class AndroidVoicePrompts(
         withTimeoutOrNull(READY_WAIT_MS) { initDone.await() }
     }
 
-    override suspend fun prefixClip(prefix: PromptPrefix): String? =
-        settings.settings.first().prefixClips[prefix.key]?.let { storage.resolve(it) }?.takeIf { it.exists() }?.absolutePath
-
     override suspend fun play(steps: List<VoiceStep>) = queue.withLock {
         if (steps.isEmpty() || !settings.settings.first().soundEnabled) return@withLock
         steps.forEachIndexed { i, step ->
             if (i > 0) delay(GAP_MS)
             when (step) {
-                is VoiceStep.Clip -> voice.playAndAwait(step.path)
                 is VoiceStep.Speech -> speak(step.text)
             }
         }

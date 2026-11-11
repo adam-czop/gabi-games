@@ -19,9 +19,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.familygames.data.AppInitializer
 import com.familygames.data.local.db.FamilyGamesDatabase
 import com.familygames.data.local.files.MediaStorage
-import com.familygames.data.local.files.MediaVoiceRecorder
 import com.familygames.data.local.files.PhotoImporter
-import com.familygames.data.local.files.VoiceRecorder
 import com.familygames.domain.parent.ParentAuthenticator
 import com.familygames.domain.parent.ParentChallengeGenerator
 import com.familygames.domain.parent.PinHasher
@@ -53,8 +51,6 @@ import com.familygames.presentation.games.puzzle.SwapPuzzleViewModel
 import com.familygames.domain.model.MemoryLevel
 import com.familygames.presentation.common.SoundPlayer
 import com.familygames.presentation.common.SoundPoolPlayer
-import com.familygames.presentation.common.MediaVoicePlayer
-import com.familygames.presentation.common.VoicePlayer
 import com.familygames.presentation.common.AndroidVoicePrompts
 import com.familygames.presentation.common.VoicePrompts
 import com.familygames.presentation.common.NotePlayer
@@ -129,7 +125,6 @@ val dataModule = module {
     }
     single { MediaStorage(androidContext().filesDir, androidContext().cacheDir, get()) }
     single { PhotoImporter(androidContext(), get(), get()) }
-    factory<VoiceRecorder> { MediaVoiceRecorder(androidContext(), get()) }
 
     single<CategoryRepository> { CategoryRepositoryImpl(get(), get(), get(), get(), get()) }
     single<PhotoRepository> { PhotoRepositoryImpl(get(), get(), get()) }
@@ -138,7 +133,7 @@ val dataModule = module {
     single<SequenceRepository> { SequenceRepositoryImpl(get(), get(), get(), get(), get()) }
 
     single { DefaultContentSeeder(androidContext().resources, get(), get(), get(), get(), get()) }
-    single { AppInitializer(get(), get(), get(), get(), get(), get(APP_SCOPE)) }
+    single { AppInitializer(get(), get(), get(), get(), get(), get(APP_SCOPE), get()) }
 
     single { OkHttpClient.Builder().callTimeout(60, TimeUnit.SECONDS).build() }
     single { GitHubReleaseApi(get(), BuildConfig.UPDATE_REPO_OWNER, BuildConfig.UPDATE_REPO_NAME, "FamilyGames/${BuildConfig.VERSION_NAME}") }
@@ -167,8 +162,7 @@ val domainModule = module {
 
 val presentationModule = module {
     single<SoundPlayer> { SoundPoolPlayer(androidContext(), get(), get(APP_SCOPE)) }
-    single<VoicePlayer> { MediaVoicePlayer(get()) }
-    single<VoicePrompts> { AndroidVoicePrompts(androidContext(), get(), get(), get()) }
+    single<VoicePrompts> { AndroidVoicePrompts(androidContext(), get()) }
     single<NotePlayer> { SoundPoolNotePlayer(androidContext(), get(), get(APP_SCOPE)) }
     single<ThumbLoader> { CoilThumbLoader(androidContext()) }
     single { DrawingStore(androidContext().filesDir, get()) }
@@ -187,7 +181,7 @@ val viewModelModule = module {
     }
     // docs/12 · new games
     viewModel { (level: MemoryLevel, categoryId: Long, sound: Boolean) ->
-        MemoryViewModel(level, categoryId, get(), get(), get(), get(), get(), get(), get(), sound, get(), get(), androidContext().resources)
+        MemoryViewModel(level, categoryId, get(), get(), get(), get(), get(), get(), get(), sound, get(), androidContext().resources)
     }
     viewModel { (game: GameId) -> LevelPickViewModel(game, get(), get(), get()) }
     viewModel { (level: String, categoryId: Long) ->
@@ -217,7 +211,7 @@ val viewModelModule = module {
     viewModelOf(::GamesViewModel)
     viewModelOf(::SequencesViewModel)
     viewModel { (photoId: Long?, uris: List<String>, categoryId: Long?) ->
-        PhotoEditViewModel(photoId, uris, categoryId, get(), get(), get(), get(), get(), get())
+        PhotoEditViewModel(photoId, uris, categoryId, get(), get(), get(), get())
     }
     viewModel { (photoId: Long, rows: Int, cols: Int) ->
         SnapPuzzleViewModel(photoId, rows, cols, get(), get(), get(), get(), get())

@@ -3,8 +3,8 @@
 
     <!-- Kiosk policies (M7) and the updater (M8) are added in their milestones. Reference: config/android/AndroidManifest.snippet.xml -->
 
-    <!-- Parent's voice notes (S10). CAMERA is deliberately NOT declared: TakePicture uses the system camera app (docs/03 S10). -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- No microphone since v3 (ADR-030: text read by the synthesizer instead of recordings). CAMERA is deliberately
+         NOT declared: TakePicture uses the system camera app (docs/03 S10). -->
 
     <!-- Updates from GitHub Releases (docs/07): the only network use of the app (ADR-011). -->
     <uses-permission android:name="android.permission.INTERNET" />

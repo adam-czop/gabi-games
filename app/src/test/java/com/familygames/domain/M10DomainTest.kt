@@ -9,7 +9,6 @@ import com.familygames.domain.model.AgeBand
 import com.familygames.domain.model.AgeRange
 import com.familygames.domain.model.GameId
 import com.familygames.domain.model.GameVisibility
-import com.familygames.domain.voice.PromptSources
 import com.familygames.domain.voice.VoicePlan
 import com.familygames.domain.voice.VoiceStep
 import org.junit.Assert.assertEquals
@@ -85,20 +84,21 @@ class RoundEngineTest {
 }
 
 class VoicePlanTest {
-    private val base = PromptSources(null, null, null, "babcia", "Gdzie jest", ttsAvailable = false)
-
     @Test
-    fun `priority of voice sources`() {
-        assertEquals(listOf(VoiceStep.Clip("q.m4a")), VoicePlan.build(base.copy(questionClip = "q.m4a", prefixClip = "p", labelClip = "l", ttsAvailable = true)))
-        assertEquals(listOf(VoiceStep.Clip("p"), VoiceStep.Clip("l")), VoicePlan.build(base.copy(prefixClip = "p", labelClip = "l", ttsAvailable = true)))
-        assertEquals(listOf(VoiceStep.Speech("Gdzie jest babcia?")), VoicePlan.build(base.copy(ttsAvailable = true)))
-        assertEquals(emptyList<VoiceStep>(), VoicePlan.build(base))
+    fun `the photo's own question wins, then starter and name, never without a synthesizer`() {
+        assertEquals(listOf(VoiceStep.Speech("Ile jest jabłek?")), VoicePlan.question(" Ile jest jabłek? ", "jabłko", "Ile jest", ttsAvailable = true))
+        assertEquals(listOf(VoiceStep.Speech("Gdzie jest babcia?")), VoicePlan.question(null, " babcia ", "Gdzie jest", ttsAvailable = true))
+        assertEquals(listOf(VoiceStep.Speech("babcia")), VoicePlan.question("  ", "babcia", null, ttsAvailable = true))
+        assertEquals(emptyList<VoiceStep>(), VoicePlan.question(null, "  ", "Gdzie jest", ttsAvailable = true))
+        assertEquals(emptyList<VoiceStep>(), VoicePlan.question("Ile jest jabłek?", "jabłko", "Ile jest", ttsAvailable = false))
     }
 
     @Test
-    fun `label after a right answer`() {
-        assertEquals(listOf(VoiceStep.Clip("l")), VoicePlan.label("l", "babcia", ttsAvailable = true))
-        assertEquals(listOf(VoiceStep.Speech("babcia")), VoicePlan.label(null, "babcia", ttsAvailable = true))
-        assertEquals(emptyList<VoiceStep>(), VoicePlan.label(null, "babcia", ttsAvailable = false))
+    fun `name after a right answer and fixed phrases`() {
+        assertEquals(listOf(VoiceStep.Speech("babcia")), VoicePlan.label("babcia", ttsAvailable = true))
+        assertEquals(emptyList<VoiceStep>(), VoicePlan.label("babcia", ttsAvailable = false))
+        assertEquals(emptyList<VoiceStep>(), VoicePlan.label(null, ttsAvailable = true))
+        assertEquals(listOf(VoiceStep.Speech("A kuku!")), VoicePlan.phrase("A kuku!", ttsAvailable = true))
+        assertEquals(emptyList<VoiceStep>(), VoicePlan.phrase("A kuku!", ttsAvailable = false))
     }
 }

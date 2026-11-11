@@ -32,7 +32,7 @@ Szczegóły logiki: docs/04.
 - Góra: Dom (lewo), licznik par jako małe kropki (środek), Restart (prawo).
 - Siatka liczona z dostępnej przestrzeni: `cardSize = min((W - (cols-1)*gap)/cols, (H - (rows-1)*gap)/rows)`, gap 28 dp, proporcja karty 0.86 (szer./wys.). Siatka wyśrodkowana.
 - Karta: tył (jasny neutralny wzór kropek + konturowa gwiazdka), przód (zdjęcie + opcjonalny podpis). Obrót 350 ms.
-- Po dopasowaniu: ramka w kolorze akcentu + ✓, subtelne konfetti, dźwięk + nagranie rodzica (jeśli jest; dźwięk „match” → 300 ms → głos).
+- Po dopasowaniu: ramka w kolorze akcentu + ✓, subtelne konfetti, dźwięk + lektor mówi nazwę zdjęcia (jeśli jest; dźwięk „match” → 300 ms → głos; ADR-030).
 - Po pomyłce: miodowa ramka 1000 ms, potem zakrycie.
 - Koniec: `WinOverlay` (S04).
 
@@ -59,14 +59,14 @@ Szczegóły: docs/06 §4. Dialog pełnoekranowy z przyciemnieniem; zakładki „
 - Boczna nawigacja rodzica (wspólna dla S09, S11, S13, S14): Zdjęcia, Kategorie, Postępy, Ustawienia, separator, Wróć do gier, Wyjdź z kiosku (czerwony, wymaga PIN).
 - Chipy kategorii z licznikami + „Nowa kategoria” (dialog z nazwą).
 - Pasek stanu kategorii: szałwiowy „wystarczy na wszystkie poziomy” (≥ 6 zdjęć Memorków) / miodowy „dodaj jeszcze N zdjęć, aby odblokować poziom 3×4”.
-- Siatka 5 kolumn: miniatura, etykieta, ikona mikrofonu, plakietka „okładka”.
+- Siatka 5 kolumn: miniatura, nazwa, ikona głośnika (zdjęcie ma własne pytanie), plakietka „okładka”.
 - Akcje: „Z galerii” → `PickMultipleVisualMedia(maxItems = 20)`; „Zrób zdjęcie” → `TakePicture` do pliku w `cacheDir/camera/` przez `FileProvider`. Oba → S10 z listą `pendingUris`.
 - Długie przytrzymanie → tryb zaznaczania: Przenieś do…, Ustaw jako okładkę (gdy 1), Usuń (dialog potwierdzenia).
 - Wbudowanych zdjęć nie da się usunąć — można je ukryć (toggle `useInMemory/useInPuzzle` = false).
 
 ## S10 · Dodawanie / edycja zdjęcia — `PhotoEditScreen`
 - Lewa część: `CropView` — obraz pod stałą ramką; pan (1 palec) + pinch-zoom (2 palce), min. zoom = ramka wypełniona, max 5×; siatka 3×3; przełącznik 1:1 / 4:3; obrót o 90°.
-- Prawa część: etykieta (max 24), kategoria (dropdown), nagranie głosu (tap start/stop, limit 8 s, licznik, odsłuch, nagraj ponownie, usuń), przełączniki „Memorki”/„Puzzle”, Anuluj / Zapisz.
+- Prawa część: nazwa (max 24) z przyciskiem „Posłuchaj”, kategoria (dropdown), własne pytanie dla lektora (opcjonalne, max 80, „Posłuchaj”), ADR-030, przełączniki „Memorki”/„Puzzle”, Anuluj / Zapisz.
 - Wiele zdjęć: pasek postępu „2 / 5” u góry + „Pomiń”.
 - Zapis: crop w tle (`Dispatchers.Default`), zapis plików, insert do Room; w trakcie przycisk „Zapisz” pokazuje spinner, blokada podwójnego kliknięcia.
 - Uprawnienia: **nie deklaruj `CAMERA`** w manifeście — `TakePicture` korzysta z systemowej aplikacji aparatu i nie potrzebuje go (a zadeklarowane, a nieprzyznane `CAMERA` blokuje tę intencję). `RECORD_AUDIO` pytane przy pierwszym nagraniu (z wyjaśnieniem w dialogu).

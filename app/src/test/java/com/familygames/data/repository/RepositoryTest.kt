@@ -90,7 +90,7 @@ class RepositoryTest {
         val family = categories.create("Rodzina")
         val first = addStoredPhoto(family)
         val second = addStoredPhoto(family)
-        photos.updateDetails(second, label = "  Babcia  ", categoryId = family, useInMemory = false, useInPuzzle = true)
+        photos.updateDetails(second, label = "  Babcia  ", promptText = "  Gdzie jest babcia Ania?  ", categoryId = family, useInMemory = false, useInPuzzle = true)
 
         var summary = categories.observeSummaries().first().single()
         assertEquals(2, summary.photoCount)
@@ -98,6 +98,7 @@ class RepositoryTest {
         assertEquals(2, summary.puzzleCount)
         assertEquals(photos.get(first)!!.thumb, summary.cover)
         assertEquals("Babcia", photos.get(second)!!.label)
+        assertEquals("Gdzie jest babcia Ania?", photos.get(second)!!.promptText)
 
         categories.setCover(family, second)
         summary = categories.observeSummaries().first().single()
@@ -117,17 +118,13 @@ class RepositoryTest {
     }
 
     @Test
-    fun `replacing a recording deletes the old file`() = runTest {
+    fun `a blank question is stored as none`() = runTest {
         val family = categories.create("Rodzina")
         val id = addStoredPhoto(family)
-        val first = storage.commitAudio(storage.newRecordingFile().apply { writeText("1") })
-        photos.setAudio(id, first)
-        val second = storage.commitAudio(storage.newRecordingFile().apply { writeText("2") })
 
-        photos.setAudio(id, second)
+        photos.updateDetails(id, label = "Dziadek", promptText = "   ", categoryId = family, useInMemory = true, useInPuzzle = true)
 
-        assertFalse(storage.resolve(first).exists())
-        assertEquals(storage.resolve(second).absolutePath, photos.get(id)!!.audioPath)
+        assertNull(photos.get(id)!!.promptText)
     }
 
     @Test

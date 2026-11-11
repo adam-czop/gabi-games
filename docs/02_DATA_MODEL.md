@@ -21,12 +21,15 @@
 | filePath | String | względna do `filesDir`, np. `photos/9f1c….jpg`; dla wbudowanych `asset://builtin/dom_kanapa.webp` |
 | thumbPath | String | `photos/thumbs/9f1c….jpg` (400 px) |
 | aspect | Enum `SQUARE`/`FOUR_THREE` | TypeConverter → String |
-| label | String? | podpis karty, max 24 |
-| audioPath | String? | `audio/….m4a` |
+| label | String? | nazwa: podpis karty i tekst dla lektora, max 24 |
+| audioPath | String? | v1–v2 nagranie głosu; od v3 zawsze `NULL`, nieużywane (ADR-030) |
 | useInMemory | Boolean | domyślnie true |
 | useInPuzzle | Boolean | domyślnie true |
 | sortOrder | Int | |
 | createdAt | Long | |
+| promptAudioPath | String? | v2 nagrane pytanie; od v3 zawsze `NULL` (ADR-030) |
+| countable | Boolean | v2, „Ile jest?” |
+| promptText | String? | v3: własne pytanie dla lektora, max 80 (ADR-030) |
 
 ### GameResultEntity — `game_results`
 | kolumna | typ | uwagi |

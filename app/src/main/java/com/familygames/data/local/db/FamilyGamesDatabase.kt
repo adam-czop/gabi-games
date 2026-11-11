@@ -12,7 +12,7 @@ import com.familygames.domain.model.Aspect
 
 @Database(
     entities = [CategoryEntity::class, PhotoEntity::class, GameResultEntity::class, SequenceEntity::class, SequenceStepEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = true,
 )
 @TypeConverters(Converters::class)
@@ -33,7 +33,7 @@ abstract class FamilyGamesDatabase : RoomDatabase() {
 }
 
 /** Every schema change gets an explicit migration — family photos must survive app updates. */
-val ALL_MIGRATIONS: Array<Migration> get() = arrayOf(MIGRATION_1_2)
+val ALL_MIGRATIONS: Array<Migration> get() = arrayOf(MIGRATION_1_2, MIGRATION_2_3)
 
 /** docs/12 M10.4: every v2 column and table in one migration, even for games built later. */
 val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -48,6 +48,17 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
         )
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_sequence_steps_sequenceId` ON `sequence_steps` (`sequenceId`)")
         db.execSQL("CREATE INDEX IF NOT EXISTS `index_sequence_steps_photoId` ON `sequence_steps` (`photoId`)")
+    }
+}
+
+/**
+ * ADR-030: voice recordings are replaced by text read by the synthesizer. Adds the question text and forgets the
+ * recordings (their files are removed by [com.familygames.data.local.files.MediaStorage.deleteLegacyAudio]).
+ */
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE photos ADD COLUMN promptText TEXT")
+        db.execSQL("UPDATE photos SET audioPath = NULL, promptAudioPath = NULL")
     }
 }
 
