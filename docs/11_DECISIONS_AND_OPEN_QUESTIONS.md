@@ -70,6 +70,8 @@ Format ADR: kontekst → decyzja → konsekwencje. Agent dopisuje nowe ADR-y na 
 
 **ADR-033 · Znajdź na obrazku.** Pytania z rozmowy rozstrzygnięte domyślnie (polecenie „rób wszystko kolejno”): (1) sceny wbudowane rysowane w kodzie (wariant a) — obszary rzeczy są dokładne i gra działa od razu; sceny ze zdjęć rodzica z zaznaczaniem obszarów zostają na później. (2) Na start 4 sceny: wieś, miasto, kuchnia, plac zabaw (las i plaża później). (3) Tryb odkrywania jako kafel „Odkrywaj” w wyborze poziomu tej samej gry (bez gwiazdek, zapis czasu jak w grach swobodnych), a nie osobna gra w menu. (4) Nazwa w menu „Znajdź na obrazku” — sceny są rysunkami, nie zdjęciami. (5) Pytania „Gdzie jest X?” (mianownik — syntezator nie musi odmieniać); poziomy z cechami, liczeniem i położeniem zostają na później. (6) Rysowanie przez `android.graphics.Canvas` (`SceneRenderer`), wspólne dla gry, karty „tego szukamy” i testu renderu.
 
+**ADR-034 · Gry z listy propozycji bez wyboru właściciela.** Właściciel nie wybrał z sześciu propozycji, ale poprosił o „całość na rano”, więc powstają wszystkie, każda w osobnym commicie i każdą rodzic może ukryć w S17. „Kto zniknął?” nazywa się „Czego brakuje?” (zdjęcia to też przedmioty); opcje to brakujące zdjęcie i dwa spoza sceny, zasłonka w kolorze `Mist`.
+
 ## Otwarte pytania (do właściciela produktu — odpowiedzi wpisz tutaj)
 
 | # | Pytanie | Domyślne założenie, jeśli brak odpowiedzi | Blokuje |

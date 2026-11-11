@@ -315,6 +315,20 @@ Duży obrazek (wieś, miasto, kuchnia, plac zabaw) i polecenie lektora „Gdzie 
 
 ---
 
+## M24 · Czego brakuje? (`MISSING`)
+
+**Makieta:** S33 · **Kod:** `domain/game/round/MissingGenerator.kt`, `presentation/games/missing/Missing.kt` (na `RoundGameViewModel`)
+
+Propozycja „Kto zniknął?” z listy pomysłów — nazwana „Czego brakuje?”, bo na zdjęciach bywają też przedmioty.
+
+- Runda: na scenie (`Bg2`) 3 lub 4 zdjęcia (najpierw kategoria „Rodzina”), lektor „Popatrz uważnie!”, po 2,6 s zjeżdża zasłonka `Mist` (600 ms), po jej podniesieniu jednego zdjęcia brakuje — w jego miejscu pusta ramka `Line2`. Lektor „Czego brakuje?”; dopiero wtedy pod sceną pojawiają się 3 karty i głośnik.
+- Opcje: brakujące zdjęcie + 2 zdjęcia spoza sceny (każda odpowiedź jest „uczciwa” — dziecko musi pamiętać). Puste miejsce i właściwa karta nie trafiają 3 razy z rzędu w to samo miejsce (`PositionPicker`).
+- Trafienie: zdjęcie wraca na scenę, lektor mówi jego nazwę. Pudło: karta się kiwa, pytanie wraca; po 2 pudłach właściwa karta pulsuje. 5 rund, gwiazdki `RoundScoring`.
+- Poziomy `missing_3`, `missing_4`; potrzeba odpowiednio 5 i 6 zdjęć.
+- `RoundUiState` dostał pola sceny (`stage`, `stageGap`, `curtain`) — używa ich tylko ta gra.
+
+---
+
 ## Kolejka pomysłów właściciela (2026-11-11, przed specyfikacją)
 
 Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę przed implementacją.
@@ -324,7 +338,7 @@ Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę 
 3. ~~**Cienie**~~ — zrobione (M21, ADR-031).
 4. ~~**Kulki**~~ — zrobione (M22, ADR-032).
 5. ~~**Znajdź na zdjęciu**~~ — zrobione jako „Znajdź na obrazku” (M23, ADR-033). Zostaje na później: sceny z własnych zdjęć rodzica z zaznaczanymi obszarami, sceny „las” i „plaża”, poziomy z cechami („czerwone auto”), liczeniem i położeniem.
-6. **Propozycje do wyboru:** Klocki do dziurek (sorter kształtów), Kto zniknął?, Połówki, Ubierz na pogodę, Powtórz za mną (Cymbałki), Ogródek.
+6. **Propozycje do wyboru** — robione kolejno po kolejce: ~~Kto zniknął?~~ (M24 „Czego brakuje?”), Połówki, Klocki do dziurek, Powtórz za mną, Ogródek, Ubierz na pogodę.
 
 ---
 

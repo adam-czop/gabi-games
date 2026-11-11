@@ -75,6 +75,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable data class FindRoute(val level: String)
 
+@Serializable data class MissingRoute(val level: String)
+
 @Serializable object ParentGamesRoute
 
 @Serializable object ParentSequencesRoute

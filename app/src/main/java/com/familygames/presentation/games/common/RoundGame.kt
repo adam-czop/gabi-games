@@ -48,6 +48,10 @@ data class RoundUiState(
     /** No voice at all: "Gdzie jest…?" becomes "find the same picture" (docs/12 M10.3 point 4). */
     val voiceless: Boolean = false,
     val game: Int = 0,
+    /** "Czego brakuje?": the photos on the stage, the empty place (null = all shown) and the curtain. */
+    val stage: List<OptionUi> = emptyList(),
+    val stageGap: Int? = null,
+    val curtain: Boolean = false,
 )
 
 sealed interface RoundEvent {

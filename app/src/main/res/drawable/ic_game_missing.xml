@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M24 "Czego brakuje?": three cards, the middle one only an outline with a question mark (line icon). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M10 30h18a4 4 0 0 1 4 4v28a4 4 0 0 1 -4 4H10a4 4 0 0 1 -4 -4V34a4 4 0 0 1 4 -4zM68 30h18a4 4 0 0 1 4 4v28a4 4 0 0 1 -4 4H68a4 4 0 0 1 -4 -4V34a4 4 0 0 1 4 -4z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M39 30h4M53 30h4M39 66h4M53 66h4M36 40v4M36 52v4M60 40v4M60 52v4M43 43a5 5 0 1 1 7 4.6c-1.4.6 -2 1.6 -2 3.4M48 57v.5"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

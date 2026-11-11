@@ -39,6 +39,7 @@ import androidx.lifecycle.viewModelScope
 import com.familygames.R
 import com.familygames.domain.game.board.SortingLevel
 import com.familygames.domain.game.find.FindLevel
+import com.familygames.domain.game.round.MissingLevel
 import com.familygames.domain.game.marble.MarbleLevel
 import com.familygames.domain.game.maze.MazeLevel
 import com.familygames.domain.game.maze.TrackShape
@@ -65,6 +66,7 @@ import com.familygames.presentation.games.memory.MiniGrid
 import com.familygames.presentation.games.maze.MiniTrack
 import com.familygames.presentation.navigation.CountingRoute
 import com.familygames.presentation.navigation.FindRoute
+import com.familygames.presentation.navigation.MissingRoute
 import com.familygames.presentation.navigation.MarblesRoute
 import com.familygames.presentation.navigation.MazeRoute
 import com.familygames.presentation.navigation.ShadowsRoute
@@ -207,6 +209,14 @@ class LevelPickViewModel(
                 title = R.string.levels_shadows_title,
                 tiles = ShadowLevel.entries.map { l -> tile(l.key, 1, l.items, TileCaption.Shadows, l.items, ShadowDealer.canPlay(c.groups, l)) },
             )
+            GameId.MISSING -> {
+                val photos = c.groups.values.flatten().size
+                LevelPickUiState(
+                    loading = false,
+                    title = R.string.levels_missing_title,
+                    tiles = MissingLevel.entries.map { l -> tile(l.key, 1, l.shown, TileCaption.Photos, l.shown, photos >= l.needed) },
+                )
+            }
             GameId.FIND -> LevelPickUiState(
                 loading = false,
                 title = R.string.levels_find_title,
@@ -255,6 +265,7 @@ class LevelPickViewModel(
                     GameId.SHADOWS -> ShadowsRoute(tile.key)
                     GameId.MARBLES -> MarblesRoute(tile.key)
                     GameId.FIND -> FindRoute(tile.key)
+                    GameId.MISSING -> MissingRoute(tile.key)
                     else -> return@launch
                 }
                 effects.send(LevelPickEffect.Play(route))

@@ -258,4 +258,12 @@
     <string name="find_q_bucket">Gdzie jest wiaderko?</string>
     <string name="find_ball">piłka</string>
     <string name="find_q_ball">Gdzie jest piłka?</string>
+
+    <!-- M24 · Czego brakuje? -->
+    <string name="game_missing">Czego brakuje?</string>
+    <string name="game_desc_missing">Zapamiętaj zdjęcia i znajdź to, które zniknęło</string>
+    <string name="levels_missing_title">Czego brakuje?</string>
+    <string name="missing_look">Popatrz uważnie!</string>
+    <string name="missing_question">Czego brakuje?</string>
+    <string name="cd_missing_gap">Puste miejsce po zdjęciu</string>
 </resources>
