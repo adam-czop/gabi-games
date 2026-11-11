@@ -1,7 +1,7 @@
 # 12 · Nowe gry (po v1.0) — specyfikacja wdrożeniowa
 
 > Dokument dla agenta implementującego. Realizuj **po ukończeniu M0–M9** (v1.0). Obowiązują wszystkie zasady z `CLAUDE.md`, architektura z `docs/01`, model danych z `docs/02`, stonowany design system z `docs/08` (kolor wnoszą zdjęcia, UI neutralne, jeden akcent) i zasady UX dla dziecka z `docs/03 §0`.
-> **Makiety:** `mockups/png/S15…S37_*.png` + adnotacje w `mockups/index.html` (sekcja „Nowe gry · makiety v2.1”). Adnotacje są częścią wymagań. Buduj z komponentów wspólnych i tokenów z docs/08, dla każdego ekranu dodaj `@Preview` 1280×800 dp. W raporcie po milestonie dołącz zrzuty ekranu z emulatora do porównania z makietą.
+> **Makiety:** `mockups/png/S15…S38_*.png` + adnotacje w `mockups/index.html` (sekcja „Nowe gry · makiety v2.1”). Adnotacje są częścią wymagań. Buduj z komponentów wspólnych i tokenów z docs/08, dla każdego ekranu dodaj `@Preview` 1280×800 dp. W raporcie po milestonie dołącz zrzuty ekranu z emulatora do porównania z makietą.
 
 ---
 
@@ -30,6 +30,7 @@
 | M26 | **Klocki do dziurek** | `SORTER` | 1,5–4 | zadaniowa | brak (kształty) | S35 |
 | M27 | **Powtórz za mną** | `ECHO` | 2,5–5 | zadaniowa | zdjęcia na sztabkach, dźwięki Cymbałków | S36 |
 | M28 | **Ogródek** | `GARDEN` | 1,5–4 | swobodna | brak (rysunki) | S37 |
+| M29 | **Ubierz na pogodę** | `WEATHER` | 2,5–5 | zadaniowa | brak (rysunki) | S38 |
 
 - **Zadaniowa** = ma cel, kończy się `WinOverlay` (S04) i zapisem `GameResultEntity`, punktacja 1–3★ (zawsze min. 1★).
 - **Swobodna** = brak wygranej i punktów; dziecko bawi się, ile chce; wyjście przyciskiem Dom. Zapisujemy tylko czas zabawy (`GameResultEntity` z `stars = 0`, `levelKey = "free"`), żeby S14 Postępy mogło to pokazać.
@@ -378,6 +379,18 @@ Cyfrowy sortownik kształtów dla najmłodszych (od 1,5 roku); bez zdjęć.
 
 ---
 
+## M29 · Ubierz na pogodę (`WEATHER`)
+
+**Makieta:** S38 · **Kod:** `domain/game/weather/Weather.kt` (`WeatherDealer`, `Dresser`), `presentation/games/weather/Weather.kt`
+
+- Po lewej okno z pogodą (słońce / deszcz z chmurką / śnieg z chmurką i białą ziemią) — każda pogoda raz w grze, w losowej kolejności. Po prawej postać dziecka (strefa upuszczenia), na dole rzeczy (karty 150 dp) do przeciągnięcia.
+- Lektor: „Świeci słońce. Co założymy?” / „Pada deszcz. Co weźmiemy?” / „Pada śnieg. Co założymy?”; dotknięcie okna powtarza.
+- Pasująca rzecz zostaje na postaci (czapka na głowie, okulary na oczach, parasol w ręce, kalosze na nogach, rękawiczki na dłoniach), lektor mówi jej nazwę; po obu pasujących — następna pogoda. Niepasująca wraca, a lektor wyjaśnia „To na słońce.” (bez „nie”); po 2 pomyłkach z rzędu postać pulsuje.
+- Słońce: czapka z daszkiem, okulary; deszcz: parasol, kalosze; śnieg: ciepła czapka, rękawiczki. Poziomy `weather_1` (+1 niepasująca rzecz) i `weather_2` (+2). Gwiazdki `RoundScoring` (pomyłki na 6 rzeczy).
+- Rysunki rzeczy i postaci w kodzie (Canvas), kolory rzeczy z farb Kolorowanek.
+
+---
+
 ## Kolejka pomysłów właściciela (2026-11-11, przed specyfikacją)
 
 Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę przed implementacją.
@@ -387,11 +400,11 @@ Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę 
 3. ~~**Cienie**~~ — zrobione (M21, ADR-031).
 4. ~~**Kulki**~~ — zrobione (M22, ADR-032).
 5. ~~**Znajdź na zdjęciu**~~ — zrobione jako „Znajdź na obrazku” (M23, ADR-033). Zostaje na później: sceny z własnych zdjęć rodzica z zaznaczanymi obszarami, sceny „las” i „plaża”, poziomy z cechami („czerwone auto”), liczeniem i położeniem.
-6. **Propozycje do wyboru** — robione kolejno po kolejce: ~~Kto zniknął?~~ (M24 „Czego brakuje?”), ~~Połówki~~ (M25), ~~Klocki do dziurek~~ (M26), ~~Powtórz za mną~~ (M27), ~~Ogródek~~ (M28), Ubierz na pogodę.
+6. **Propozycje do wyboru** — robione kolejno po kolejce: ~~Kto zniknął?~~ (M24 „Czego brakuje?”), ~~Połówki~~ (M25), ~~Klocki do dziurek~~ (M26), ~~Powtórz za mną~~ (M27), ~~Ogródek~~ (M28), ~~Ubierz na pogodę~~ (M29) — wszystkie zrobione.
 
 ---
 
-## Definition of Done dla każdego milestone'u M10–M28
+## Definition of Done dla każdego milestone'u M10–M29
 1. Gra zarejestrowana w `GameRegistry` z `ageBand`, `kind`, ikoną liniową i opisem dla S11.
 2. Logika domenowa w `domain/game/<gra>/` z testami jednostkowymi (deterministyczny `Random`, czas przez `TestScope`).
 3. Ekrany zgodne z docs/08 (paleta stonowana, miękkie cienie, ikony liniowe, brak czerwieni i „buczków”), cele dotyku ≥ 96/64 dp, obsługa tylko pierwszego wskaźnika (poza Zdrapką i Cymbałkami).
@@ -418,6 +431,7 @@ Kolejność proponowana; każdy punkt dostanie pełną specyfikację i makietę 
 - [x] M26 Klocki do dziurek
 - [x] M27 Powtórz za mną
 - [x] M28 Ogródek
+- [x] M29 Ubierz na pogodę
 
 _Stan (2026-11-11):_ wszystkie gry zarejestrowane i sprawdzone na emulatorze 1280×800 dp (menu 3×2 ze stronami, S15, S17, każda gra przeszła co najmniej jedną rundę lub wygraną); `lint testDebugUnitTest assembleDebug` zielone (122 testy, w tym test migracji v1→v2). Odstępstwa: ADR-023…ADR-027. Niesprawdzone: dźwięk (emulator bez audio — kolejność klipów i syntezatora tylko w testach i logice), nagrywanie prefiksów i pytań głosowych mikrofonem, wielodotyk w Zdrapce i Cymbałkach (emulator ma jeden palec).
 

@@ -56,6 +56,7 @@ object GameRegistry {
         GameEntry(GameId.SORTER, R.string.game_sorter, R.string.game_desc_sorter, R.drawable.ic_game_sorter, AgeRange(1.5f, 4f), PlayStyle.TASK, GameLevelsRoute(GameId.SORTER)),
         GameEntry(GameId.ECHO, R.string.game_echo, R.string.game_desc_echo, R.drawable.ic_game_echo, AgeRange(2.5f, 5f), PlayStyle.TASK, GameLevelsRoute(GameId.ECHO)),
         GameEntry(GameId.GARDEN, R.string.game_garden, R.string.game_desc_garden, R.drawable.ic_game_garden, AgeRange(1.5f, 4f), PlayStyle.FREE_PLAY, GardenRoute),
+        GameEntry(GameId.WEATHER, R.string.game_weather, R.string.game_desc_weather, R.drawable.ic_game_weather, AgeRange(2.5f, 5f), PlayStyle.TASK, GameLevelsRoute(GameId.WEATHER)),
     )
 
     fun entry(id: GameId): GameEntry = games.first { it.id == id }

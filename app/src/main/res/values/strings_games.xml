@@ -319,4 +319,24 @@
     <string name="game_desc_garden">Sadzenie, podlewanie i zbieranie kwiatków</string>
     <string name="garden_bloomed">Kwiatki zakwitły!</string>
     <string name="cd_garden_board">Ogródek. Dotknij grządki, aby posadzić nasionko; konewka podlewa, chmurka odsłania słońce, a kwiatek trafia do wazonu.</string>
+
+    <!-- M29 · Ubierz na pogodę -->
+    <string name="game_weather">Ubierz na pogodę</string>
+    <string name="game_desc_weather">Co założyć na słońce, deszcz i śnieg</string>
+    <string name="levels_weather_title">Ubierz na pogodę</string>
+    <string name="weather_level_1">3 rzeczy</string>
+    <string name="weather_level_2">4 rzeczy</string>
+    <string name="weather_q_sun">Świeci słońce. Co założymy?</string>
+    <string name="weather_q_rain">Pada deszcz. Co weźmiemy?</string>
+    <string name="weather_q_snow">Pada śnieg. Co założymy?</string>
+    <string name="weather_for_sun">To na słońce.</string>
+    <string name="weather_for_rain">To na deszcz.</string>
+    <string name="weather_for_snow">To na śnieg.</string>
+    <string name="garment_cap">czapka z daszkiem</string>
+    <string name="garment_glasses">okulary przeciwsłoneczne</string>
+    <string name="garment_umbrella">parasol</string>
+    <string name="garment_boots">kalosze</string>
+    <string name="garment_hat">ciepła czapka</string>
+    <string name="garment_mittens">rękawiczki</string>
+    <string name="cd_weather_child">Dziecko – przeciągnij tu rzeczy pasujące do pogody</string>
 </resources>

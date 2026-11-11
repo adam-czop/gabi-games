@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M29 "Ubierz na pogodę": an umbrella under a cloud with rain drops (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M30 30a12 12 0 0 1 22 -6a10 10 0 0 1 16 8a8 8 0 0 1 -2 16H30a9 9 0 0 1 0 -18zM34 54l-3 6M50 54l-3 6"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M44 70c2 -12 34 -12 36 0zM62 70v14a4 4 0 0 1 -8 0"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

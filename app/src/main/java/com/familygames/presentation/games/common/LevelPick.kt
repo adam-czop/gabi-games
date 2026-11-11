@@ -42,6 +42,7 @@ import com.familygames.domain.game.find.FindLevel
 import com.familygames.domain.game.round.HalvesLevel
 import com.familygames.domain.game.sorter.SorterLevel
 import com.familygames.domain.game.echo.EchoLevel
+import com.familygames.domain.game.weather.WeatherLevel
 import com.familygames.domain.game.round.MissingLevel
 import com.familygames.domain.game.marble.MarbleLevel
 import com.familygames.domain.game.maze.MazeLevel
@@ -72,6 +73,7 @@ import com.familygames.presentation.navigation.FindRoute
 import com.familygames.presentation.navigation.HalvesRoute
 import com.familygames.presentation.navigation.SorterRoute
 import com.familygames.presentation.navigation.EchoRoute
+import com.familygames.presentation.navigation.WeatherRoute
 import com.familygames.presentation.navigation.MissingRoute
 import com.familygames.presentation.navigation.MarblesRoute
 import com.familygames.presentation.navigation.MazeRoute
@@ -135,6 +137,7 @@ sealed interface LevelPickEffect {
 private val MAZE_LEVEL_NAMES = listOf(R.string.maze_level_1, R.string.maze_level_2, R.string.maze_level_3, R.string.maze_level_4)
 private val MARBLE_LEVEL_NAMES = listOf(R.string.marbles_level_1, R.string.marbles_level_2, R.string.marbles_level_3, R.string.marbles_level_4)
 private val FIND_LEVEL_NAMES = listOf(R.string.find_level_explore, R.string.find_level_big, R.string.find_level_all)
+private val WEATHER_LEVEL_NAMES = listOf(R.string.weather_level_1, R.string.weather_level_2)
 
 /** Snapshot of what the games can use: photos per visible category plus chip data. */
 private data class Content(val groups: Map<Long, List<Photo>>, val chips: List<CategoryChipUi>)
@@ -241,6 +244,13 @@ class LevelPickViewModel(
                 title = R.string.levels_echo_title,
                 tiles = EchoLevel.entries.map { l -> tile(l.key, 1, l.bars.size, TileCaption.Notes, l.target, true) },
             )
+            GameId.WEATHER -> LevelPickUiState(
+                loading = false,
+                title = R.string.levels_weather_title,
+                tiles = WeatherLevel.entries.mapIndexed { i, l ->
+                    PickTile(l.key, 1, 2 + l.wrong, TileCaption.Named, i + 1, enabled = true, bestStars = best[l.key] ?: 0, name = WEATHER_LEVEL_NAMES[i])
+                },
+            )
             GameId.FIND -> LevelPickUiState(
                 loading = false,
                 title = R.string.levels_find_title,
@@ -293,6 +303,7 @@ class LevelPickViewModel(
                     GameId.HALVES -> HalvesRoute(tile.key)
                     GameId.SORTER -> SorterRoute(tile.key)
                     GameId.ECHO -> EchoRoute(tile.key)
+                    GameId.WEATHER -> WeatherRoute(tile.key)
                     else -> return@launch
                 }
                 effects.send(LevelPickEffect.Play(route))

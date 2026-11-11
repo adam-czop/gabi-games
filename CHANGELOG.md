@@ -4,6 +4,7 @@ Format: one `## [x.y.z]` section per release; lines starting with `- ` become th
 `changelog` array in `update.json` (see `.github/workflows/release.yml`).
 
 ## [Unreleased]
+- Nowa gra Ubierz na pogodę: słońce, deszcz albo śnieg za oknem — przeciągnij na dziecko to, co pasuje.
 - Nowa zabawa Ogródek: sadzenie, podlewanie konewką, słońce zza chmurki i kwiatki do wazonu.
 - Nowa gra Powtórz za mną: cymbałki grają coraz dłuższą melodię, a dziecko ją powtarza.
 - Nowa gra Klocki do dziurek: wkładanie kolorowych klocków do dziurek w kształcie kółka, gwiazdki, serduszka… — już dla półtoraroczniaka.

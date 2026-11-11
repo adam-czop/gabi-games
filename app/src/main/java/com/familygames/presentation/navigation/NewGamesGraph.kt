@@ -31,6 +31,8 @@ import com.familygames.presentation.games.maze.MazeScreen
 import com.familygames.presentation.games.maze.MazeViewModel
 import com.familygames.presentation.games.find.FindScreen
 import com.familygames.presentation.games.find.FindViewModel
+import com.familygames.presentation.games.weather.WeatherScreen
+import com.familygames.presentation.games.weather.WeatherViewModel
 import com.familygames.presentation.games.garden.GardenScreen
 import com.familygames.presentation.games.garden.GardenViewModel
 import com.familygames.presentation.games.echo.EchoScreen
@@ -240,6 +242,12 @@ fun NavGraphBuilder.newGamesGraph(navController: NavHostController, sound: Sound
         val state by vm.uiState.collectAsStateWithLifecycle()
         GameEffects(vm.effect, sound, navController)
         KidTheme { GardenScreen(state, vm::tap, vm::home) }
+    }
+    composable<WeatherRoute> { entry ->
+        val vm: WeatherViewModel = koinViewModel { parametersOf(entry.toRoute<WeatherRoute>().level) }
+        val state by vm.uiState.collectAsStateWithLifecycle()
+        GameEffects(vm.effect, sound, navController)
+        KidTheme { WeatherScreen(state, vm::onEvent, vm::drop, star) }
     }
 }
 

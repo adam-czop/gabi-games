@@ -70,6 +70,7 @@ import com.familygames.domain.game.shadow.ShadowDealer
 import com.familygames.domain.game.round.MissingRoundGenerator
 import com.familygames.domain.game.round.HalvesRoundGenerator
 import com.familygames.domain.game.sorter.SorterDealer
+import com.familygames.domain.game.weather.WeatherDealer
 import com.familygames.domain.game.round.CountingRoundGenerator
 import com.familygames.domain.game.round.OddOneOutRoundGenerator
 import com.familygames.domain.game.round.WhereIsRoundGenerator
@@ -82,6 +83,7 @@ import com.familygames.presentation.games.halves.HalvesViewModel
 import com.familygames.presentation.games.sorter.SorterViewModel
 import com.familygames.presentation.games.echo.EchoViewModel
 import com.familygames.presentation.games.garden.GardenViewModel
+import com.familygames.presentation.games.weather.WeatherViewModel
 import com.familygames.presentation.games.marble.MarblesViewModel
 import com.familygames.presentation.games.shadow.ShadowsViewModel
 import com.familygames.presentation.games.shadow.SilhouetteLoader
@@ -172,6 +174,7 @@ val domainModule = module {
     factory { MissingRoundGenerator(get()) }
     factory { HalvesRoundGenerator(get()) }
     factory { SorterDealer(get()) }
+    factory { WeatherDealer(get()) }
     single<SilhouetteLoader> { ThumbSilhouetteLoader(get(), get()) }
     // Seeded once from SecureRandom: Random.Default can repeat the same sequence in every process forked from zygote.
     single<Random> { Random(SecureRandom().nextLong()) }
@@ -225,6 +228,7 @@ val viewModelModule = module {
     viewModel { (level: String) -> SorterViewModel(level, get(), get(), androidContext().resources, get(), get()) }
     viewModel { (level: String) -> EchoViewModel(level, get(), get(), get(), androidContext().resources, get(), get(), get()) }
     viewModel { GardenViewModel(get(), androidContext().resources, get(), get()) }
+    viewModel { (level: String) -> WeatherViewModel(level, get(), get(), androidContext().resources, get(), get()) }
     viewModelOf(::PuzzleSetupViewModel)
     viewModel { (purpose: GatePurpose) -> ParentGateViewModel(purpose, get(), get(), get(), get()) }
     viewModel {

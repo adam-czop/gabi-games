@@ -85,6 +85,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable object GardenRoute
 
+@Serializable data class WeatherRoute(val level: String)
+
 @Serializable object ParentGamesRoute
 
 @Serializable object ParentSequencesRoute
