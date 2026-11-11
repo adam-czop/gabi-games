@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M26 "Klocki do dziurek": a box lid with a round and a triangular hole, a square block above (line icon). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M12 52h72a4 4 0 0 1 4 4v24a4 4 0 0 1 -4 4H12a4 4 0 0 1 -4 -4V56a4 4 0 0 1 4 -4z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M20 68a8 8 0 1 0 16 0a8 8 0 1 0 -16 0zM62 60l10 16H52z"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M38 14h20v20H38zM48 38v8M44 42l4 4 4 -4"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

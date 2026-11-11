@@ -69,6 +69,7 @@ import com.familygames.domain.game.maze.TrackFactory
 import com.familygames.domain.game.shadow.ShadowDealer
 import com.familygames.domain.game.round.MissingRoundGenerator
 import com.familygames.domain.game.round.HalvesRoundGenerator
+import com.familygames.domain.game.sorter.SorterDealer
 import com.familygames.domain.game.round.CountingRoundGenerator
 import com.familygames.domain.game.round.OddOneOutRoundGenerator
 import com.familygames.domain.game.round.WhereIsRoundGenerator
@@ -78,6 +79,7 @@ import com.familygames.presentation.games.maze.MazeViewModel
 import com.familygames.presentation.games.find.FindViewModel
 import com.familygames.presentation.games.missing.MissingViewModel
 import com.familygames.presentation.games.halves.HalvesViewModel
+import com.familygames.presentation.games.sorter.SorterViewModel
 import com.familygames.presentation.games.marble.MarblesViewModel
 import com.familygames.presentation.games.shadow.ShadowsViewModel
 import com.familygames.presentation.games.shadow.SilhouetteLoader
@@ -167,6 +169,7 @@ val domainModule = module {
     factory { ShadowDealer(get()) }
     factory { MissingRoundGenerator(get()) }
     factory { HalvesRoundGenerator(get()) }
+    factory { SorterDealer(get()) }
     single<SilhouetteLoader> { ThumbSilhouetteLoader(get(), get()) }
     // Seeded once from SecureRandom: Random.Default can repeat the same sequence in every process forked from zygote.
     single<Random> { Random(SecureRandom().nextLong()) }
@@ -217,6 +220,7 @@ val viewModelModule = module {
     viewModel { (level: String) -> FindViewModel(level, get(), androidContext().resources, get(), get(), get(), get()) }
     viewModel { (level: String) -> MissingViewModel(level, get(), get(), androidContext().resources, get(), get(), get()) }
     viewModel { (level: String) -> HalvesViewModel(level, get(), get(), androidContext().resources, get(), get(), get()) }
+    viewModel { (level: String) -> SorterViewModel(level, get(), get(), androidContext().resources, get(), get()) }
     viewModelOf(::PuzzleSetupViewModel)
     viewModel { (purpose: GatePurpose) -> ParentGateViewModel(purpose, get(), get(), get(), get()) }
     viewModel {

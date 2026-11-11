@@ -4,6 +4,7 @@ Format: one `## [x.y.z]` section per release; lines starting with `- ` become th
 `changelog` array in `update.json` (see `.github/workflows/release.yml`).
 
 ## [Unreleased]
+- Nowa gra Klocki do dziurek: wkładanie kolorowych klocków do dziurek w kształcie kółka, gwiazdki, serduszka… — już dla półtoraroczniaka.
 - Nowa gra Połówki: do połowy zdjęcia znajdź drugą połówkę.
 - Nowa gra Czego brakuje?: zapamiętaj zdjęcia, po zasłonce jednego brakuje — które?
 - Nowa gra Znajdź na obrazku: lektor pyta „Gdzie jest krowa?” na obrazkach wsi, miasta, kuchni i placu zabaw; tryb Odkrywaj mówi nazwę każdej dotkniętej rzeczy.

@@ -279,4 +279,23 @@
         <item quantity="many">%d połówek</item>
         <item quantity="other">%d połówki</item>
     </plurals>
+
+    <!-- M26 · Klocki do dziurek -->
+    <string name="game_sorter">Klocki do dziurek</string>
+    <string name="game_desc_sorter">Wkładanie klocków do pasujących dziurek</string>
+    <string name="levels_sorter_title">Klocki do dziurek</string>
+    <string name="sorter_intro">Włóż klocki do dziurek!</string>
+    <string name="shape_circle">kółko</string>
+    <string name="shape_square">kwadrat</string>
+    <string name="shape_triangle">trójkąt</string>
+    <string name="shape_star">gwiazdka</string>
+    <string name="shape_heart">serduszko</string>
+    <string name="shape_moon">księżyc</string>
+    <string name="cd_sorter_hole">Dziurka %1$d: %2$s</string>
+    <plurals name="levels_holes">
+        <item quantity="one">%d dziurka</item>
+        <item quantity="few">%d dziurki</item>
+        <item quantity="many">%d dziurek</item>
+        <item quantity="other">%d dziurki</item>
+    </plurals>
 </resources>
