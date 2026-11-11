@@ -58,6 +58,8 @@ Format ADR: kontekst → decyzja → konsekwencje. Agent dopisuje nowe ADR-y na 
 
 **ADR-027 · Bramka rodzica w menu — klucz na każde otwarcie.** ViewModel bramki ma klucz unikalny dla każdego otwarcia (czas otwarcia). Wcześniej licznik wracał do 0 po przejściu bramki, więc drugie otwarcie w tym samym wejściu do menu dostawało „zużyty” ViewModel i bramka się nie pokazywała.
 
+**ADR-028 · Labirynt (M19).** (1) Właściciel nie odpowiedział na pytania z rozmowy, więc przyjęte założenia domyślne: głównie ścieżki do śledzenia, prawdziwy labirynt z rozgałęzieniami tylko na poziomie 4; pionek to neutralna piłeczka w kolorze `Accent` (właściciel: „labirynt / piłeczka”); na mecie zdjęcie z kategorii „Rodzina” (inaczej dowolne widoczne, bez zdjęć gwiazdka). (2) Bez pytania głosowego na starcie — syntezator nie odmienia („Zaprowadź piłeczkę do babci”), więc lektor mówi tylko etykietę zdjęcia na mecie. (3) Kształty to łamane w kodzie (`TrackFactory`), labirynt generowany losowo przy każdej grze; jeden model korytarza (graf odcinków) dla ścieżek i labiryntu. (4) Gwiazdki za ześlizgnięcia (`TraceScoring`), nie za czas. (5) Wybór poziomu we wspólnym `LevelPickScreen`; `PickTile` dostał opcjonalny kształt ścieżki (miniatura zamiast siatki) i nazwę poziomu. (6) Brak testu ViewModelu — wymagałby atrap repozytoriów zdjęć i kategorii oraz syntezatora; reguły ruchu i punktacji są w pełni pokryte testami domeny. (7) Zrzuty z emulatora niedostępne (na komputerze nie ma emulatora) — makieta S29 wyrenderowana z `mockups/index.html`.
+
 ## Otwarte pytania (do właściciela produktu — odpowiedzi wpisz tutaj)
 
 | # | Pytanie | Domyślne założenie, jeśli brak odpowiedzi | Blokuje |

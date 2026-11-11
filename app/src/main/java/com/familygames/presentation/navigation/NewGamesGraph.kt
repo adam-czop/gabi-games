@@ -27,6 +27,8 @@ import com.familygames.presentation.games.common.LevelPickScreen
 import com.familygames.presentation.games.common.LevelPickViewModel
 import com.familygames.presentation.games.counting.CountingScreen
 import com.familygames.presentation.games.counting.CountingViewModel
+import com.familygames.presentation.games.maze.MazeScreen
+import com.familygames.presentation.games.maze.MazeViewModel
 import com.familygames.presentation.games.memory.MemoryEffect
 import com.familygames.presentation.games.memory.MemoryScreen
 import com.familygames.presentation.games.memory.MemoryViewModel
@@ -168,6 +170,12 @@ fun NavGraphBuilder.newGamesGraph(navController: NavHostController, sound: Sound
         val state by vm.uiState.collectAsStateWithLifecycle()
         GameEffects(vm.effect, sound, navController)
         KidTheme { ColoringScreen(state, vm::onEvent) }
+    }
+    composable<MazeRoute> { entry ->
+        val vm: MazeViewModel = koinViewModel { parametersOf(entry.toRoute<MazeRoute>().level) }
+        val state by vm.uiState.collectAsStateWithLifecycle()
+        GameEffects(vm.effect, sound, navController)
+        KidTheme { MazeScreen(state, vm::onEvent, star) }
     }
 }
 

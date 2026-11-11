@@ -103,7 +103,7 @@ _Stan: S14, przewodnik dla rodzica, README z procedurą wydań ✓. Do zrobienia
 
 ---
 
-## Po v1.0 → `docs/12_NEW_GAMES.md` (M10–M18, makiety S15–S28)
+## Po v1.0 → `docs/12_NEW_GAMES.md` (M10–M19, makiety S15–S29)
 
 ## Backlog (po v1)
 - Kolorowanki (na konturach zdjęć), Memo dźwiękowe (pary dźwięk–zdjęcie), „Gdzie jest…?” (głos rodzica + wybór zdjęcia).

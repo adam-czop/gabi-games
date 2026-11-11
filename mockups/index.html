@@ -405,7 +405,7 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
   <h1>FamilyGames — makiety ekranów v2</h1>
   <p>Tablet, orientacja pozioma, kadr 1280×800 dp (referencja: 10–11" tablet). Wersja stonowana: neutralne tło, jeden przygaszony akcent (szałwia), ikony liniowe — kolor wnoszą wyłącznie zdjęcia. Strefa dziecka (S01–S07) opiera się na dużych elementach i ikonach zamiast tekstu. Strefa rodzica (S08–S11) ma spokojny, „dorosły” styl. Emoji i grafika domku to wyłącznie placeholdery dla zdjęć rodzinnych. Szczegóły zachowań: <code>docs/03_SCREENS_AND_UX.md</code>.</p>
   <nav class="toc">
-    <a href="#s01">S01 Menu</a><a href="#s02">S02 Poziomy</a><a href="#s03">S03 Memorki</a><a href="#s04">S04 Wygrana</a><a href="#s05">S05 Wybór obrazka</a><a href="#s06">S06 Puzzle Snap</a><a href="#s07">S07 Puzzle Swap</a><a href="#s08">S08 Bramka rodzica</a><a href="#s09">S09 Zdjęcia</a><a href="#s10">S10 Dodaj zdjęcie</a><a href="#s11">S11 Ustawienia</a><a href="#s16">S15–S28 Nowe gry</a>
+    <a href="#s01">S01 Menu</a><a href="#s02">S02 Poziomy</a><a href="#s03">S03 Memorki</a><a href="#s04">S04 Wygrana</a><a href="#s05">S05 Wybór obrazka</a><a href="#s06">S06 Puzzle Snap</a><a href="#s07">S07 Puzzle Swap</a><a href="#s08">S08 Bramka rodzica</a><a href="#s09">S09 Zdjęcia</a><a href="#s10">S10 Dodaj zdjęcie</a><a href="#s11">S11 Ustawienia</a><a href="#s16">S15–S29 Nowe gry</a>
   </nav>
 </header>
 
@@ -880,6 +880,28 @@ svg.i{width:40px;height:40px;stroke:currentColor;fill:none;stroke-width:2.6;stro
 </svg></div><div class="pots"><div class="pot sel" style="background:#E07A5F"></div><div class="pot" style="background:#F2CC8F"></div><div class="pot" style="background:#81B29A"></div><div class="pot" style="background:#3D85C6"></div><div class="pot" style="background:#9C89B8"></div><div class="pot" style="background:#F4A6A6"></div><div class="pot" style="background:#8D6E63"></div><div class="pot" style="background:#3B3936"></div></div><div class="tools"><div class="btn-round"><svg class="i"><use href="#i-undo"/></svg></div><div class="btn-round"><svg class="i"><use href="#i-trash"/></svg></div><div class="btn-round"><svg class="i"><use href="#i-next"/></svg></div></div>
 </div></div>
 <div class="notes"><ul><li>Wbudowane kontury (nie ze zdjęć). Tryb domyślny: tap w obszar = wypełnienie wybranym kolorem; dla starszych opcja malowania palcem.</li><li>Farby to jedyne „pełniejsze” kolory w aplikacji — to treść, nie interfejs; odcienie kredkowe, bez neonów.</li><li>Cofnij, wyczyść (przytrzymanie 1,5 s), następny obrazek. Gotowe rysunki zapisują się automatycznie (S14 → Rysunki).</li></ul></div>
+</section>
+
+<section class="spec" id="s29-wrap">
+<h2>S29 · Labirynt (M19) <small>route: <code>maze/{level}</code></small></h2>
+<div class="scaler"><div class="screen kidbg" id="s29">
+<div class="btn-round tl"><svg class="i"><use href="#i-home"/></svg></div><div class="btn-round tr"><svg class="i"><use href="#i-restart"/></svg></div><div class="pairs"><i class="on"></i><i></i><i></i></div>
+<svg viewBox="0 0 1200 640" width="1200" height="640" style="position:absolute;left:40px;top:124px;border-radius:32px;background:#EDE9E3;box-shadow:0 10px 30px rgba(40,30,20,.08)">
+<defs><clipPath id="s29goal"><circle cx="1000" cy="500" r="71"/></clipPath></defs>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M200 140 H1000 A90 90 0 0 1 1000 320 H200 A90 90 0 0 0 200 500 H1000" stroke="#D6D0C6" stroke-width="123"/>
+<path d="M200 140 H1000 A90 90 0 0 1 1000 320 H200 A90 90 0 0 0 200 500 H1000" stroke="#FFFFFF" stroke-width="115"/>
+<path d="M200 140 H1000 A90 90 0 0 1 1078 185" stroke="#7E9C8C" stroke-opacity=".35" stroke-width="39"/>
+</g>
+<circle cx="200" cy="140" r="48" fill="none" stroke="#E3DED6" stroke-width="4"/>
+<circle cx="1000" cy="500" r="75" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8"/>
+<image href="assets/scene.svg" x="925" y="425" width="150" height="150" preserveAspectRatio="xMidYMid slice" clip-path="url(#s29goal)"/>
+<circle cx="1078" cy="191" r="44" fill="#3B3936" fill-opacity=".12"/>
+<circle cx="1078" cy="185" r="44" fill="#7E9C8C" stroke="#4E6A5C" stroke-width="4.4"/>
+<path d="M1047 170 A27 27 0 0 1 1065 158" fill="none" stroke="#FFFFFF" stroke-opacity=".7" stroke-width="7" stroke-linecap="round"/>
+</svg>
+</div></div>
+<div class="notes"><ul><li>Dziecko kładzie palec na piłeczce i prowadzi ją białym korytarzem do zdjęcia. Za piłeczką zostaje miękki ślad; co kawałek cichy „tuk” coraz wyżej.</li><li>Palec poza korytarzem = piłeczka zostaje i lekko się kołysze (bez dźwięku i bez czerwieni); dotknięcie piłeczki znów ją podnosi. Piłeczka nie przeskakuje przez ściany.</li><li>Na mecie zdjęcie (najpierw kategoria „Rodzina”) rośnie, lektor mówi etykietę; 3 ścieżki na grę, potem S04. Gwiazdki za ześlizgnięcia: do 1 na ścieżkę = 3★, zawsze min. 1★.</li><li>Poziomy (S02, kafel z miniaturą ścieżki): 1 Prosta droga, 2 Zakręty, 3 Ślimak, 4 Labirynt (losowany, z rozgałęzieniami). Korytarz 150 → 100 jednostek.</li></ul></div>
 </section>
 
 <script>

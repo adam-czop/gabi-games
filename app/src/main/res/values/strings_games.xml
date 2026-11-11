@@ -12,6 +12,7 @@
     <string name="game_sequence">Po kolei</string>
     <string name="game_counting">Ile jest?</string>
     <string name="game_coloring">Kolorowanki</string>
+    <string name="game_maze">Labirynt</string>
 
     <string name="game_desc_memory">Odkrywanie par zdjęć</string>
     <string name="game_desc_puzzle">Układanie zdjęcia z części</string>
@@ -26,6 +27,7 @@
     <string name="game_desc_sequence">Układanie sekwencji dnia</string>
     <string name="game_desc_counting">Liczenie do 3 / do 5</string>
     <string name="game_desc_coloring">Kolorowanie obrazków</string>
+    <string name="game_desc_maze">Prowadzenie piłeczki paluszkiem po ścieżce</string>
 
     <!-- S16 -->
     <string name="cd_menu_page">Strona %1$d z %2$d</string>
@@ -67,6 +69,11 @@
     <string name="levels_odd_title">Co nie pasuje?</string>
     <string name="levels_counting_title">Ile jest?</string>
     <string name="levels_sound_memo_title">Memo dźwiękowe</string>
+    <string name="levels_maze_title">Labirynt</string>
+    <string name="maze_level_1">Prosta droga</string>
+    <string name="maze_level_2">Zakręty</string>
+    <string name="maze_level_3">Ślimak</string>
+    <string name="maze_level_4">Labirynt</string>
     <plurals name="levels_photos">
         <item quantity="one">%d zdjęcie</item>
         <item quantity="few">%d zdjęcia</item>
@@ -103,6 +110,7 @@
     <string name="cd_brush_mode">Malowanie palcem</string>
     <string name="cd_fill_mode">Wypełnianie dotykiem</string>
     <string name="cd_slot">Miejsce %d</string>
+    <string name="cd_maze_board">Ścieżka z piłeczką. Przesuń piłeczkę paluszkiem do zdjęcia.</string>
     <string name="game_no_photos">Za mało zdjęć do tej gry.</string>
     <string name="sequence_pick_title">Po kolei</string>
     <string name="family_category_name">Rodzina</string>

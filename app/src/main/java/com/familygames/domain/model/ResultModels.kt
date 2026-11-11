@@ -3,7 +3,7 @@ package com.familygames.domain.model
 /** Game identifier stored in `game_results.gameId` (docs/02 §1). */
 enum class GameKind {
     MEMORY, PUZZLE_SNAP, PUZZLE_SWAP,
-    WHERE_IS, PEEKABOO, SCRATCH, SORTING, ODD_ONE_OUT, SOUND_MEMO, BUBBLES, XYLOPHONE, SEQUENCE, COUNTING, COLORING,
+    WHERE_IS, PEEKABOO, SCRATCH, SORTING, ODD_ONE_OUT, SOUND_MEMO, BUBBLES, XYLOPHONE, SEQUENCE, COUNTING, COLORING, MAZE,
 }
 
 data class GameResult(

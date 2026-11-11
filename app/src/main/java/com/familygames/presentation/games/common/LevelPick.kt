@@ -38,6 +38,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.familygames.R
 import com.familygames.domain.game.board.SortingLevel
+import com.familygames.domain.game.maze.MazeLevel
+import com.familygames.domain.game.maze.TrackShape
 import com.familygames.domain.game.round.CountingLevel
 import com.familygames.domain.game.round.OddLevel
 import com.familygames.domain.game.round.WhereIsLevel
@@ -56,7 +58,9 @@ import com.familygames.presentation.common.softShadow
 import com.familygames.presentation.games.memory.CategoryChip
 import com.familygames.presentation.games.memory.CategoryChipUi
 import com.familygames.presentation.games.memory.MiniGrid
+import com.familygames.presentation.games.maze.MiniTrack
 import com.familygames.presentation.navigation.CountingRoute
+import com.familygames.presentation.navigation.MazeRoute
 import com.familygames.presentation.navigation.OddOneOutRoute
 import com.familygames.presentation.navigation.SortingRoute
 import com.familygames.presentation.navigation.SoundMemoRoute
@@ -77,7 +81,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 /** How a level tile describes itself (the screen turns it into text). */
-enum class TileCaption { Photos, Baskets, CountTo, Cards }
+enum class TileCaption { Photos, Baskets, CountTo, Cards, Named }
 
 data class PickTile(
     val key: String,
@@ -87,6 +91,10 @@ data class PickTile(
     val amount: Int,
     val enabled: Boolean,
     val bestStars: Int,
+    /** "Labirynt": the tile shows this track shape instead of a grid. */
+    val track: TrackShape? = null,
+    /** Caption text for [TileCaption.Named]. */
+    @param:StringRes val name: Int? = null,
 )
 
 data class LevelPickUiState(
@@ -106,6 +114,8 @@ sealed interface LevelPickEffect {
     data class Play(val route: Any) : LevelPickEffect
     data class Refuse(val key: String) : LevelPickEffect
 }
+
+private val MAZE_LEVEL_NAMES = listOf(R.string.maze_level_1, R.string.maze_level_2, R.string.maze_level_3, R.string.maze_level_4)
 
 /** Snapshot of what the games can use: photos per visible category plus chip data. */
 private data class Content(val groups: Map<Long, List<Photo>>, val chips: List<CategoryChipUi>)
@@ -181,6 +191,13 @@ class LevelPickViewModel(
                     tiles = MemoryLevel.entries.map { l -> tile(l.key, l.rows, l.cols, TileCaption.Cards, l.cards, withSound >= l.pairs) },
                 )
             }
+            GameId.MAZE -> LevelPickUiState(
+                loading = false,
+                title = R.string.levels_maze_title,
+                tiles = MazeLevel.entries.mapIndexed { i, l ->
+                    PickTile(l.key, 1, 1, TileCaption.Named, i + 1, enabled = true, bestStars = best[l.key] ?: 0, track = l.shapes.last(), name = MAZE_LEVEL_NAMES[i])
+                },
+            )
             else -> LevelPickUiState(loading = false)
         }
     }
@@ -201,6 +218,7 @@ class LevelPickViewModel(
                     GameId.ODD_ONE_OUT -> OddOneOutRoute(tile.key)
                     GameId.COUNTING -> CountingRoute(tile.key)
                     GameId.SOUND_MEMO -> SoundMemoRoute(MemoryLevel.fromKey(tile.key) ?: MemoryLevel.L1)
+                    GameId.MAZE -> MazeRoute(tile.key)
                     else -> return@launch
                 }
                 effects.send(LevelPickEffect.Play(route))
@@ -280,6 +298,7 @@ private fun PickTileView(tile: PickTile, number: Int, scale: Float, shakeKey: In
         TileCaption.Baskets -> pluralStringResource(R.plurals.levels_baskets, tile.amount, tile.amount)
         TileCaption.CountTo -> stringResource(R.string.levels_count_to, tile.amount)
         TileCaption.Cards -> pluralStringResource(R.plurals.memory_cards, tile.amount, tile.amount)
+        TileCaption.Named -> stringResource(tile.name ?: R.string.app_name)
     }
     val description = stringResource(R.string.cd_level_simple, number, caption)
     Box(
@@ -304,7 +323,11 @@ private fun PickTileView(tile: PickTile, number: Int, scale: Float, shakeKey: In
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(20.dp * scale),
         ) {
-            MiniGrid(tile.rows, tile.cols, if (tile.enabled) Palette.Line else Palette.Bg2, scale)
+            if (tile.track != null) {
+                MiniTrack(tile.track, if (tile.enabled) Palette.Line else Palette.Bg2, scale)
+            } else {
+                MiniGrid(tile.rows, tile.cols, if (tile.enabled) Palette.Line else Palette.Bg2, scale)
+            }
             Text(caption, style = KidType.Label.copy(fontSize = KidType.Label.fontSize * (22f / 24f) * scale, color = if (tile.enabled) Palette.Ink2 else Palette.Ink3))
             if (tile.enabled) {
                 StarsRow(tile.bestStars, size = 36.dp * scale, gap = 6.dp * scale)

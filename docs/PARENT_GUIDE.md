@@ -53,6 +53,8 @@ Liczba gier dziś i w tym tygodniu, łączny czas gry oraz najlepsze gwiazdki dl
 
 Gotowe kolorowanki zapisują się same — znajdziesz je w **Postępach → Rysunki** (najwyżej 50, najstarsze znikają). Gry swobodne (A kuku, Zdrapka, Bańki, Cymbałki, Kolorowanki) nie mają gwiazdek; w Postępach widać tylko czas zabawy.
 
+**Labirynt**: dziecko prowadzi palcem piłeczkę po ścieżce do zdjęcia — na mecie czekają zdjęcia z kategorii „Rodzina” (gdy ma co najmniej 4 zdjęcia), w przeciwnym razie wszystkie widoczne. Wyjście palcem poza ścieżkę tylko zatrzymuje piłeczkę; gwiazdki zależą od tego, jak często to się zdarza.
+
 ## Tryb kiosku
 
 Prawdziwa blokada (dziecko nie wyjdzie z aplikacji, tablet startuje od razu w grach) wymaga jednorazowej konfiguracji z komputerem — patrz [README](../README.md) („Tryb kiosku”). Bez niej aplikacja działa normalnie, ale da się z niej wyjść przyciskiem Home.

@@ -69,11 +69,13 @@ import com.familygames.presentation.games.memory.MemoryLevelViewModel
 import com.familygames.presentation.games.memory.MemoryViewModel
 import com.familygames.presentation.menu.MainMenuViewModel
 import com.familygames.domain.model.GameId
+import com.familygames.domain.game.maze.TrackFactory
 import com.familygames.domain.game.round.CountingRoundGenerator
 import com.familygames.domain.game.round.OddOneOutRoundGenerator
 import com.familygames.domain.game.round.WhereIsRoundGenerator
 import com.familygames.presentation.games.bubbles.BubblesViewModel
 import com.familygames.presentation.games.coloring.ColoringViewModel
+import com.familygames.presentation.games.maze.MazeViewModel
 import com.familygames.presentation.games.common.LevelPickViewModel
 import com.familygames.presentation.games.counting.CountingViewModel
 import com.familygames.presentation.games.oddone.OddOneOutViewModel
@@ -156,6 +158,7 @@ val domainModule = module {
     factory { WhereIsRoundGenerator(get()) }
     factory { OddOneOutRoundGenerator(get()) }
     factory { CountingRoundGenerator(get()) }
+    factory { TrackFactory(get()) }
     // Seeded once from SecureRandom: Random.Default can repeat the same sequence in every process forked from zygote.
     single<Random> { Random(SecureRandom().nextLong()) }
     single { PinHasher() }
@@ -200,6 +203,7 @@ val viewModelModule = module {
     viewModel { BubblesViewModel(get(), get(), get(), get(), get()) }
     viewModel { XylophoneViewModel(get(), get(), androidContext().resources, get()) }
     viewModel { ColoringViewModel(get(), get(), get(), get()) }
+    viewModel { (level: String) -> MazeViewModel(level, get(), get(), androidContext().resources, get(), get(), get(), get()) }
     viewModelOf(::PuzzleSetupViewModel)
     viewModel { (purpose: GatePurpose) -> ParentGateViewModel(purpose, get(), get(), get(), get()) }
     viewModel {
