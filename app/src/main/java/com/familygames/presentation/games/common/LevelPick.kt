@@ -38,6 +38,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.familygames.R
 import com.familygames.domain.game.board.SortingLevel
+import com.familygames.domain.game.find.FindLevel
 import com.familygames.domain.game.marble.MarbleLevel
 import com.familygames.domain.game.maze.MazeLevel
 import com.familygames.domain.game.maze.TrackShape
@@ -63,6 +64,7 @@ import com.familygames.presentation.games.memory.CategoryChipUi
 import com.familygames.presentation.games.memory.MiniGrid
 import com.familygames.presentation.games.maze.MiniTrack
 import com.familygames.presentation.navigation.CountingRoute
+import com.familygames.presentation.navigation.FindRoute
 import com.familygames.presentation.navigation.MarblesRoute
 import com.familygames.presentation.navigation.MazeRoute
 import com.familygames.presentation.navigation.ShadowsRoute
@@ -100,6 +102,8 @@ data class PickTile(
     val track: TrackShape? = null,
     /** Caption text for [TileCaption.Named]. */
     @param:StringRes val name: Int? = null,
+    /** Free play tiles (no stars to win) hide the stars row. */
+    val showStars: Boolean = true,
 )
 
 data class LevelPickUiState(
@@ -122,6 +126,7 @@ sealed interface LevelPickEffect {
 
 private val MAZE_LEVEL_NAMES = listOf(R.string.maze_level_1, R.string.maze_level_2, R.string.maze_level_3, R.string.maze_level_4)
 private val MARBLE_LEVEL_NAMES = listOf(R.string.marbles_level_1, R.string.marbles_level_2, R.string.marbles_level_3, R.string.marbles_level_4)
+private val FIND_LEVEL_NAMES = listOf(R.string.find_level_explore, R.string.find_level_big, R.string.find_level_all)
 
 /** Snapshot of what the games can use: photos per visible category plus chip data. */
 private data class Content(val groups: Map<Long, List<Photo>>, val chips: List<CategoryChipUi>)
@@ -202,6 +207,16 @@ class LevelPickViewModel(
                 title = R.string.levels_shadows_title,
                 tiles = ShadowLevel.entries.map { l -> tile(l.key, 1, l.items, TileCaption.Shadows, l.items, ShadowDealer.canPlay(c.groups, l)) },
             )
+            GameId.FIND -> LevelPickUiState(
+                loading = false,
+                title = R.string.levels_find_title,
+                tiles = FindLevel.entries.mapIndexed { i, l ->
+                    PickTile(
+                        l.key, if (l == FindLevel.ALL) 2 else 1, if (l == FindLevel.EXPLORE) 1 else 3, TileCaption.Named, i + 1, enabled = true,
+                        bestStars = best[l.key] ?: 0, name = FIND_LEVEL_NAMES[i], showStars = !l.isFree,
+                    )
+                },
+            )
             GameId.MARBLES -> LevelPickUiState(
                 loading = false,
                 title = R.string.levels_marbles_title,
@@ -239,6 +254,7 @@ class LevelPickViewModel(
                     GameId.MAZE -> MazeRoute(tile.key)
                     GameId.SHADOWS -> ShadowsRoute(tile.key)
                     GameId.MARBLES -> MarblesRoute(tile.key)
+                    GameId.FIND -> FindRoute(tile.key)
                     else -> return@launch
                 }
                 effects.send(LevelPickEffect.Play(route))
@@ -350,9 +366,9 @@ private fun PickTileView(tile: PickTile, number: Int, scale: Float, shakeKey: In
                 MiniGrid(tile.rows, tile.cols, if (tile.enabled) Palette.Line else Palette.Bg2, scale)
             }
             Text(caption, style = KidType.Label.copy(fontSize = KidType.Label.fontSize * (22f / 24f) * scale, color = if (tile.enabled) Palette.Ink2 else Palette.Ink3))
-            if (tile.enabled) {
+            if (tile.enabled && tile.showStars) {
                 StarsRow(tile.bestStars, size = 36.dp * scale, gap = 6.dp * scale)
-            } else {
+            } else if (!tile.enabled) {
                 Icon(painterResource(R.drawable.ic_camera), null, tint = Palette.Ink3, modifier = Modifier.size(36.dp * scale))
             }
         }

@@ -60,6 +60,8 @@ Gotowe kolorowanki zapisują się same — znajdziesz je w **Postępach → Rysu
 
 **Kulki** nie używają zdjęć: dziecko stuka w planszę, a działko strzela kulką w tę stronę (stuknięcie w działko zamienia kulki). Nie da się przegrać — łańcuch zatrzymuje się przed domkiem i czeka.
 
+**Znajdź na obrazku** ma cztery wbudowane obrazki (wieś, miasto, kuchnia, plac zabaw). Kafel **Odkrywaj** to zabawa bez zadań — lektor mówi nazwę każdej dotkniętej rzeczy; **Duże rzeczy** i **Wszystko** to pytania „Gdzie jest…?”.
+
 ## Tryb kiosku
 
 Prawdziwa blokada (dziecko nie wyjdzie z aplikacji, tablet startuje od razu w grach) wymaga jednorazowej konfiguracji z komputerem — patrz [README](../README.md) („Tryb kiosku”). Bez niej aplikacja działa normalnie, ale da się z niej wyjść przyciskiem Home.

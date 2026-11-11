@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M23 "Znajdź na obrazku": a picture with a hill and the sun, and a magnifier (line icon, tinted in Compose). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="96"
+    android:viewportHeight="96">
+    <path
+        android:pathData="M14 18h56a6 6 0 0 1 6 6v20M50 74H14a6 6 0 0 1 -6 -6V24a6 6 0 0 1 6 -6M8 58l18 -16 14 12 8 -6"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+    <path
+        android:pathData="M54 34a6 6 0 1 0 12 0a6 6 0 1 0 -12 0zM56 62a12 12 0 1 0 24 0a12 12 0 1 0 -24 0zM77 71l11 11"
+        android:strokeColor="#FF8B867F"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>
