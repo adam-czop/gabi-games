@@ -298,4 +298,19 @@
         <item quantity="many">%d dziurek</item>
         <item quantity="other">%d dziurki</item>
     </plurals>
+
+    <!-- M27 · Powtórz za mną -->
+    <string name="game_echo">Powtórz za mną</string>
+    <string name="game_desc_echo">Zapamiętaj i zagraj melodię na cymbałkach</string>
+    <string name="levels_echo_title">Powtórz za mną</string>
+    <string name="echo_listen">Posłuchaj melodii!</string>
+    <string name="echo_your_turn">Teraz ty!</string>
+    <string name="cd_echo_listen">Słuchaj melodii</string>
+    <string name="cd_echo_your_turn">Twoja kolej. Dotknij, aby posłuchać jeszcze raz.</string>
+    <plurals name="levels_notes">
+        <item quantity="one">%d nuta</item>
+        <item quantity="few">%d nuty</item>
+        <item quantity="many">%d nut</item>
+        <item quantity="other">%d nuty</item>
+    </plurals>
 </resources>

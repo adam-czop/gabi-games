@@ -1,6 +1,6 @@
 # Gabi Gry
 
-Zamknięta aplikacja na tablet z Androidem dla małego dziecka (2,5–4 lata): 20 gier na rodzinnych zdjęciach i ilustracjach (m.in. **Memorki**, **Puzzle**, **Gdzie jest?**, **Po kolei**, **Kolorowanki**, **Labirynt**, **Cienie**, **Kulki**, **Znajdź na obrazku**, **Czego brakuje?**, **Połówki**, **Klocki do dziurek**), tryb kiosku (Device Owner) i aktualizacje z GitHub Releases. Rodzic zarządza zdjęciami w strefie chronionej zadaniem lub PIN-em.
+Zamknięta aplikacja na tablet z Androidem dla małego dziecka (2,5–4 lata): 21 gier na rodzinnych zdjęciach i ilustracjach (m.in. **Memorki**, **Puzzle**, **Gdzie jest?**, **Po kolei**, **Kolorowanki**, **Labirynt**, **Cienie**, **Kulki**, **Znajdź na obrazku**, **Czego brakuje?**, **Połówki**, **Klocki do dziurek**, **Powtórz za mną**), tryb kiosku (Device Owner) i aktualizacje z GitHub Releases. Rodzic zarządza zdjęciami w strefie chronionej zadaniem lub PIN-em.
 
 Pakiet techniczny: `com.familygames` (debug: `com.familygames.debug`).
 

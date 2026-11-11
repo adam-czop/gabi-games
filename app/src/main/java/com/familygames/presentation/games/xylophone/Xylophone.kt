@@ -158,7 +158,7 @@ fun XylophoneScreen(state: XylophoneUiState, onStrike: (Int) -> Unit, onMelody: 
             verticalAlignment = Alignment.CenterVertically,
         ) {
             repeat(Xylophone.BARS) { i ->
-                Bar(
+                XylophoneBar(
                     index = i,
                     photo = state.photos.getOrNull(i),
                     lit = state.lit == i,
@@ -185,7 +185,7 @@ fun XylophoneScreen(state: XylophoneUiState, onStrike: (Int) -> Unit, onMelody: 
 }
 
 @Composable
-private fun Bar(index: Int, photo: PhotoSource?, lit: Boolean, strikes: Int, scale: Float, modifier: Modifier) {
+internal fun XylophoneBar(index: Int, photo: PhotoSource?, lit: Boolean, strikes: Int, scale: Float, modifier: Modifier) {
     val drop = remember { Animatable(0f) }
     LaunchedEffect(strikes) {
         if (strikes > 0) {

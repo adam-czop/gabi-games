@@ -31,6 +31,8 @@ import com.familygames.presentation.games.maze.MazeScreen
 import com.familygames.presentation.games.maze.MazeViewModel
 import com.familygames.presentation.games.find.FindScreen
 import com.familygames.presentation.games.find.FindViewModel
+import com.familygames.presentation.games.echo.EchoScreen
+import com.familygames.presentation.games.echo.EchoViewModel
 import com.familygames.presentation.games.sorter.SorterScreen
 import com.familygames.presentation.games.sorter.SorterViewModel
 import com.familygames.presentation.games.halves.HalvesScreen
@@ -224,6 +226,12 @@ fun NavGraphBuilder.newGamesGraph(navController: NavHostController, sound: Sound
         val state by vm.uiState.collectAsStateWithLifecycle()
         GameEffects(vm.effect, sound, navController)
         KidTheme { SorterScreen(state, vm::onEvent, vm::drop, star) }
+    }
+    composable<EchoRoute> { entry ->
+        val vm: EchoViewModel = koinViewModel { parametersOf(entry.toRoute<EchoRoute>().level) }
+        val state by vm.uiState.collectAsStateWithLifecycle()
+        GameEffects(vm.effect, sound, navController)
+        KidTheme { EchoScreen(state, vm::onEvent, star) }
     }
 }
 
