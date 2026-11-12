@@ -3,7 +3,7 @@
 Format: one `## [x.y.z]` section per release; lines starting with `- ` become the release notes and the
 `changelog` array in `update.json` (see `.github/workflows/release.yml`).
 
-## [Unreleased]
+## [0.2.0] - 2026-11-12
 - Nowa gra Ubierz na pogodę: słońce, deszcz albo śnieg za oknem — przeciągnij na dziecko to, co pasuje.
 - Nowa zabawa Ogródek: sadzenie, podlewanie konewką, słońce zza chmurki i kwiatki do wazonu.
 - Nowa gra Powtórz za mną: cymbałki grają coraz dłuższą melodię, a dziecko ją powtarza.
