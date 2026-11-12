@@ -72,12 +72,14 @@ Format ADR: kontekst → decyzja → konsekwencje. Agent dopisuje nowe ADR-y na 
 
 **ADR-034 · Gry z listy propozycji bez wyboru właściciela.** Właściciel nie wybrał z sześciu propozycji, ale poprosił o „całość na rano”, więc powstają wszystkie, każda w osobnym commicie i każdą rodzic może ukryć w S17. „Kto zniknął?” nazywa się „Czego brakuje?” (zdjęcia to też przedmioty); opcje to brakujące zdjęcie i dwa spoza sceny, zasłonka w kolorze `Mist`.
 
+**ADR-035 · Wydania w publicznym repo kodu (zmienia Q2).** Właściciel upublicznił `adam-czop/gabi-games` (2026-11-12), więc od 0.2.0 tablety sprawdzają wydania właśnie tam (`UPDATE_REPO_NAME = gabi-games`); osobne repo wydań nie jest potrzebne. Wersja 0.1.0 ma wpisane `familygames-releases`, dlatego 0.2.0 trafia też do tego repo jako jednorazowy pomost — dzięki temu tablet z 0.1.0 aktualizuje się przyciskiem „Sprawdź teraz”. Kolejne wydania tylko w `gabi-games`. Dopóki GitHub Actions kończy się `startup_failure`, APK budujemy i podpisujemy lokalnie (`-PversionName=x.y.z`), a `update.json` liczymy jak w `release.yml`.
+
 ## Otwarte pytania (do właściciela produktu — odpowiedzi wpisz tutaj)
 
 | # | Pytanie | Domyślne założenie, jeśli brak odpowiedzi | Blokuje |
 |---|---|---|---|
 | Q1 | Docelowy `applicationId`? (`com.familygames` ze specyfikacji czy np. własna domena odwrotnie `pl.<firma>.familygames`) Po pierwszej instalacji z DO zmiana = reinstalacja i ponowny provisioning. | **Odp. 2026-11-10:** `com.familygames` (bez zmian) | M0 |
-| Q2 | Właściciel/nazwa repozytorium GitHub. Kod publiczny czy prywatny? (prywatny → osobne publiczne repo na Releases) | **Odp. 2026-11-10:** OK — prywatne repo kodu + publiczne `adam-czop/familygames-releases` | M8 |
+| Q2 | Właściciel/nazwa repozytorium GitHub. Kod publiczny czy prywatny? (prywatny → osobne publiczne repo na Releases) | **Odp. 2026-11-10:** OK — prywatne repo kodu + publiczne `adam-czop/familygames-releases`. **Zmiana 2026-11-12:** repo kodu `adam-czop/gabi-games` jest publiczne i to ono ma wydania (ADR-035) | M8 |
 | Q3 | Wyłączyć ekran blokady (keyguard) na tablecie? | tak, wyłączony (tablet tylko dla dziecka, w domu) | M7 |
 | Q4 | Menu zasilania w kiosku: ukryte czy dostępne? | ukryte (`LOCK_TASK_FEATURE_NONE`) | M7 |
 | Q5 | Kopia zapasowa zdjęć (Google backup wyłączony z powodu prywatności)? | brak w v1; eksport ZIP w backlogu | — |

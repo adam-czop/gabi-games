@@ -16,6 +16,7 @@ Format: one `## [x.y.z]` section per release; lines starting with `- ` become th
 - Zamiast nagrań głosu: przy zdjęciu wpisujesz nazwę i opcjonalnie własne pytanie, a gry czyta lektor (syntezator mowy). Aplikacja nie używa już mikrofonu; dotychczasowe nagrania zostają usunięte.
 - Zdrapka: nazwa zdjęcia pada dopiero po zdrapaniu całej mgiełki, a mgiełka jest wyraźnie odróżniona od tła.
 - Nowa gra Labirynt: prowadzenie piłeczki paluszkiem po ścieżce do zdjęcia z rodziny — 4 poziomy, od prostej drogi po prawdziwy labirynt.
+- Naprawiono Memorki: gra nie wyłącza się już zaraz po wybraniu poziomu i wraca do menu.
 
 ## [0.1.0] - 2026-11-11
 - Pierwsza wersja Gabi Gry: 13 gier na rodzinnych zdjęciach — Memorki, Puzzle, Gdzie jest?, A kuku, Zdrapka, Do koszyczków, Co nie pasuje?, Memo dźwiękowe, Bańki, Cymbałki, Po kolei, Ile jest?, Kolorowanki.

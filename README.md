@@ -36,16 +36,16 @@ Szczegóły: [docs/06_KIOSK_AND_PARENT_GATE.md](docs/06_KIOSK_AND_PARENT_GATE.md
 
 ## Wydania i aktualizacje
 
-Tablety pobierają aktualizacje z **publicznego** repozytorium wydań `adam-czop/familygames-releases` (kod może zostać prywatny). Właściciel/nazwę zmienisz parametrami `-PupdateRepoOwner` / `-PupdateRepoName`.
+Tablety pobierają aktualizacje z wydań (Releases) **publicznego** repozytorium `adam-czop/gabi-games` (ADR-035; wersja 0.1.0 szukała ich jeszcze w `familygames-releases`). Właściciel/nazwę zmienisz parametrami `-PupdateRepoOwner` / `-PupdateRepoName`. Rodzic może sprawdzić i zainstalować aktualizację ręcznie: strefa rodzica → Ustawienia → Aktualizacje → „Sprawdź teraz”.
 
 Jednorazowa konfiguracja:
 
-1. Utwórz publiczne repozytorium `familygames-releases` z jednym commitem (np. README).
+1. Repozytorium z wydaniami musi być publiczne (tablet nie ma tokenu).
 2. Wygeneruj klucz podpisu i **zachowaj go na zawsze** — każda aktualizacja musi być podpisana tym samym kluczem:
    ```bash
    keytool -genkeypair -v -keystore release.jks -alias gabigry -keyalg RSA -keysize 4096 -validity 36500
    ```
-3. W repozytorium z kodem (Settings → Secrets and variables → Actions) dodaj sekrety `KEYSTORE_BASE64` (`base64 -w0 release.jks`), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`, `GH_RELEASES_TOKEN` (fine-grained PAT z uprawnieniem *Contents: write* tylko do repozytorium wydań) oraz zmienną `RELEASES_REPO` = `adam-czop/familygames-releases`.
+3. W repozytorium z kodem (Settings → Secrets and variables → Actions) dodaj sekrety `KEYSTORE_BASE64` (`base64 -w0 release.jks`), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Sekret `GH_RELEASES_TOKEN` i zmienna `RELEASES_REPO` są potrzebne tylko wtedy, gdy wydania mają trafiać do innego repozytorium niż kod.
 
 Wydanie: uzupełnij sekcję `## [x.y.z]` w [CHANGELOG.md](CHANGELOG.md), potem
 

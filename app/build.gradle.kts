@@ -18,7 +18,7 @@ val versionCodeComputed = versionParts[0] * 10000 + versionParts[1] * 100 + vers
 
 // Update source (docs/07, Q2 in docs/11). Overridable with -PupdateRepoOwner / -PupdateRepoName.
 val updateRepoOwner = (project.findProperty("updateRepoOwner") as String?) ?: "adam-czop"
-val updateRepoName = (project.findProperty("updateRepoName") as String?) ?: "familygames-releases"
+val updateRepoName = (project.findProperty("updateRepoName") as String?) ?: "gabi-games"
 
 val keystoreProps = Properties().apply {
     val f = rootProject.file("keystore.properties")

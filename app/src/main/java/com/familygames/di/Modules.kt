@@ -198,13 +198,16 @@ val presentationModule = module {
 val viewModelModule = module {
     viewModelOf(::MainMenuViewModel)
     viewModelOf(::MemoryLevelViewModel)
-    viewModel { (level: MemoryLevel, categoryId: Long) ->
-        MemoryViewModel(level, categoryId, get(), get(), get(), get(), get(), get(), get())
+    // One definition for both Memory (level, categoryId) and Sound memo (level, categoryId, true):
+    // a second definition of the same type would replace this one and crash the other game.
+    viewModel { params ->
+        val sound = params.size() > 2 && params.get<Boolean>(2)
+        MemoryViewModel(
+            params.get(0), params.get(1), get(), get(), get(), get(), get(), get(), get(),
+            sound, get(), androidContext().resources,
+        )
     }
     // docs/12 · new games
-    viewModel { (level: MemoryLevel, categoryId: Long, sound: Boolean) ->
-        MemoryViewModel(level, categoryId, get(), get(), get(), get(), get(), get(), get(), sound, get(), androidContext().resources)
-    }
     viewModel { (game: GameId) -> LevelPickViewModel(game, get(), get(), get()) }
     viewModel { (level: String, categoryId: Long) ->
         WhereIsViewModel(level, categoryId, get(), get(), androidContext().resources, get(), get(), get())
